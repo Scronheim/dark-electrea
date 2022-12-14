@@ -15,15 +15,18 @@ export default createVuetify({
   defaults: {
     VAutocomplete: {
       density: 'compact',
-      variant: 'outlined'
+      variant: 'outlined',
+      hideDetails: 'auto',
     },
     VSelect: {
       density: 'compact',
-      variant: 'outlined'
+      variant: 'outlined',
+      hideDetails: 'auto',
     },
     VTextField: {
       density: 'compact',
-      variant: 'outlined'
+      variant: 'outlined',
+      hideDetails: 'auto',
     },
   },
   theme: {

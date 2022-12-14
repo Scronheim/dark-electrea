@@ -13,15 +13,18 @@ export const useArtistStore = defineStore({
       formedIn: null,
       yearsActive: '',
       status: 'Active',
-      genre: '',
+      genres: [],
       lyricsTheme: '',
       currentLabel: '',
+      description: '',
       albums: [],
       members: [],
       social: {
         facebook: '',
         youtube: '',
-      }
+      },
+      logo: '',
+      photos: [],
     }
   }),
   actions: {
