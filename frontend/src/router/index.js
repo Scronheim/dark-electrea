@@ -12,6 +12,11 @@ const routes = [
     name: 'Artists add page',
     component: () => import('../pages/artists/AddArtist'),
   },
+  {
+    path: '/artists/:id',
+    name: 'Artists info page',
+    component: () => import('../pages/artists/ArtistInfo'),
+  },
 ]
 
 const router = createRouter({

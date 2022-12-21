@@ -13,6 +13,17 @@ import { createVuetify } from 'vuetify'
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   defaults: {
+    VList: {
+      density: 'compact',
+    },
+    VBtn: {
+      variant: 'text',
+    },
+    VTextarea: {
+      density: 'compact',
+      variant: 'outlined',
+      hideDetails: 'auto',
+    },
     VAutocomplete: {
       density: 'compact',
       variant: 'outlined',
