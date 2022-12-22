@@ -33,8 +33,9 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api*': {
-        target: 'https://dark-electrea.ru'
+      '/api': {
+        target: 'https://dark-electrea.ru',
+        changeOrigin: true,
       }
     }
   },

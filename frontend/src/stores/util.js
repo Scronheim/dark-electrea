@@ -6,11 +6,7 @@ const toast = useToast()
 export const useUtilStore = defineStore({
   id: 'utilStore',
   state: () => ({
-    genres: [
-      { title: 'Dark Electro', value: 'dark-electro' },
-      { title: 'EBM', value: 'ebm' },
-      { title: 'Aggrotech', value: 'aggrotech' },
-    ],
+    genres: ['Dark Electro', 'EBM', 'Aggrotech'],
     countries: [
       { title: 'Russia', value: 'russia', countryCode: 'ru' },
       { title: 'USA', value: 'usa', countryCode: 'us' },

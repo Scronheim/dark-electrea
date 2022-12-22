@@ -9,6 +9,7 @@ const toast = useToast()
 export const useArtistStore = defineStore({
   id: 'artistStore',
   state: () => ({
+    foundedArtists: [],
     currentArtist: {
       title: '',
       countryOfOrigin: '',
@@ -33,6 +34,10 @@ export const useArtistStore = defineStore({
     }
   }),
   actions: {
+    async searchArtist(artistTitle) {
+      const { data } = await axios.get(`/api/search?q=${artistTitle}`)
+      this.foundedArtists = data.data
+    },
     async addNewMember(person) {
       const { data } = await axios.post('/api/people', person)
       this.currentArtist.lineup.push(data.data)
