@@ -1,30 +1,31 @@
 <template>
-  <v-tooltip v-if="usersStore.isAdmin" location="top" :disabled="disabled">
-    <template #activator="{props}">
-      <v-btn v-bind="props"
-             :disabled="disabled"
-             :loading="loading"
-             icon="mdi-pencil"
-             color="info"
-             :class="cssClass"
-             @click="$emit('click')"/>
-    </template>
-    <span>{{ text }}</span>
-  </v-tooltip>
+  <v-btn color="info"
+         :disabled="disabled"
+         :loading="loading"
+         :class="cssClass"
+         :href="href"
+         target="_blank"
+         @click="$emit('click')">
+    <v-icon>mdi-download</v-icon>
+    {{ text }}
+  </v-btn>
 </template>
 
 <script setup>
 //========== IMPORTS ==========
-import { useUsersStore } from '@/stores/users'
+
 //========== STORES ==========
-const usersStore = useUsersStore()
+
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
 defineProps({
+  href: {
+    type: String,
+  },
   text: {
     type: String,
-    default: 'Edit'
+    default: 'Download'
   },
   loading: {
     type: Boolean,

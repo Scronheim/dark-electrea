@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>{{ isEdit? album.title : `New album of ${bandsStore.currentArtist.title}` }}</v-card-title>
+    <v-card-title>{{ isEdit? album.title : `New album of ${bandsStore.currentBand.title}` }}</v-card-title>
     <v-card-text>
       <v-row>
         <v-col>
@@ -52,28 +52,6 @@
           <v-text-field v-if="selectedLinkType" label="Link" v-model="album.links[selectedLinkType]"/>
         </v-col>
       </v-row>
-<!--      <v-row>-->
-<!--        <v-col>-->
-<!--          <v-btn v-for="(link, social) in album.links" :href="link" :key="link">-->
-<!--            <template v-if="social === 'download' && link">-->
-<!--              <v-icon color="primary">mdi-download</v-icon>-->
-<!--              Download-->
-<!--            </template>-->
-<!--            <template v-if="social === 'discogs' && link">-->
-<!--              <v-icon color="black">mdi-album</v-icon>-->
-<!--              Discogs-->
-<!--            </template>-->
-<!--            <template v-if="social === 'youtube' && link">-->
-<!--              <v-icon color="red">mdi-youtube</v-icon>-->
-<!--              Youtube-->
-<!--            </template>-->
-<!--            <template v-if="social === 'bandcamp' && link">-->
-<!--              <v-icon color="blue">mdi-rhombus</v-icon>-->
-<!--              Bandcamp-->
-<!--            </template>-->
-<!--          </v-btn>-->
-<!--        </v-col>-->
-<!--      </v-row>-->
     </v-card-text>
     <v-card-actions>
       <v-spacer/>
@@ -94,6 +72,7 @@ const bandsStore = useBandsStore()
 const selectedLinkType = ref('')
 const linkTypes = [
   { title: 'Download', value: 'download' },
+  { title: 'Yandex Music', value: 'yaMusic' },
   { title: 'Youtube', value: 'youtube' },
   { title: 'Discogs', value: 'discogs' },
   { title: 'Bandcamp', value: 'bandcamp' },
@@ -104,12 +83,7 @@ const albumFormats = [
   { title: 'Tape', value: 'tape' },
   { title: 'Vinyl', value: 'vinyl' },
 ]
-const albumTypes = [
-  { title: 'Full length', value: 'fullLength' },
-  { title: 'Single', value: 'single' },
-  { title: 'EP', value: 'ep' },
-  { title: 'Demo', value: 'demo' },
-]
+const albumTypes = ['Full length', 'Single', 'EP', 'Demo']
 const props = defineProps({
   album: {
     type: Object,

@@ -3,7 +3,7 @@ const { Schema } = mongoose
 
 const albumsSchema = new mongoose.Schema({
   title: String,
-  artist: {
+  band: {
     type: Schema.Types.ObjectId,
     ref: 'bands',
     autopopulate: true,
@@ -13,13 +13,16 @@ const albumsSchema = new mongoose.Schema({
   tracks: String,
   releaseDate: Date,
   format: String,
+  label: String,
   catalogId: String,
   limitations: Number,
-  lineup: {
-    type: Schema.Types.ObjectId,
-    ref: 'people',
-    autopopulate: true,
-  },
+  lineup: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'people',
+      autopopulate: true,
+    }
+  ],
   description: String,
   links: Object,
 }, {

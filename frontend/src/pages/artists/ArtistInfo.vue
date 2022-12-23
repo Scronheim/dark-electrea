@@ -3,7 +3,7 @@
     <v-img :src="artist.logo" cover height="300"/>
     <v-card-title>
       {{ artist.title }}
-      <EditButton v-if="usersStore.isAdmin" @click="editDialog = true"/>
+      <EditButton @click="editDialog = true"/>
     </v-card-title>
     <v-card-subtitle>
       <v-row>
