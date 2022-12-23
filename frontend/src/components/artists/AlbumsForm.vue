@@ -6,7 +6,7 @@
     <v-col v-for="(album, albumIndex) in chunk" :key="`albumIndex${albumIndex}`">
       <v-card>
         <v-card-title>
-          {{ album.title }} - {{ album.releaseDate }}
+          {{ album.title }} ({{ new Date(album.releaseDate).getFullYear() }})
           <DeleteButton/>
         </v-card-title>
       </v-card>
@@ -32,12 +32,12 @@ import { chunk } from 'lodash'
 import AlbumForm from '@/components/albums/AlbumForm'
 import PlusButton from '@/components/buttons/PlusButton'
 import DeleteButton from '@/components/buttons/DeleteButton'
-import { useArtistStore } from '@/stores/artist'
+import { useBandsStore } from '@/stores/bands'
 //========== STORES ==========
-const artistStore = useArtistStore()
+const bandsStore = useBandsStore()
 //========== COMPUTED ==========
 const chunkedAlbums = computed(() => {
-  return chunk(artistStore.currentArtist.albums, 4)
+  return chunk(bandsStore.currentBand.albums, 4)
 })
 //========== VARIABLES ==========
 const newAlbum = ref({
@@ -62,7 +62,7 @@ const newAlbum = ref({
 const albumDialog = ref(false)
 //========== METHODS ==========
 const pushNewAlbum = () => {
-  artistStore.currentArtist.albums.push(newAlbum.value)
+  bandsStore.currentBand.albums.push(newAlbum.value)
   albumDialog.value = false
 }
 const addNewAlbum = () => {

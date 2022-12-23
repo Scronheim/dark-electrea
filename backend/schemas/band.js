@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const { Schema } = mongoose
 
-const artistsSchema = new mongoose.Schema({
+const bandsSchema = new mongoose.Schema({
   title: String,
   formedIn: Number,
   label: String,
@@ -21,9 +21,15 @@ const artistsSchema = new mongoose.Schema({
   },
   genres: Array,
   lyricsTheme: String,
-  albums: Array,
+  albums: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'albums',
+      autopopulate: true,
+    }
+  ],
   videos: Array,
-  social: Object,
+  socials: Object,
   photos: Array,
   logo: String,
   description: '',
@@ -33,7 +39,7 @@ const artistsSchema = new mongoose.Schema({
   timestamps: true,
 })
 
-artistsSchema.plugin(require('mongoose-autopopulate'))
-const Artists = mongoose.model('artists', artistsSchema, 'artists')
+bandsSchema.plugin(require('mongoose-autopopulate'))
+const Bands = mongoose.model('bands', bandsSchema, 'bands')
 
-module.exports = Artists
+module.exports = Bands

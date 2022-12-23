@@ -11,7 +11,7 @@
     </v-card>
 
     <v-bottom-navigation color="primary" class="fixedMenu">
-      <v-btn color="success" @click="artistStore.addArtist">
+      <v-btn color="success" @click="bandsStore.addBand">
         <v-icon color="success">mdi-plus</v-icon>
         <span>Add artist</span>
       </v-btn>
@@ -21,14 +21,14 @@
 
 <script setup>
 //========== IMPORTS ==========
-import { useArtistStore } from '@/stores/artist'
+import { useBandsStore } from '@/stores/bands'
 import LineupForm from '@/components/artists/LineupForm'
 import GeneralInfo from '@/components/artists/GeneralInfo'
 import AlbumsForm from '@/components/artists/AlbumsForm'
 import VideosForm from '@/components/artists/VideosForm'
 import SocialsForm from '@/components/artists/SocialsForm'
 //========== STORES ==========
-const artistStore = useArtistStore()
+const bandsStore = useBandsStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========

@@ -22,27 +22,25 @@
 //========== IMPORTS ==========
 import { computed, ref } from 'vue'
 import { chunk } from 'lodash'
-import { useArtistStore } from '@/stores/artist'
-import { useUtilStore } from '@/stores/util'
+import { useBandsStore } from '@/stores/bands'
 import PlusButton from '@/components/buttons/PlusButton'
 import DeleteButton from '@/components/buttons/DeleteButton'
 import LineupDialog from '@/components/artists/LineupDialog'
 //========== STORES ==========
-const artistStore = useArtistStore()
-const utilStore = useUtilStore()
+const bandsStore = useBandsStore()
 //========== COMPUTED ==========
 const chunkedLineup = computed(() => {
-  return chunk(artistStore.currentArtist.lineup, 4)
+  return chunk(bandsStore.currentBand.lineup, 4)
 })
 //========== VARIABLES ==========
 const lineupDialog = ref(false)
 //========== METHODS ==========
 const deletePerson = (personId) => {
-  const personIndex = artistStore.currentArtist.lineup.findIndex(p => {
+  const personIndex = bandsStore.currentBand.lineup.findIndex(p => {
     return p._id === personId
   })
   if (personIndex > -1) {
-    artistStore.currentArtist.lineup.splice(personIndex)
+    bandsStore.currentBand.lineup.splice(personIndex)
   }
 }
 //========== ON MOUNTED ==========

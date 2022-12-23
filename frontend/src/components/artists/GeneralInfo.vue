@@ -1,29 +1,29 @@
 <template>
   <v-row>
     <v-col>
-      <v-text-field label="Title" v-model="artistStore.currentArtist.title"/>
+      <v-text-field label="Title" v-model="bandsStore.currentBand.title"/>
     </v-col>
     <v-col>
       <v-autocomplete label="Formed in"
                       :items="years"
-                      v-model.number="artistStore.currentArtist.formedIn"
+                      v-model.number="bandsStore.currentBand.formedIn"
       />
     </v-col>
     <v-col>
       <v-autocomplete label="Country"
                       :items="utilStore.countries"
-                      v-model="artistStore.currentArtist.countryOfOrigin">
+                      v-model="bandsStore.currentBand.countryOfOrigin">
       </v-autocomplete>
     </v-col>
     <v-col>
       <v-text-field label="City"
-                    v-model="artistStore.currentArtist.city"
+                    v-model="bandsStore.currentBand.city"
       />
     </v-col>
     <v-col>
       <v-select label="Status"
                 :items="utilStore.statuses"
-                v-model="artistStore.currentArtist.status"
+                v-model="bandsStore.currentBand.status"
       />
     </v-col>
   </v-row>
@@ -31,26 +31,26 @@
     <v-col>
       <v-autocomplete label="Genres" multiple
                       :items="utilStore.genres"
-                      v-model="artistStore.currentArtist.genres"
+                      v-model="bandsStore.currentBand.genres"
       />
     </v-col>
     <v-col>
-      <v-text-field label="Lyrics theme" v-model="artistStore.currentArtist.lyricsTheme"/>
+      <v-text-field label="Lyrics theme" v-model="bandsStore.currentBand.lyricsTheme"/>
     </v-col>
     <v-col>
-      <v-text-field label="Label" v-model="artistStore.currentArtist.label">
+      <v-text-field label="Label" v-model="bandsStore.currentBand.label">
         <template #append>
           <v-checkbox-btn label="Independent" @update:modelValue="updateLabel"/>
         </template>
       </v-text-field>
     </v-col>
     <v-col>
-      <v-text-field label="Link to logo" v-model="artistStore.currentArtist.logo"/>
+      <v-text-field label="Link to logo" v-model="bandsStore.currentBand.logo"/>
     </v-col>
   </v-row>
   <v-row>
     <v-col>
-      <v-textarea label="Description" v-model="artistStore.currentArtist.description"/>
+      <v-textarea label="Description" v-model="bandsStore.currentBand.description"/>
     </v-col>
   </v-row>
 </template>
@@ -58,10 +58,10 @@
 <script setup>
 //========== IMPORTS ==========
 import { computed } from 'vue'
-import { useArtistStore } from '@/stores/artist'
+import { useBandsStore } from '@/stores/bands'
 import { useUtilStore } from '@/stores/util'
 //========== STORES ==========
-const artistStore = useArtistStore()
+const bandsStore = useBandsStore()
 const utilStore = useUtilStore()
 //========== COMPUTED ==========
 const years = computed(() => {
@@ -73,9 +73,9 @@ const years = computed(() => {
 //========== METHODS ==========
 const updateLabel = (value) => {
   if (value) {
-    artistStore.currentArtist.label = 'Independent'
+    bandsStore.currentBand.label = 'Independent'
   } else {
-    artistStore.currentArtist.label = ''
+    bandsStore.currentBand.label = ''
   }
 }
 //========== ON MOUNTED ==========

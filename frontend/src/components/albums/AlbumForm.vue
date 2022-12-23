@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>{{ isEdit? album.title : `New album of ${artistStore.currentArtist.title}` }}</v-card-title>
+    <v-card-title>{{ isEdit? album.title : `New album of ${bandsStore.currentArtist.title}` }}</v-card-title>
     <v-card-text>
       <v-row>
         <v-col>
@@ -85,9 +85,9 @@
 <script setup>
 //========== IMPORTS ==========
 import { ref } from 'vue'
-import { useArtistStore } from '@/stores/artist'
+import { useBandsStore } from '@/stores/bands'
 //========== STORES ==========
-const artistStore = useArtistStore()
+const bandsStore = useBandsStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========

@@ -1,11 +1,17 @@
 const db = require('../schemas')
 const {jsonResponse} = require('../utils')
 
-const Artist = db.artists
+const Band = db.bands
 
 exports.searchArtist = async (req, res) => {
+  let results
   const query = req.query.q
-  const artists = await Artist.find({title: new RegExp(query, 'iu')})
-  return jsonResponse(res, artists)
+  const country = req.query.country
+  if (query) {
+    results = await Band.find({ title: new RegExp(query, 'iu') })
+  } else if (country) {
+    results = await Band.find({ countryOfOrigin: country })
+  }
+  return jsonResponse(res, results)
 }
 

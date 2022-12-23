@@ -38,10 +38,10 @@
 <script setup>
 //========== IMPORTS ==========
 import { ref, onMounted } from 'vue'
-import { useArtistStore } from '@/stores/artist'
+import { useBandsStore } from '@/stores/bands'
 import { useUtilStore } from '@/stores/util'
 //========== STORES ==========
-const artistStore = useArtistStore()
+const bandsStore = useBandsStore()
 const utilStore = useUtilStore()
 //========== COMPUTED ==========
 
@@ -56,7 +56,7 @@ const newMember = ref({
 })
 //========== METHODS ==========
 const addNewMember = () => {
-  artistStore.addNewMember(newMember.value)
+  bandsStore.addNewMember(newMember.value)
 }
 const clearForm = () => {
   newMember.value = {

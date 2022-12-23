@@ -8,14 +8,29 @@ const routes = [
     component: () => import('../pages/HomePage'),
   },
   {
-    path: '/artists/add',
-    name: 'Artists add page',
+    path: '/register',
+    name: 'Register page',
+    component: () => import('../pages/RegisterPage'),
+  },
+  {
+    path: '/bands/add',
+    name: 'Bands add page',
     component: () => import('../pages/artists/AddArtist'),
   },
   {
-    path: '/artists/:id',
+    path: '/bands/:id',
     name: 'Artists info page',
     component: () => import('../pages/artists/ArtistInfo'),
+  },
+  {
+    path: '/albums/:id',
+    name: 'Album info page',
+    component: () => import('../pages/artists/albums/AlbumInfo'),
+  },
+  {
+    path: '/country/:country',
+    name: 'Artists by country page',
+    component: () => import('../pages/country/ArtistsByCountry'),
   },
 ]
 

@@ -5,5 +5,8 @@ module.exports = {
       success: success,
       error: error,
     })
-  }
+  },
+  mongooseToJson: function (object) {
+    return JSON.parse(JSON.stringify(object))
+  },
 }

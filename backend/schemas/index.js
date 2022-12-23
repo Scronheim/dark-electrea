@@ -4,7 +4,9 @@ mongoose.Promise = global.Promise
 const db = {}
 
 db.mongoose = mongoose
-db.artists = require('./artist')
+db.bands = require('./band')
 db.people = require('./people')
+db.albums = require('./albums')
+db.users = require('./users')
 
 module.exports = db

@@ -2,16 +2,16 @@
   <v-card-title>Socials</v-card-title>
   <v-row>
     <v-col v-for="type in socialTypes" :key="type.value">
-      <v-text-field :label="type.title" v-model="artistStore.currentArtist.social[type.value]"/>
+      <v-text-field :label="type.title" v-model="bandsStore.currentBand.socials[type.value]"/>
     </v-col>
   </v-row>
 </template>
 
 <script setup>
 //========== IMPORTS ==========
-import { useArtistStore } from '@/stores/artist'
+import { useBandsStore } from '@/stores/bands'
 //========== STORES ==========
-const artistStore = useArtistStore()
+const bandsStore = useBandsStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
