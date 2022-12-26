@@ -4,16 +4,10 @@
       <v-text-field label="Title" v-model="bandsStore.currentBand.title"/>
     </v-col>
     <v-col>
-      <v-autocomplete label="Formed in"
-                      :items="years"
-                      v-model.number="bandsStore.currentBand.formedIn"
-      />
+      <YearsAutocomplete :value="bandsStore.currentBand.formedIn" @updateValue="updateFormedIn"/>
     </v-col>
     <v-col>
-      <v-autocomplete label="Country"
-                      :items="utilStore.countries"
-                      v-model="bandsStore.currentBand.countryOfOrigin">
-      </v-autocomplete>
+      <CountryAutocomplete :value="bandsStore.currentBand.countryOfOrigin" @updateValue="updateCountry"/>
     </v-col>
     <v-col>
       <v-text-field label="City"
@@ -29,20 +23,13 @@
   </v-row>
   <v-row>
     <v-col>
-      <v-autocomplete label="Genres" multiple
-                      :items="utilStore.genres"
-                      v-model="bandsStore.currentBand.genres"
-      />
+      <GenresAutocomplete :value="bandsStore.currentBand.genres" @updateValue="updateGenres"/>
     </v-col>
     <v-col>
       <v-text-field label="Lyrics theme" v-model="bandsStore.currentBand.lyricsTheme"/>
     </v-col>
     <v-col>
-      <v-text-field label="Label" v-model="bandsStore.currentBand.label">
-        <template #append>
-          <v-checkbox-btn label="Independent" @update:modelValue="updateLabel"/>
-        </template>
-      </v-text-field>
+      <LabelAutocomplete :value="bandsStore.currentBand.label" @updateValue="updateLabel"/>
     </v-col>
     <v-col>
       <v-text-field label="Link to logo" v-model="bandsStore.currentBand.logo"/>
@@ -57,26 +44,31 @@
 
 <script setup>
 //========== IMPORTS ==========
-import { computed } from 'vue'
 import { useBandsStore } from '@/stores/bands'
 import { useUtilStore } from '@/stores/util'
+import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
+import CountryAutocomplete from '@/components/inputs/CountryAutocomplete'
+import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
+import GenresAutocomplete from '@/components/inputs/GenresAutocomplete'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const utilStore = useUtilStore()
 //========== COMPUTED ==========
-const years = computed(() => {
-  const now = new Date().getUTCFullYear()
-  return Array(now - (now - 30)).fill('').map((v, idx) => now - idx)
-})
+
 //========== VARIABLES ==========
 
 //========== METHODS ==========
-const updateLabel = (value) => {
-  if (value) {
-    bandsStore.currentBand.label = 'Independent'
-  } else {
-    bandsStore.currentBand.label = ''
-  }
+const updateGenres = (genres) => {
+  bandsStore.currentBand.genres = genres
+}
+const updateLabel = (label) => {
+  bandsStore.currentBand.label = label
+}
+const updateCountry = (country) => {
+  bandsStore.currentBand.countryOfOrigin = country
+}
+const updateFormedIn = (year) => {
+  bandsStore.currentBand.formedIn = year
 }
 //========== ON MOUNTED ==========
 

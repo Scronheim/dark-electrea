@@ -3,7 +3,7 @@ const {jsonResponse} = require('../utils')
 
 const Band = db.bands
 
-exports.searchArtist = async (req, res) => {
+exports.searchBand = async (req, res) => {
   let results
   const query = req.query.q
   const country = req.query.country
@@ -15,3 +15,8 @@ exports.searchArtist = async (req, res) => {
   return jsonResponse(res, results)
 }
 
+exports.searchBandsWithFilters = async (req, res) => {
+  if (Object.keys(req.body).length === 0) return jsonResponse(res, [])
+  const bands = await Band.find(req.body)
+  return jsonResponse(res, bands)
+}

@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import { useToast } from 'vue-toastification'
+import axios from 'axios'
 
 const toast = useToast()
 
 export const useUtilStore = defineStore({
   id: 'utilStore',
   state: () => ({
+    labels: [],
     genres: ['Dark Electro', 'EBM', 'Aggrotech'],
     countries: [
       { title: 'Russia', value: 'russia', countryCode: 'ru' },
@@ -21,14 +23,24 @@ export const useUtilStore = defineStore({
     ]
   }),
   actions: {
+    // ---------------------------------------GET---------------------------------------
+    async getLabels() {
+      const { data } = await axios.get('/api/labels')
+      this.labels = data.data
+    },
+    // ---------------------------------------POST---------------------------------------
+    async addLabel(label) {
+      await axios.post('/api/label', label)
+      toast.success(`Label ${label.title} added successfully`)
+    },
+    // ---------------------------------------PATCH---------------------------------------
+    async updateLabel() {
+      const { data } = await axios.patch('/api/label', this.currentLabel)
+      this.currentLabel = data.data
+      toast.success(`Label ${this.currentLabel.title} updated successfully`)
+    },
     axiosErrorHandler(error) {
-      if (error.response.data.errors instanceof Array) {
-        error.response.data.errors.forEach((e) => {
-          toast.error(`Код ответа: ${error.response.status}\nТекст ошибки:\n${e}`)
-        })
-      } else {
-        toast.error(`Код ответа: ${error.response.status}\nТекст ошибки:\n${error.response.data.errors}`)
-      }
+      toast.error(`Текст ошибки:\n${error.response.data.error}`)
     },
   }
 })

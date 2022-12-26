@@ -2,8 +2,16 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const peopleSchema = new mongoose.Schema({
-  fullName: String,
-  gender: String,
+  realName: String,
+  stageName: String,
+  bands: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'bands',
+      autopopulate: true,
+    },
+  ],
+  sex: String,
   birthdate: {
     type: Date,
     default: null,

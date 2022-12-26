@@ -7,6 +7,13 @@
           <span class="text-blue-lighten-1">Electrea</span>
         </p>
         <SearchInput/>
+        <template v-if="usersStore.isLoggedIn">
+          <v-btn @click="usersStore.logout">Logout</v-btn>
+        </template>
+        <template v-else>
+          <v-btn to="/login">Login</v-btn>
+          <v-btn to="/register">Register</v-btn>
+        </template>
       </v-col>
     </v-row>
   </v-container>
@@ -14,9 +21,10 @@
 
 <script setup>
 //========== IMPORTS ==========
+import { useUsersStore } from '@/stores/users'
 import SearchInput from '@/components/SearchInput'
 //========== STORES ==========
-
+const usersStore = useUsersStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========

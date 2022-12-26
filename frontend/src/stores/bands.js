@@ -3,16 +3,24 @@ import axios from 'axios'
 import { useToast } from 'vue-toastification'
 
 import { useUtilStore } from '@/stores/util'
+import { useUsersStore } from '@/stores/users'
 
 const toast = useToast()
 
 export const useBandsStore = defineStore({
   id: 'bandsStore',
   state: () => ({
+    filters: {
+      genres: { $in: [] },
+      country: undefined,
+      formedIn: undefined,
+      label: undefined,
+    },
     foundedBands: [],
     currentBand: {
+      _id: '',
       title: '',
-      countryOfOrigin: '',
+      country: '',
       city: '',
       formedIn: null,
       yearsActive: '',
@@ -31,6 +39,7 @@ export const useBandsStore = defineStore({
       },
       logo: '',
       photos: [],
+      userAdded: '',
     }
   }),
   actions: {
@@ -43,16 +52,22 @@ export const useBandsStore = defineStore({
       const { data } = await axios.get(`/api/bands?id=${id}`)
       this.currentBand = data.data
     },
-    async getBandsByCountry(country) {
-      return await axios.get(`/api/search?country=${country}`)
-    },
     // ---------------------------------------POST---------------------------------------
-    async addNewMember(person) {
+    async searchBandsByFilters() {
+      const filters = Object.assign({}, this.filters)
+      if (filters.genres.$in.length === 0) delete filters.genres
+      return await axios.post('/api/search', filters)
+    },
+    async addNewPerson(person) {
+      person.band = this.currentBand._id
       const { data } = await axios.post('/api/people', person)
       this.currentBand.lineup.push(data.data)
+      toast.success(`Person ${person.stageName} added to band ${this.currentBand.title}`)
     },
     async addBand() {
       const utilStore = useUtilStore()
+      const usersStore = useUsersStore()
+      this.currentBand.userAdded = usersStore.user._id
       try {
         await axios.post('/api/bands', this.currentBand)
         toast.success(`Band ${this.currentBand.title} added successfully`)

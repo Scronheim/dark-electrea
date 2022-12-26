@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toastification'
 
 import { useUtilStore } from '@/stores/util'
+import router from '@/router'
 
 const toast = useToast()
 
@@ -10,7 +11,9 @@ export const useUsersStore = defineStore({
   id: 'usersStore',
   state: () => ({
     users: [],
-    user: {},
+    user: {
+      _id: '',
+    },
     token: localStorage.getItem('token')
   }),
   actions: {
@@ -24,6 +27,7 @@ export const useUsersStore = defineStore({
         axios.defaults.headers.common['Authorization'] = data.data.token
         this.token = data.data.token
         this.user = data.data.user
+        router.push('/')
       } else {
         localStorage.removeItem('token')
       }
@@ -37,6 +41,12 @@ export const useUsersStore = defineStore({
         utilStore.axiosErrorHandler(e)
         localStorage.removeItem('token')
       }
+    },
+    logout() {
+      this.token = ''
+      this.user = {}
+      localStorage.removeItem('token')
+      delete axios.defaults.headers.common['Authorization']
     },
     async register(user) {
       const utilStore = useUtilStore()

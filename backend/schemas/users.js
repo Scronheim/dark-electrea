@@ -5,6 +5,20 @@ const usersSchema = new mongoose.Schema({
   username: String,
   password: String,
   email: String,
+  addedMaterials: {
+    bands: {
+      type: Number,
+      default: 0,
+    },
+    albums: {
+      type: Number,
+      default: 0,
+    },
+    videos: {
+      type: Number,
+      default: 0,
+    },
+  },
   isAdmin: {
     type: Boolean,
     default: false,

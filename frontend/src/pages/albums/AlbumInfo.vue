@@ -3,7 +3,6 @@
     <v-card>
       <v-card-title>
         {{ album.title }}
-        <EditButton @click="editDialog = true"/>
       </v-card-title>
       <v-card-text>
         <v-row>
@@ -17,7 +16,7 @@
               <v-list-item>Type: <v-btn>{{ album.type }}</v-btn></v-list-item>
               <v-list-item>Label:
                 <v-btn color="info">
-                  {{ album.label }}
+                  {{ album.label.title }}
                 </v-btn>
                 Catalog ID: {{ album.catalogId }}
                 <template v-if="album.limitations">| Limitations: {{ album.limitations }}</template>

@@ -6,6 +6,8 @@ const bodyParser = require('body-parser')
 const db = require('./schemas')
 
 db.mongoose.connect('mongodb://127.0.0.1/dark-electrea', {
+  user: 'scronheim',
+  pass: 'it!admin*0',
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

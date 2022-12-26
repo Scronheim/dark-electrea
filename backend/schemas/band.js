@@ -4,7 +4,11 @@ const { Schema } = mongoose
 const bandsSchema = new mongoose.Schema({
   title: String,
   formedIn: Number,
-  label: String,
+  label: {
+    type: Schema.Types.ObjectId,
+    ref: 'labels',
+    autopopulate: true,
+  },
   lineup: [
     {
       type: Schema.Types.ObjectId,
@@ -12,7 +16,7 @@ const bandsSchema = new mongoose.Schema({
       autopopulate: true,
     },
   ],
-  countryOfOrigin: String,
+  country: String,
   city: String,
   yearsActive: String,
   status: {
@@ -34,6 +38,11 @@ const bandsSchema = new mongoose.Schema({
   logo: String,
   description: '',
   links: Object,
+  userAdded: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    autopopulate: true,
+  },
 }, {
   versionKey: false,
   timestamps: true,

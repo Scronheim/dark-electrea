@@ -4,20 +4,10 @@
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark>
-            <v-toolbar-title>Register form</v-toolbar-title>
+            <v-toolbar-title>Login form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form ref="form">
-              <v-text-field
-                :readonly="false"
-                :hide-details="false"
-                v-model="user.username"
-                :rules="usernameRules"
-                label="Username"
-                name="username"
-                prepend-icon="mdi-account"
-                type="text"
-              />
               <v-text-field
                 :readonly="false"
                 :hide-details="false"
@@ -28,7 +18,6 @@
                 prepend-icon="mdi-email"
                 type="text"
               />
-
               <v-text-field
                 :readonly="false"
                 :hide-details="false"
@@ -41,23 +30,13 @@
                 :append-inner-icon="showPasswords ? 'mdi-eye-off': 'mdi-eye'"
                 @click:append-inner="showPasswords = !showPasswords"
                 :type="showPasswords? 'text': 'password'"
-              />
-              <v-text-field
-                :readonly="false"
-                :hide-details="false"
-                v-model="user.password_confirmation"
-                :rules="confirmPasswordRules"
-                id="password_confirmation"
-                label="Confirm password"
-                name="password_confirmation"
-                prepend-icon="mdi-lock"
-                :type="showPasswords? 'text': 'password'"
+                @keydown.enter="login"
               />
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="register">Register</v-btn>
+            <v-btn color="primary" @click="login">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -69,36 +48,27 @@
 //========== IMPORTS ==========
 import { ref } from 'vue'
 import { useUsersStore } from '@/stores/users'
-import router from '@/router'
 //========== STORES ==========
 const usersStore = useUsersStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
 const user = ref({
-  username: '',
   password: '',
-  passwordConfirmation: '',
   email: '',
 })
 const passwordRules =  [
   (value) => !!value || 'Введите пароль',
 ]
-const confirmPasswordRules = [
-  (value) => !!value || 'Введите подтверждающий пароль',
-  (value) => value === user.value.password || 'Пароли должны совпадать',
-]
 const emailRules = [
   v => !!v || 'Обязательное поле',
   v => /.+@.+\..+/.test(v) || 'E-mail должен быть валидным',
 ]
-const usernameRules = [
-  v => !!v || 'Обязательное поле',
-]
+
 const showPasswords = ref(false)
 //========== METHODS ==========
-const register = async () => {
-  await usersStore.register(user.value)
+const login = async () => {
+  await usersStore.login(user.value)
 }
 //========== ON MOUNTED ==========
 

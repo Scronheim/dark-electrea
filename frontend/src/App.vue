@@ -33,20 +33,23 @@ import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import { useUsersStore } from '@/stores/users'
+import { useUtilStore } from '@/stores/util'
 import SearchInput from '@/components/SearchInput'
 //========== STORES ==========
 const usersStore = useUsersStore()
+const utilStore = useUtilStore()
 //========== VARIABLES ==========
 const route = useRoute()
 //========== METHODS ==========
 const logout = () => {
-
+  usersStore.logout()
 }
 //========== ON MOUNTED ==========
 onMounted(() => {
   if (usersStore.token) {
     usersStore.aboutMe()
   }
+  utilStore.getLabels()
 })
 </script>
 

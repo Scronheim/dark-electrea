@@ -13,7 +13,11 @@ const albumsSchema = new mongoose.Schema({
   tracks: String,
   releaseDate: Date,
   format: String,
-  label: String,
+  label: {
+    type: Schema.Types.ObjectId,
+    ref: 'labels',
+    autopopulate: true,
+  },
   catalogId: String,
   limitations: Number,
   lineup: [
@@ -25,6 +29,11 @@ const albumsSchema = new mongoose.Schema({
   ],
   description: String,
   links: Object,
+  userAdded: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    autopopulate: true,
+  },
 }, {
   versionKey: false,
   timestamps: true,

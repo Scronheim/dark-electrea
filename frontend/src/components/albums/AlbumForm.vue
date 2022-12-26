@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card color="#303030" class="mb-3">
     <v-card-title>{{ isEdit? album.title : `New album of ${bandsStore.currentBand.title}` }}</v-card-title>
     <v-card-text>
       <v-row>
@@ -24,11 +24,7 @@
           />
         </v-col>
         <v-col>
-          <v-text-field label="Label" v-model="album.label">
-            <template #append>
-              <v-checkbox-btn label="Independent" @update:modelValue="updateLabel"/>
-            </template>
-          </v-text-field>
+          <LabelAutocomplete :value="album.label" @updateValue="updateLabel"/>
         </v-col>
         <v-col>
           <v-text-field label="Catalog ID" v-model="album.catalogId"/>
@@ -53,10 +49,6 @@
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-actions>
-      <v-spacer/>
-      <slot name="actions"/>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -64,6 +56,7 @@
 //========== IMPORTS ==========
 import { ref } from 'vue'
 import { useBandsStore } from '@/stores/bands'
+import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 //========== COMPUTED ==========
@@ -94,12 +87,8 @@ const props = defineProps({
   }
 })
 //========== METHODS ==========
-const updateLabel = (value) => {
-  if (value) {
-    props.album.label = 'Independent'
-  } else {
-    props.album.label = ''
-  }
+const updateLabel = (label) => {
+  props.album.label = label
 }
 //========== ON MOUNTED ==========
 

@@ -9,6 +9,7 @@ export const useAlbumStore = defineStore({
   state: () => ({
     currentAlbum: {
       band: {},
+      label: {},
       links: {
         download: []
       },
@@ -19,6 +20,11 @@ export const useAlbumStore = defineStore({
     async getAlbumById(id) {
       const { data } = await axios.get(`/api/albums?id=${id}`)
       this.currentAlbum = data.data
+    },
+    // ---------------------------------------POST---------------------------------------
+    async addAlbum(album) {
+      await axios.post('/api/albums', album)
+      toast.success(`Album ${album.title} added successfully`)
     },
     // ---------------------------------------PATCH---------------------------------------
     async updateAlbum() {
