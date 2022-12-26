@@ -6,17 +6,18 @@ const albumsSchema = new mongoose.Schema({
   band: {
     type: Schema.Types.ObjectId,
     ref: 'bands',
-    autopopulate: true,
+    autopopulate: {maxDepth: 1},
   },
   cover: String,
   type: String,
-  tracks: String,
+  tracks: Array,
   releaseDate: Date,
   format: String,
   label: {
     type: Schema.Types.ObjectId,
     ref: 'labels',
     autopopulate: true,
+    default: '63a9aa0a8562ab12bcddd78b',
   },
   catalogId: String,
   limitations: Number,
@@ -24,11 +25,20 @@ const albumsSchema = new mongoose.Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'people',
-      autopopulate: true,
+      autopopulate: {maxDepth: 1},
     }
   ],
   description: String,
-  links: Object,
+  links: {
+    type: Object,
+    default: {
+      bandcamp: '',
+      discogs: '',
+      yaMusic: '',
+      spotify: '',
+      download: [],
+    }
+  },
   userAdded: {
     type: Schema.Types.ObjectId,
     ref: 'users',
@@ -39,6 +49,7 @@ const albumsSchema = new mongoose.Schema({
   timestamps: true,
 })
 
+albumsSchema.plugin(require('./plugins/dateFormat').declareFormat('YYYY-MM-DD'))
 albumsSchema.plugin(require('mongoose-autopopulate'))
 const Artists = mongoose.model('albums', albumsSchema, 'albums')
 

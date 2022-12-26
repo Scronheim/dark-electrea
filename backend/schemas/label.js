@@ -17,6 +17,7 @@ const labelsSchema = new mongoose.Schema({
   timestamps: true,
 })
 
+labelsSchema.plugin(require('./plugins/dateFormat').declareFormat('YYYY-MM-DD'))
 const Labels = mongoose.model('labels', labelsSchema, 'labels')
 
 module.exports = Labels

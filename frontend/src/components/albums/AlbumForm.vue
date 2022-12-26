@@ -37,18 +37,71 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-textarea label="Tracklist" v-model="album.tracks"/>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-select label="Links" :items="linkTypes" v-model="selectedLinkType"/>
-        </v-col>
-        <v-col>
-          <v-text-field v-if="selectedLinkType" label="Link" v-model="album.links[selectedLinkType]"/>
+          <v-expansion-panels>
+            <v-expansion-panel title="Tracklist">
+              <v-expansion-panel-text>
+                <PlusButton text="Add track" @click="addTrack"/>
+                <v-row v-for="(track, index) in album.tracks" :key="`track${index}`">
+                  <v-col>
+                    <v-text-field label="Title" autocomplete="off" v-model="track.title">
+                      <template #prepend>
+                        {{ index + 1 }}
+                      </template>
+                    </v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field label="Duration" type="time" v-model="track.duration"/>
+                  </v-col>
+                  <v-col cols="1">
+                    <DeleteButton text="Remove track" @click="removeTrack(index)"/>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+            <v-expansion-panel title="Lineup">
+              <v-expansion-panel-text>
+                <LineupForm :lineup="album.lineup"/>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+            <v-expansion-panel title="Links">
+              <v-expansion-panel-text>
+                <v-row>
+                  <v-col cols="4">
+                    <v-select label="Links" :items="linkTypes" v-model="selectedLinkType"/>
+                  </v-col>
+                  <v-col>
+                    <template v-if="selectedLinkType !== 'download'">
+                      <v-text-field label="Link" v-model="album.links[selectedLinkType]"/>
+                    </template>
+                    <template v-else>
+                      <PlusButton text="Add download link" @click="addDownloadLink"/>
+                      <template v-for="(link, index) in album.links.download" :key="index">
+                        <v-row>
+                          <v-col>
+                            <v-text-field label="Link" v-model="album.links.download[index].src"/>
+                          </v-col>
+                          <v-col cols="4">
+                            <v-text-field label="Bitrate" type="number" suffix="kbps" :min="192" :max="320" v-model.number="album.links.download[index].bitrate"/>
+                          </v-col>
+                          <v-col cols="1">
+                            <DeleteButton text="Delete link" @click="deleteDownloadLink(index)"/>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </template>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-col>
       </v-row>
     </v-card-text>
+    <v-card-actions>
+      <v-spacer/>
+      <v-btn v-if="album._id" color="success" @click="updateAlbum">Save</v-btn>
+      <v-btn v-else color="success" @click="addAlbum">Add</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -56,17 +109,24 @@
 //========== IMPORTS ==========
 import { ref } from 'vue'
 import { useBandsStore } from '@/stores/bands'
+import { useAlbumStore } from '@/stores/album'
+import { useUsersStore } from '@/stores/users'
 import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
+import DeleteButton from '@/components/buttons/DeleteButton.vue'
+import PlusButton from '@/components/buttons/PlusButton.vue'
+import LineupForm from '@/components/bands/lineup/LineupForm'
 //========== STORES ==========
 const bandsStore = useBandsStore()
+const albumStore = useAlbumStore()
+const usersStore = useUsersStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
-const selectedLinkType = ref('')
+const selectedLinkType = ref('download')
 const linkTypes = [
   { title: 'Download', value: 'download' },
   { title: 'Yandex Music', value: 'yaMusic' },
-  { title: 'Youtube', value: 'youtube' },
+  { title: 'Spotify', value: 'spotify' },
   { title: 'Discogs', value: 'discogs' },
   { title: 'Bandcamp', value: 'bandcamp' },
 ]
@@ -87,6 +147,33 @@ const props = defineProps({
   }
 })
 //========== METHODS ==========
+const deleteDownloadLink = (linkIndex) => {
+  props.album.links.download.splice(linkIndex, 1)
+}
+const addDownloadLink = () => {
+  props.album.links.download.push({
+    src: '',
+    bitrate: 320,
+  })
+}
+const addTrack = () => {
+  props.album.tracks.push({
+    title: 'new track',
+    duration: '00:00:01'
+  })
+}
+const removeTrack = (trackIndex) => {
+  props.album.tracks.splice(trackIndex, 1)
+}
+const addAlbum = async () => {
+  props.album.band = bandsStore.currentBand._id
+  props.album.userAdded = usersStore.user._id
+  await albumStore.addAlbum(props.album)
+  await bandsStore.getBandInfo(bandsStore.currentBand._id)
+}
+const updateAlbum = () => {
+  albumStore.updateAlbum(props.album)
+}
 const updateLabel = (label) => {
   props.album.label = label
 }

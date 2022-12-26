@@ -27,10 +27,13 @@ export const useAlbumStore = defineStore({
       toast.success(`Album ${album.title} added successfully`)
     },
     // ---------------------------------------PATCH---------------------------------------
-    async updateAlbum() {
-      const { data } = await axios.patch('/api/albums', this.currentAlbum)
-      this.currentAlbum = data.data
-      toast.success(`Album ${this.currentAlbum.title} updated successfully`)
+    async updateAlbum(album) {
+      if (!album) {
+        album = this.currentAlbum
+      }
+      const { data } = await axios.patch('/api/albums', album)
+      album = data.data
+      toast.success(`Album ${album.title} updated successfully`)
     }
   }
 })

@@ -1,31 +1,35 @@
 <template>
-  <v-btn color="info"
-         :disabled="disabled"
-         :loading="loading"
-         :class="cssClass"
-         :href="href"
-         target="_blank"
-         @click="$emit('click')">
-    <v-icon>mdi-download</v-icon>
-    {{ text }}
-  </v-btn>
+  <v-tooltip location="top" :disabled="disabled">
+    <template #activator="{props}">
+      <v-btn v-bind="props"
+             color="info"
+             :disabled="disabled"
+             :loading="loading"
+             :class="cssClass"
+             :href="href"
+             target="_blank"
+             @click="$emit('click')">
+        <v-icon>mdi-download</v-icon>
+        {{ hrefHostname }}
+      </v-btn>
+    </template>
+    <span>Download album</span>
+  </v-tooltip>
 </template>
 
 <script setup>
 //========== IMPORTS ==========
-
+import { computed } from 'vue'
 //========== STORES ==========
 
 //========== COMPUTED ==========
-
+const hrefHostname = computed(() => {
+  return new URL(props.href).hostname
+})
 //========== VARIABLES ==========
-defineProps({
+const props = defineProps({
   href: {
     type: String,
-  },
-  text: {
-    type: String,
-    default: 'Download'
   },
   loading: {
     type: Boolean,

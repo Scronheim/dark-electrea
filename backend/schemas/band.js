@@ -13,7 +13,7 @@ const bandsSchema = new mongoose.Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'people',
-      autopopulate: true,
+      autopopulate: {maxDepth: 1},
     },
   ],
   country: String,
@@ -29,7 +29,7 @@ const bandsSchema = new mongoose.Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'albums',
-      autopopulate: true,
+      autopopulate: {maxDepth: 2},
     }
   ],
   videos: Array,
@@ -47,7 +47,7 @@ const bandsSchema = new mongoose.Schema({
   versionKey: false,
   timestamps: true,
 })
-
+bandsSchema.plugin(require('./plugins/dateFormat').declareFormat('YYYY-MM-DD'))
 bandsSchema.plugin(require('mongoose-autopopulate'))
 const Bands = mongoose.model('bands', bandsSchema, 'bands')
 

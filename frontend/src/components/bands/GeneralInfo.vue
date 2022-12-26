@@ -7,7 +7,7 @@
       <YearsAutocomplete :value="bandsStore.currentBand.formedIn" @updateValue="updateFormedIn"/>
     </v-col>
     <v-col>
-      <CountryAutocomplete :value="bandsStore.currentBand.countryOfOrigin" @updateValue="updateCountry"/>
+      <CountryAutocomplete :value="bandsStore.currentBand.country" @updateValue="updateCountry"/>
     </v-col>
     <v-col>
       <v-text-field label="City"

@@ -4,6 +4,12 @@ const {jsonResponse} = require('../utils')
 const People = db.people
 const Band = db.bands
 
+exports.searchPerson = async (req, res) => {
+  const query = req.query.q
+  const person = await People.find({$or:[{realName: new RegExp(query, 'iu')}, {stageName: new RegExp(query, 'iu')}]})
+  return jsonResponse(res, person)
+}
+
 exports.addPerson = async (req, res) => {
   if (!req.body.bands.includes(req.body.band)) {
     req.body.bands.push(req.body.band)

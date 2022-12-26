@@ -58,12 +58,6 @@ export const useBandsStore = defineStore({
       if (filters.genres.$in.length === 0) delete filters.genres
       return await axios.post('/api/search', filters)
     },
-    async addNewPerson(person) {
-      person.band = this.currentBand._id
-      const { data } = await axios.post('/api/people', person)
-      this.currentBand.lineup.push(data.data)
-      toast.success(`Person ${person.stageName} added to band ${this.currentBand.title}`)
-    },
     async addBand() {
       const utilStore = useUtilStore()
       const usersStore = useUsersStore()

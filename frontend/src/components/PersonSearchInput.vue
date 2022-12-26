@@ -5,19 +5,19 @@
     variant="solo"
     v-model="model"
     v-model:search="search"
-    :items="bandsStore.foundedBands"
+    :items="personStore.foundPersons"
     :loading="isLoading"
     clearable
     hide-no-data
     hide-selected
-    item-title="title"
+    item-title="realName"
     item-value="_id"
-    label="Search"
+    label="Search person"
     placeholder="type something..."
     append-inner-icon="mdi-database-search"
     return-object
-    @update:modelValue="selectBand"
-    @click:clear.prevent="clearFoundedBands"
+    @update:modelValue="selectPerson"
+    @click:clear.prevent="clearFoundedPersons"
   />
 </template>
 
@@ -25,23 +25,33 @@
 //========== IMPORTS ==========
 import { ref, watch } from 'vue'
 import { useBandsStore } from '@/stores/bands'
+import { usePersonStore } from '@/stores/person'
 import { useUtilStore } from '@/stores/util'
-import router from '@/router'
 //========== STORES ==========
 const bandsStore = useBandsStore()
+const personStore = usePersonStore()
 const utilStore = useUtilStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
 const isLoading = ref(false)
-const search = ref(null)
+const search = ref('')
 const model = ref('')
+const props = defineProps({
+  lineup: {
+    type: Array,
+    required: true,
+  }
+})
 //========== METHODS ==========
-const clearFoundedBands = () => {
-  bandsStore.foundedBands = []
+const clearFoundedPersons = () => {
+  personStore.foundPersons = []
 }
-const selectBand = (band) => {
-  router.push(`/bands/${band._id}`)
+const selectPerson = (person) => {
+  props.lineup.push(person)
+  search.value = ''
+  model.value = ''
+  personStore.foundPersons = []
 }
 //========== ON MOUNTED ==========
 
@@ -53,7 +63,7 @@ watch(search, (value) => {
 
   isLoading.value = true
   try {
-    bandsStore.searchBand(value)
+    personStore.searchPerson(value)
   } catch (e) {
     utilStore.axiosErrorHandler(e)
   } finally {

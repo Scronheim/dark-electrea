@@ -11,6 +11,7 @@
         <v-tab value="lineup">Lineup</v-tab>
         <v-tab value="description">Description</v-tab>
         <v-tab value="photos">Photos</v-tab>
+        <v-tab value="links">Links</v-tab>
       </v-tabs>
       <v-window v-model="tab">
         <v-window-item value="about">
@@ -30,10 +31,10 @@
           </v-row>
         </v-window-item>
         <v-window-item value="albums">
-          <v-row no-gutters v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
+          <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
             <v-col cols="3" v-for="album in chunk" :key="album.title">
               <v-hover v-slot="{ isHovering, props }">
-                <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
+                <v-card max-height="440" v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
                   <v-card-title>{{ album.title }} ({{ dayjs(album.releaseDate).format('YYYY') }})</v-card-title>
                   <v-img :src="album.cover"/>
                 </v-card>
@@ -42,14 +43,9 @@
           </v-row>
         </v-window-item>
         <v-window-item value="lineup">
-          <v-row>
-            <v-col>
-              <PlusButton text="Add person" @click="openLineupDialog"/>
-            </v-col>
-          </v-row>
           <v-list>
             <v-list-item v-for="(person, index) in band.lineup" :key="`person${index}`">
-              <v-btn color="info">{{ person.stageName }}</v-btn> - {{ person.instruments }}
+              <v-btn color="info">{{ person.realName }}</v-btn> - {{ person.instruments }}
             </v-list-item>
           </v-list>
         </v-window-item>
@@ -60,6 +56,29 @@
           <v-row v-for="(chunk, index) in chunkedPhotos" :key="`photo${index}`">
             <v-col cols="3" v-for="photo in chunk" :key="photo">
               <v-img :src="photo"/>
+            </v-col>
+          </v-row>
+        </v-window-item>
+        <v-window-item value="links">
+          <v-row>
+            <v-col>
+              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Official site</v-btn>
+              <v-btn v-if="band.socials.bandcamp" :href="band.socials.bandcamp" target="_blank">
+                <v-icon color="yellow">mdi-campfire</v-icon>
+                Bandcamp
+              </v-btn>
+              <v-btn v-if="band.socials.discogs" :href="band.socials.discogs" target="_blank">
+                <v-icon>mdi-album</v-icon>
+                Discogs
+              </v-btn>
+              <v-btn v-if="band.socials.youtube" :href="band.socials.youtube" target="_blank">
+                <v-icon color="red">mdi-youtube</v-icon>
+                Youtube
+              </v-btn>
+              <v-btn v-if="band.socials.facebook" :href="band.socials.facebook" target="_blank">
+                <v-icon color="info">mdi-facebook</v-icon>
+                Facebook
+              </v-btn>
             </v-col>
           </v-row>
         </v-window-item>
@@ -76,23 +95,23 @@
       <v-icon color="info">mdi-album</v-icon>
       <span>Edit albums</span>
     </v-btn>
+    <v-btn @click="lineupDialog = true">
+      <v-icon color="info">mdi-account-group</v-icon>
+      <span>Edit lineup</span>
+    </v-btn>
   </v-bottom-navigation>
 
   <v-dialog width="60%" v-model="albumsDialog">
-    <AlbumsList>
-      <template #actions>
-        <v-btn color="red" @click="albumsDialog = false">Close</v-btn>
-        <v-btn color="success" @click="updateBand">Save</v-btn>
-      </template>
-    </AlbumsList>
+    <AlbumsList/>
   </v-dialog>
 
   <v-dialog width="50%" v-model="lineupDialog">
-    <PersonForm :person="newPerson">
+    <LineupList>
       <template #actions>
-        <v-btn color="success" @click="addNewPerson">Add</v-btn>
+        <v-btn color="red" @click="lineupDialog = false">Close</v-btn>
+        <v-btn color="success" @click="updateBand">Save</v-btn>
       </template>
-    </PersonForm>
+    </LineupList>
   </v-dialog>
 
   <v-dialog width="70%" v-model="editDialog">
@@ -121,9 +140,8 @@ import { useBandsStore } from '@/stores/bands'
 import { useUsersStore } from '@/stores/users'
 import GeneralInfo from '@/components/bands/GeneralInfo'
 import SocialsForm from '@/components/bands/SocialsForm'
-import PlusButton from '@/components/buttons/PlusButton'
-import PersonForm from '@/components/bands/PersonForm'
 import AlbumsList from '@/components/bands/AlbumsList'
+import LineupList from '@/components/bands/LineupList'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const usersStore = useUsersStore()
@@ -150,42 +168,16 @@ const band = computed(() => {
   return bandsStore.currentBand
 })
 //========== VARIABLES ==========
-const newPerson = ref({
-  realName: '',
-  stageName: '',
-  bands: [],
-  sex: 'Man',
-  birthdate: '',
-  birthCountry: '',
-  instruments: '',
-  photo: '',
-})
 const albumsDialog = ref(false)
 const lineupDialog = ref(false)
 const editDialog = ref(false)
 const tab = ref('about')
 const route = useRoute()
 //========== METHODS ==========
-const addNewPerson = () => {
-  bandsStore.addNewPerson(newPerson.value)
-}
 const updateBand = () => {
   bandsStore.updateBand()
   editDialog.value = false
   albumsDialog.value = false
-}
-const openLineupDialog = () => {
-  newPerson.value = {
-    realName: '',
-    stageName: '',
-    bands: [],
-    sex: 'Man',
-    birthdate: '',
-    birthCountry: '',
-    instruments: '',
-    photo: '',
-  }
-  lineupDialog.value = true
 }
 const goToBandsByFiltersPage = (param, genre) => {
   if (param === 'label') {

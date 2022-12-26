@@ -1,14 +1,20 @@
 <template>
-  <v-btn color="red"
-         :disabled="disabled"
-         :loading="loading"
-         :class="cssClass"
-         :href="href"
-         target="_blank"
-         @click="$emit('click')">
-    <v-icon size="35">mdi-alpha-y</v-icon>
-    {{ text }}
-  </v-btn>
+  <v-tooltip location="top" :disabled="disabled">
+    <template #activator="{props}">
+      <v-btn v-bind="props"
+             color="red"
+             :disabled="disabled"
+             :loading="loading"
+             :class="cssClass"
+             :href="href"
+             target="_blank"
+             @click="$emit('click')">
+        <v-icon size="35">mdi-alpha-y</v-icon>
+        {{ text }}
+      </v-btn>
+    </template>
+    <span>Listen on Yandex Music</span>
+  </v-tooltip>
 </template>
 
 <script setup>

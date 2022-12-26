@@ -8,7 +8,7 @@ const peopleSchema = new mongoose.Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'bands',
-      autopopulate: true,
+      autopopulate: {maxDepth: 1},
     },
   ],
   sex: String,
@@ -16,7 +16,7 @@ const peopleSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
-  birthCountry: String,
+  country: String,
   instruments: String,
   photo: String,
 }, {
@@ -24,6 +24,8 @@ const peopleSchema = new mongoose.Schema({
   timestamps: true,
 })
 
+peopleSchema.plugin(require('./plugins/dateFormat').declareFormat('YYYY-MM-DD'))
+peopleSchema.plugin(require('mongoose-autopopulate'))
 const People = mongoose.model('people', peopleSchema, 'people')
 
 module.exports = People

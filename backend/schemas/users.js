@@ -36,6 +36,7 @@ const usersSchema = new mongoose.Schema({
   timestamps: true,
 })
 
+usersSchema.plugin(require('./plugins/dateFormat').declareFormat('YYYY-MM-DD'))
 const Users = mongoose.model('users', usersSchema, 'users')
 
 module.exports = Users
