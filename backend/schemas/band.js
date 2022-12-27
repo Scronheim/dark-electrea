@@ -16,9 +16,15 @@ const bandsSchema = new mongoose.Schema({
       autopopulate: {maxDepth: 1},
     },
   ],
+  exLineup: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'people',
+      autopopulate: {maxDepth: 1},
+    }
+  ],
   country: String,
   city: String,
-  yearsActive: String,
   status: {
     type: String,
     default: 'active',

@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete label="Genres" multiple clearable
+  <v-autocomplete label="Genres" multiple
                   :items="utilStore.genres"
                   :model-value="value"
                   @update:modelValue="$emit('updateValue', $event)"

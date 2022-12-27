@@ -25,22 +25,128 @@
     <v-main>
       <router-view/>
     </v-main>
+    <v-bottom-navigation v-if="usersStore.isAdmin" color="primary">
+      <v-btn v-if="route.name !== 'Bands add page'" to="/bands/add">
+        <v-icon color="success">mdi-plus</v-icon>
+        <span>Add band</span>
+      </v-btn>
+      <v-btn v-if="route.name === 'Bands add page'" @click="addBand">
+        <v-icon color="success">mdi-content-save</v-icon>
+        <span>Save band</span>
+      </v-btn>
+      <template v-if="route.name === 'Band info page'">
+        <v-btn @click="editDialog = true">
+          <v-icon color="info">mdi-pencil</v-icon>
+          <span>Edit about</span>
+        </v-btn>
+        <v-btn @click="albumsDialog = true">
+          <v-icon color="info">mdi-album</v-icon>
+          <span>Edit albums</span>
+        </v-btn>
+        <v-btn @click="lineupDialog = true">
+          <v-icon color="info">mdi-account-group</v-icon>
+          <span>Edit lineup</span>
+        </v-btn>
+        <v-btn @click="photosDialog = true">
+          <v-icon color="info">mdi-image-multiple</v-icon>
+          <span>Edit photos</span>
+        </v-btn>
+      </template>
+    </v-bottom-navigation>
+
+    <v-dialog width="40%" v-model="photosDialog">
+      <v-card>
+        <v-card-title>
+          Photos
+          <PlusButton text="Add photo" @click="addPhoto"/>
+        </v-card-title>
+        <v-card-text>
+          <v-row v-for="(photo, index) in band.photos" :key="`photo${index}`">
+            <v-col>
+              <v-text-field label="Link" v-model="band.photos[index]"/>
+            </v-col>
+            <v-col cols="1">
+              <DeleteButton text="Delete photo" @click="deletePhoto(index)"/>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="red" @click="photosDialog = false">Close</v-btn>
+          <v-btn color="success" @click="updateBand">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog width="60%" v-model="albumsDialog">
+      <AlbumsList/>
+    </v-dialog>
+
+    <v-dialog width="50%" v-model="lineupDialog">
+      <LineupList>
+        <template #actions>
+          <v-btn color="red" @click="lineupDialog = false">Close</v-btn>
+          <v-btn color="success" @click="updateBand">Save</v-btn>
+        </template>
+      </LineupList>
+    </v-dialog>
+
+    <v-dialog width="80%" v-model="editDialog">
+      <v-card :title="`Edit ${bandsStore.currentBand.title}`">
+        <v-card-text>
+          <GeneralInfo/>
+          <SocialsForm/>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="red" @click="editDialog = false">Close</v-btn>
+          <v-btn color="success" @click="updateBand">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
+import { useBandsStore } from '@/stores/bands'
 import { useUsersStore } from '@/stores/users'
 import { useUtilStore } from '@/stores/util'
 import SearchInput from '@/components/SearchInput'
+import GeneralInfo from '@/components/bands/GeneralInfo'
+import SocialsForm from '@/components/bands/SocialsForm'
+import AlbumsList from '@/components/bands/AlbumsList'
+import LineupList from '@/components/bands/LineupList'
+import PlusButton from '@/components/buttons/PlusButton'
+import DeleteButton from '@/components/buttons/DeleteButton'
 //========== STORES ==========
+const bandsStore = useBandsStore()
 const usersStore = useUsersStore()
 const utilStore = useUtilStore()
 //========== VARIABLES ==========
 const route = useRoute()
+const photosDialog = ref(false)
+const albumsDialog = ref(false)
+const lineupDialog = ref(false)
+const editDialog = ref(false)
 //========== METHODS ==========
+const addBand = async () => {
+  await bandsStore.addBand()
+  await router.push(`/bands/${bandsStore.currentBand._id}`)
+}
+const deletePhoto = (photoIndex) => {
+  bandsStore.currentBand.photos.splice(photoIndex, 1)
+}
+const addPhoto = () => {
+  bandsStore.currentBand.photos.push('')
+}
+const updateBand = () => {
+  bandsStore.updateBand()
+  editDialog.value = false
+  albumsDialog.value = false
+}
 const logout = () => {
   usersStore.logout()
 }

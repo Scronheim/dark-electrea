@@ -1,8 +1,8 @@
 <template>
-  <v-autocomplete label="Country" clearable
+  <v-autocomplete label="Country"
+                  item-title="name" item-value="name"
                   :items="utilStore.countries"
                   :model-value="value"
-                  @click:clear="$emit('updateValue', undefined)"
                   @update:modelValue="$emit('updateValue', $event)"
   />
 </template>

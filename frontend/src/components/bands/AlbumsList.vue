@@ -35,7 +35,8 @@ const newAlbum = ref({
   band: bandsStore.currentBand._id,
   cover: '',
   type: 'Full length',
-  tracks: '',
+  genres: [],
+  tracks: [],
   releaseDate: '',
   label: '63a9aa0a8562ab12bcddd78b',
   catalogId: '',
@@ -48,12 +49,13 @@ const newAlbum = ref({
     facebook: '',
     bandcamp: '',
     officialSite: '',
+    download: [],
   },
   userAdded: '',
 })
 //========== METHODS ==========
 const addNewAlbum = async () => {
-  bandsStore.currentBand.albums.push(newAlbum.value)
+  bandsStore.currentBand.albums.push(Object.assign({}, newAlbum.value))
 }
 //========== ON MOUNTED ==========
 

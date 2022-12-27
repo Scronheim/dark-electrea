@@ -7,17 +7,17 @@
       <YearsAutocomplete :value="bandsStore.currentBand.formedIn" @updateValue="updateFormedIn"/>
     </v-col>
     <v-col>
+      <v-select label="Status"
+                :items="utilStore.statuses"
+                v-model="bandsStore.currentBand.status"
+      />
+    </v-col>
+    <v-col>
       <CountryAutocomplete :value="bandsStore.currentBand.country" @updateValue="updateCountry"/>
     </v-col>
     <v-col>
       <v-text-field label="City"
                     v-model="bandsStore.currentBand.city"
-      />
-    </v-col>
-    <v-col>
-      <v-select label="Status"
-                :items="utilStore.statuses"
-                v-model="bandsStore.currentBand.status"
       />
     </v-col>
   </v-row>
@@ -65,7 +65,7 @@ const updateLabel = (label) => {
   bandsStore.currentBand.label = label
 }
 const updateCountry = (country) => {
-  bandsStore.currentBand.countryOfOrigin = country
+  bandsStore.currentBand.country = country
 }
 const updateFormedIn = (year) => {
   bandsStore.currentBand.formedIn = year

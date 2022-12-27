@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete label="Label" clearable
+  <v-autocomplete label="Label"
                   item-value="_id" item-title="title"
                   :items="utilStore.labels"
                   :model-value="value"

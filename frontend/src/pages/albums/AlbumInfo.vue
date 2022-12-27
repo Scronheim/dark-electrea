@@ -11,17 +11,23 @@
           </v-col>
           <v-col>
             <v-list>
-              <v-list-item>Band: <v-btn color="info" @click="goToBandPage(album.band._id)">{{ album.band.title }}</v-btn></v-list-item>
-              <v-list-item>Release date: <v-btn>{{ formattedReleaseDate }}</v-btn></v-list-item>
-              <v-list-item>Type: <v-btn>{{ album.type }}</v-btn></v-list-item>
+              <v-list-item>Band: <v-btn color="info" @click="goToBandPage(album.band)">{{ album.band.title }}</v-btn></v-list-item>
+              <v-list-item>Album: <v-btn color="primary">{{ album.title }}</v-btn></v-list-item>
+              <v-list-item>
+                Genre: <v-btn color="info" v-for="genre in album.genres" :key="genre" @click="goToAlbumsByFiltersPage('genres', genre)">{{ genre }}</v-btn>
+              </v-list-item>
+              <v-list-item>Release date: <v-btn color="primary">{{ formattedReleaseDate }}</v-btn></v-list-item>
+              <v-list-item>Type: <v-btn color="primary">{{ album.type }}</v-btn></v-list-item>
               <v-list-item>Label:
-                <v-btn color="info" @click="goToBandsByFiltersPage">
+                <v-btn color="info" @click="goToAlbumsByFiltersPage('label')">
                   {{ album.label.title }}
                 </v-btn>
-                Catalog ID: {{ album.catalogId }}
+                <template v-if="album.catalogId">
+                  Catalog ID: {{ album.catalogId }}
+                </template>
                 <template v-if="album.limitations">| Limitations: {{ album.limitations }}</template>
               </v-list-item>
-              <v-list-item>Format: <v-btn>{{ album.format }}</v-btn></v-list-item>
+              <v-list-item>Format: <v-btn color="primary">{{ album.format }}</v-btn></v-list-item>
             </v-list>
           </v-col>
           <v-col>
@@ -86,12 +92,12 @@ const album = computed(() => {
 //========== VARIABLES ==========
 const route = useRoute()
 //========== METHODS ==========
-const goToBandsByFiltersPage = () => {
-  bandsStore.filters.label = album.value.label._id
-  router.push('/bands')
+const goToAlbumsByFiltersPage = (param, genre) => {
+  albumStore.goToAlbumsByFiltersPage(param, genre)
 }
-const goToBandPage = (bandId) => {
-  router.push(`/bands/${bandId}`)
+const goToBandPage = (band) => {
+  bandsStore.currentBand = band
+  router.push(`/bands/${band._id}`)
 }
 //========== ON MOUNTED ==========
 onMounted(() => {

@@ -10,6 +10,7 @@ const albumsSchema = new mongoose.Schema({
   },
   cover: String,
   type: String,
+  genres: Array,
   tracks: Array,
   releaseDate: Date,
   format: String,

@@ -1,5 +1,6 @@
 <template>
   <v-autocomplete
+    autofocus
     autocomplete="off"
     density="default"
     variant="solo"
@@ -41,6 +42,7 @@ const clearFoundedBands = () => {
   bandsStore.foundedBands = []
 }
 const selectBand = (band) => {
+  bandsStore.currentBand = band
   router.push(`/bands/${band._id}`)
 }
 //========== ON MOUNTED ==========

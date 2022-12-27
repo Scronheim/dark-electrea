@@ -6,18 +6,12 @@
         <SocialsForm/>
       </v-card-text>
     </v-card>
-
-    <v-bottom-navigation color="primary" class="fixedMenu">
-      <v-btn color="success" @click="bandsStore.addBand">
-        <v-icon color="success">mdi-plus</v-icon>
-        <span>Add band</span>
-      </v-btn>
-    </v-bottom-navigation>
   </v-container>
 </template>
 
 <script setup>
 //========== IMPORTS ==========
+import { onMounted } from 'vue'
 import { useBandsStore } from '@/stores/bands'
 import GeneralInfo from '@/components/bands/GeneralInfo'
 import SocialsForm from '@/components/bands/SocialsForm'
@@ -30,7 +24,9 @@ const bandsStore = useBandsStore()
 //========== METHODS ==========
 
 //========== ON MOUNTED ==========
-
+onMounted(() => {
+  bandsStore.$reset()
+})
 </script>
 
 <style scoped>

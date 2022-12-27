@@ -7,5 +7,6 @@ router.route('/api/albums')
   .get(db.getAlbum)
   .post(db.addAlbum)
   .patch(db.updateAlbum)
+  .delete(db.deleteAlbum)
 
 module.exports = router

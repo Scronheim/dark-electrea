@@ -4,6 +4,7 @@ import { useToast } from 'vue-toastification'
 
 import { useUtilStore } from '@/stores/util'
 import { useUsersStore } from '@/stores/users'
+import router from '@/router'
 
 const toast = useToast()
 
@@ -18,7 +19,6 @@ export const useBandsStore = defineStore({
     },
     foundedBands: [],
     currentBand: {
-      _id: '',
       title: '',
       country: '',
       city: '',
@@ -27,7 +27,7 @@ export const useBandsStore = defineStore({
       status: 'Active',
       genres: [],
       lyricsTheme: '',
-      label: '',
+      label: '63a9aa0a8562ab12bcddd78b',
       description: '',
       albums: [],
       lineup: [],
@@ -43,9 +43,19 @@ export const useBandsStore = defineStore({
     }
   }),
   actions: {
+    goToBandsByFiltersPage(param, genre) {
+      if (param === 'label') {
+        this.filters.label = this.currentBand.label._id
+      } else if (param === 'genres') {
+        this.filters.genres.$in.push(genre)
+      } else {
+        this.filters[param] = this.currentBand[param]
+      }
+      router.push('/bands')
+    },
     // ---------------------------------------GET---------------------------------------
     async searchBand(bandTitle) {
-      const { data } = await axios.get(`/api/search?q=${bandTitle}`)
+      const { data } = await axios.get(`/api/search/bands?q=${bandTitle}`)
       this.foundedBands = data.data
     },
     async getBandInfo(id) {
@@ -56,14 +66,15 @@ export const useBandsStore = defineStore({
     async searchBandsByFilters() {
       const filters = Object.assign({}, this.filters)
       if (filters.genres.$in.length === 0) delete filters.genres
-      return await axios.post('/api/search', filters)
+      return await axios.post('/api/search/bands', filters)
     },
     async addBand() {
       const utilStore = useUtilStore()
       const usersStore = useUsersStore()
       this.currentBand.userAdded = usersStore.user._id
       try {
-        await axios.post('/api/bands', this.currentBand)
+        const { data } = await axios.post('/api/bands', this.currentBand)
+        this.currentBand = data.data
         toast.success(`Band ${this.currentBand.title} added successfully`)
       } catch (e) {
         utilStore.axiosErrorHandler(e)

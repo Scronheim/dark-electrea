@@ -29,8 +29,13 @@ const routes = [
   },
   {
     path: '/bands/:id',
-    name: 'Artists info page',
+    name: 'Band info page',
     component: () => import('../pages/bands/BandInfo'),
+  },
+  {
+    path: '/albums',
+    name: 'Albums search page',
+    component: () => import('../pages/albums/AlbumsByFilters'),
   },
   {
     path: '/albums/:id',
