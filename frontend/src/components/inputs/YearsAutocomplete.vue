@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete :label="label"
+  <v-autocomplete :label="label" clearable
                   :items="years"
                   :model-value="value"
                   @update:modelValue="$emit('updateValue', $event)"

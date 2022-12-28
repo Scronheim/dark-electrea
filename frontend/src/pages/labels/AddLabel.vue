@@ -1,27 +1,26 @@
 <template>
-  <v-autocomplete label="Label" clearable
-                  item-value="_id" item-title="title"
-                  :items="labelsStore.labels"
-                  :model-value="value"
-                  @update:modelValue="$emit('updateValue', $event)"
-  />
+  <v-container fluid>
+    <LabelForm/>
+  </v-container>
 </template>
 
 <script setup>
 //========== IMPORTS ==========
+import { onMounted } from 'vue'
 import { useLabelsStore } from '@/stores/labels'
+import LabelForm from '@/components/labels/LabelForm'
 //========== STORES ==========
 const labelsStore = useLabelsStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
-defineProps({
-  value: [String, Object]
-})
+
 //========== METHODS ==========
 
 //========== ON MOUNTED ==========
-
+onMounted(() => {
+  labelsStore.$reset()
+})
 </script>
 
 <style scoped>

@@ -2,12 +2,14 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 import router from '@/router'
+import { useBandsStore } from '@/stores/bands'
 
 const toast = useToast()
 
 export const useAlbumStore = defineStore({
   id: 'albumStore',
   state: () => ({
+    types: ['Full length', 'Single', 'EP', 'Demo', 'Compilation', 'Split'],
     filters: {
       genres: { $in: [] },
       releaseDate: undefined,
@@ -16,6 +18,7 @@ export const useAlbumStore = defineStore({
     currentAlbum: {
       band: {},
       label: {},
+      tracks: [],
       links: {
         download: []
       },

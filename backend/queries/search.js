@@ -7,6 +7,7 @@ const {jsonResponse} = require('../utils')
 
 const Band = db.bands
 const Album = db.albums
+const Label = db.labels
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -44,4 +45,10 @@ exports.searchAlbumsWithFilters = async (req, res) => {
   }
   const albums = await Album.find(filter)
   return jsonResponse(res, albums)
+}
+
+exports.searchLabelsWithFilters = async (req, res) => {
+  if (Object.keys(req.body).length === 0) return jsonResponse(res, [])
+  const labels = await Label.find(req.body)
+  return jsonResponse(res, labels)
 }

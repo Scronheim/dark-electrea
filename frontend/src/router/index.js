@@ -42,6 +42,21 @@ const routes = [
     name: 'Album info page',
     component: () => import('../pages/albums/AlbumInfo'),
   },
+  {
+    path: '/labels/add',
+    name: 'Label add page',
+    component: () => import('../pages/labels/AddLabel'),
+  },
+  {
+    path: '/labels',
+    name: 'Labels search page',
+    component: () => import('../pages/labels/LabelsByFilters'),
+  },
+  {
+    path: '/labels/:id',
+    name: 'Label info page',
+    component: () => import('../pages/labels/LabelInfo'),
+  },
 ]
 
 const router = createRouter({

@@ -1,6 +1,6 @@
 <template>
-  <v-autocomplete label="Genres" multiple clearable
-                  :items="utilStore.genres"
+  <v-autocomplete label="Type" clearable
+                  :items="albumStore.types"
                   :model-value="value"
                   @update:modelValue="$emit('updateValue', $event)"
   />
@@ -8,14 +8,14 @@
 
 <script setup>
 //========== IMPORTS ==========
-import { useUtilStore } from '@/stores/util'
+import { useAlbumStore } from '@/stores/album'
 //========== STORES ==========
-const utilStore = useUtilStore()
+const albumStore = useAlbumStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
 defineProps({
-  value: Array,
+  value: String,
 })
 //========== METHODS ==========
 

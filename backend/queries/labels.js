@@ -4,8 +4,13 @@ const {jsonResponse} = require('../utils')
 const Label = db.labels
 
 exports.getLabels = async (req, res) => {
-  const labels = await Label.find({})
-  return jsonResponse(res, labels)
+  let result
+  if (req.query.id) {
+    result = await Label.findById(req.query.id)
+  } else {
+    result = await Label.find({})
+  }
+  return jsonResponse(res, result)
 }
 
 exports.addLabel = async (req, res) => {

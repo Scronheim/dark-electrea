@@ -26,13 +26,27 @@
       <router-view/>
     </v-main>
     <v-bottom-navigation v-if="usersStore.isAdmin" color="primary">
-      <v-btn v-if="route.name !== 'Bands add page'" to="/bands/add">
-        <v-icon color="success">mdi-plus</v-icon>
-        <span>Add band</span>
-      </v-btn>
+      <v-menu location="top">
+        <template #activator="{props}">
+          <v-btn v-bind="props">
+            <v-icon color="success">mdi-plus</v-icon>
+            <span>Add</span>
+          </v-btn>
+        </template>
+        <v-list nav>
+          <v-list-item title="Add band" link to="/bands/add" prepend-icon="mdi-account-music">
+            <v-list-item-media></v-list-item-media>
+          </v-list-item>
+          <v-list-item title="Add label" link to="/labels/add" prepend-icon="mdi-currency-usd"/>
+        </v-list>
+      </v-menu>
       <v-btn v-if="route.name === 'Bands add page'" @click="addBand">
         <v-icon color="success">mdi-content-save</v-icon>
         <span>Save band</span>
+      </v-btn>
+      <v-btn v-if="route.name === 'Label add page'" @click="addLabel">
+        <v-icon color="success">mdi-content-save</v-icon>
+        <span>Save label</span>
       </v-btn>
       <template v-if="route.name === 'Band info page'">
         <v-btn @click="editDialog = true">
@@ -52,7 +66,22 @@
           <span>Edit photos</span>
         </v-btn>
       </template>
+      <template v-if="route.name === 'Label info page'">
+        <v-btn @click="editLabelDialog = true">
+          <v-icon color="info">mdi-pencil</v-icon>
+          <span>Edit label</span>
+        </v-btn>
+      </template>
     </v-bottom-navigation>
+
+    <v-dialog width="70%" v-model="editLabelDialog">
+      <LabelForm>
+        <template #actions>
+          <v-btn color="red" @click="editLabelDialog = false">Close</v-btn>
+          <v-btn color="success" @click="updateLabel">Save</v-btn>
+        </template>
+      </LabelForm>
+    </v-dialog>
 
     <v-dialog width="40%" v-model="photosDialog">
       <v-card>
@@ -61,9 +90,9 @@
           <PlusButton text="Add photo" @click="addPhoto"/>
         </v-card-title>
         <v-card-text>
-          <v-row v-for="(photo, index) in band.photos" :key="`photo${index}`">
+          <v-row v-for="(photo, index) in bandsStore.currentBand.photos" :key="`photo${index}`">
             <v-col>
-              <v-text-field label="Link" v-model="band.photos[index]"/>
+              <v-text-field label="Link" v-model="bandsStore.currentBand.photos[index]"/>
             </v-col>
             <v-col cols="1">
               <DeleteButton text="Delete photo" @click="deletePhoto(index)"/>
@@ -112,8 +141,8 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import { useBandsStore } from '@/stores/bands'
+import { useLabelsStore } from '@/stores/labels'
 import { useUsersStore } from '@/stores/users'
-import { useUtilStore } from '@/stores/util'
 import SearchInput from '@/components/SearchInput'
 import GeneralInfo from '@/components/bands/GeneralInfo'
 import SocialsForm from '@/components/bands/SocialsForm'
@@ -121,17 +150,23 @@ import AlbumsList from '@/components/bands/AlbumsList'
 import LineupList from '@/components/bands/LineupList'
 import PlusButton from '@/components/buttons/PlusButton'
 import DeleteButton from '@/components/buttons/DeleteButton'
+import LabelForm from '@/components/labels/LabelForm'
 //========== STORES ==========
 const bandsStore = useBandsStore()
+const labelsStore = useLabelsStore()
 const usersStore = useUsersStore()
-const utilStore = useUtilStore()
 //========== VARIABLES ==========
 const route = useRoute()
+const editLabelDialog = ref(false)
 const photosDialog = ref(false)
 const albumsDialog = ref(false)
 const lineupDialog = ref(false)
 const editDialog = ref(false)
 //========== METHODS ==========
+const addLabel = async () => {
+  await labelsStore.addLabel()
+  await router.push(`/labels/${labelsStore.currentLabel._id}`)
+}
 const addBand = async () => {
   await bandsStore.addBand()
   await router.push(`/bands/${bandsStore.currentBand._id}`)
@@ -141,6 +176,9 @@ const deletePhoto = (photoIndex) => {
 }
 const addPhoto = () => {
   bandsStore.currentBand.photos.push('')
+}
+const updateLabel = () => {
+  labelsStore.updateLabel()
 }
 const updateBand = () => {
   bandsStore.updateBand()
@@ -155,10 +193,12 @@ onMounted(() => {
   if (usersStore.token) {
     usersStore.aboutMe()
   }
-  utilStore.getLabels()
+  labelsStore.getLabels()
 })
 </script>
 
 <style>
-
+.v-list-item__prepend > .v-icon {
+  margin-inline-end: 16px;
+}
 </style>

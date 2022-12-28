@@ -8,7 +8,7 @@
         </v-col>
         <v-col>
           <v-select label="Type"
-                    :items="albumTypes"
+                    :items="albumStore.types"
                     v-model="album.type"
           />
         </v-col>
@@ -144,7 +144,6 @@ const albumFormats = [
   { title: 'Tape', value: 'tape' },
   { title: 'Vinyl', value: 'vinyl' },
 ]
-const albumTypes = ['Full length', 'Single', 'EP', 'Demo']
 const props = defineProps({
   album: {
     type: Object,

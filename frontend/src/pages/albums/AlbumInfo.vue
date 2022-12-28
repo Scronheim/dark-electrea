@@ -46,6 +46,10 @@
                   <td>{{ track.title }}</td>
                   <td>{{ track.duration }}</td>
                 </tr>
+                <tr>
+                  <td align="right" colspan="2">Total:</td>
+                  <td>{{ totalAlbumDuration }}</td>
+                </tr>
               </tbody>
             </v-table>
           </v-col>
@@ -74,6 +78,8 @@
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import { add, str } from 'timelite/time'
 import router from '@/router'
 import { useAlbumStore } from '@/stores/album'
 import { useBandsStore } from '@/stores/bands'
@@ -83,6 +89,14 @@ import YaMusicButton from '@/components/buttons/YaMusicButton'
 const albumStore = useAlbumStore()
 const bandsStore = useBandsStore()
 //========== COMPUTED ==========
+const totalAlbumDuration = computed(() => {
+  const allDurations = albumStore.currentAlbum.tracks.map(t => t.duration)
+  return str(add(allDurations))
+  // return albumStore.currentAlbum.tracks.reduce((accumulator, current) => {
+  //   console.log(current.duration, dayjs.duration(current.duration, 'minutes'))
+  //   return accumulator + dayjs.duration(current.duration).asMinutes()
+  // }, 0)
+})
 const formattedReleaseDate = computed(() => {
   return dayjs(albumStore.currentAlbum.releaseDate).format('DD.MM.YYYY')
 })
@@ -90,6 +104,7 @@ const album = computed(() => {
   return albumStore.currentAlbum
 })
 //========== VARIABLES ==========
+dayjs.extend(duration)
 const route = useRoute()
 //========== METHODS ==========
 const goToAlbumsByFiltersPage = (param, genre) => {

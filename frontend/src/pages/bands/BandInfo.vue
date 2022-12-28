@@ -1,6 +1,6 @@
 <template>
   <v-card>
-<!--    <v-img :src="band.logo" cover height="300"/>-->
+    <v-img :src="band.logo" cover height="300"/>
     <v-card-text>
       <v-tabs slider-color="yellow" v-model="tab">
         <v-tab value="about">About</v-tab>
@@ -28,6 +28,23 @@
           </v-row>
         </v-window-item>
         <v-window-item value="albums">
+          <v-row>
+            <v-col>
+              <GenresAutocomplete :value="filters.genres" @updateValue="updateSelectedGenres"/>
+            </v-col>
+            <v-col>
+              <AlbumTypeAutocomplete :value="filters.type" @updateValue="updateSelectedAlbumType"/>
+            </v-col>
+            <v-col>
+              <YearsAutocomplete label="Release year" :value="filters.releaseDate" @updateValue="updateSelectedReleaseYear"/>
+            </v-col>
+            <v-col>
+              <LabelAutocomplete :value="filters.label" @updateValue="updateSelectedLabel"/>
+            </v-col>
+            <v-col cols="1">
+              <FilterRemoveButton @click="clearFilters"/>
+            </v-col>
+          </v-row>
           <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
             <v-col cols="3" v-for="album in chunk" :key="album.title">
               <v-hover v-slot="{ isHovering, props }">
@@ -91,11 +108,33 @@ import { useRoute } from 'vue-router'
 import { chunk } from 'lodash'
 import router from '@/router'
 import { useBandsStore } from '@/stores/bands'
+import GenresAutocomplete from '@/components/inputs/GenresAutocomplete'
+import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
+import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
+import AlbumTypeAutocomplete from '@/components/inputs/AlbumTypeAutocomplete'
+import FilterRemoveButton from '@/components/buttons/FilterRemoveButton'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 //========== COMPUTED ==========
+const filteredAlbums = computed(() => {
+  return bandsStore.currentBand.albums.filter(a => {
+    if (filters.value.genres.length > 0) {
+      return filters.value.genres.some(g => a.genres.includes(g))
+    }
+    if (filters.value.type) {
+      if (a.type !== filters.value.type) return false
+    }
+    if (filters.value.releaseDate) {
+      if (new Date(a.releaseDate).getFullYear() !== filters.value.releaseDate) return false
+    }
+    if (filters.value.label) {
+      if (a.label._id !== filters.value.label) return false
+    }
+    return true
+  })
+})
 const chunkedAlbums = computed(() => {
-  return chunk(band.value.albums, 4)
+  return chunk(filteredAlbums.value, 4)
 })
 const statusColor = computed(() => {
   if (band.value.status === 'Active') {
@@ -115,9 +154,36 @@ const band = computed(() => {
   return bandsStore.currentBand
 })
 //========== VARIABLES ==========
+const filters = ref({
+  genres: [],
+  type: undefined,
+  releaseDate: undefined,
+  label: undefined,
+})
 const tab = ref('about')
 const route = useRoute()
 //========== METHODS ==========
+const clearFilters = () => {
+  filters.value = {
+    genres: [],
+    type: undefined,
+    releaseDate: undefined,
+    label: undefined,
+  }
+}
+const updateSelectedGenres = (genres) => {
+  filters.value.genres = genres
+}
+const updateSelectedAlbumType = (type) => {
+  filters.value.type = type
+}
+const updateSelectedReleaseYear = (year) => {
+  filters.value.releaseDate = year
+}
+const updateSelectedLabel = (label) => {
+  filters.value.label = label
+}
+
 const goToBandsByFiltersPage = (param, genre) => {
   bandsStore.goToBandsByFiltersPage(param, genre)
 }
