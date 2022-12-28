@@ -57,6 +57,11 @@ const routes = [
     name: 'Label info page',
     component: () => import('../pages/labels/LabelInfo'),
   },
+  {
+    path: '/profile',
+    name: 'User profile page',
+    component: () => import('../pages/ProfilePage'),
+  },
 ]
 
 const router = createRouter({

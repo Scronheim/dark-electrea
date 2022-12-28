@@ -43,7 +43,8 @@
       <v-row>
         <v-col>
           <v-expansion-panels>
-            <v-expansion-panel title="Tracklist">
+            <v-expansion-panel>
+              <v-expansion-panel-title style="min-height: 47px">Tracklist</v-expansion-panel-title>
               <v-expansion-panel-text>
                 <PlusButton text="Add track (hotkey: Insert)" @click="addTrack"/>
                 <v-row v-for="(track, index) in album.tracks" :key="`track${index}`">
@@ -54,7 +55,7 @@
                       </template>
                     </v-text-field>
                   </v-col>
-                  <v-col>
+                  <v-col cols="2">
                     <v-text-field label="Duration" type="time" v-model="track.duration"/>
                   </v-col>
                   <v-col cols="1">
@@ -63,12 +64,14 @@
                 </v-row>
               </v-expansion-panel-text>
             </v-expansion-panel>
-            <v-expansion-panel title="Lineup">
+            <v-expansion-panel>
+              <v-expansion-panel-title style="min-height: 47px">Lineup</v-expansion-panel-title>
               <v-expansion-panel-text>
                 <LineupForm :lineup="album.lineup"/>
               </v-expansion-panel-text>
             </v-expansion-panel>
-            <v-expansion-panel title="Links">
+            <v-expansion-panel>
+              <v-expansion-panel-title style="min-height: 47px">Links</v-expansion-panel-title>
               <v-expansion-panel-text>
                 <v-row>
                   <v-col cols="4">

@@ -2,6 +2,7 @@ const db = require('../schemas')
 const {jsonResponse} = require('../utils')
 
 const Band = db.bands
+const User = db.users
 
 exports.getBands = async (req, res) => {
   let result
@@ -16,6 +17,9 @@ exports.getBands = async (req, res) => {
 exports.addBand = async (req, res) => {
   const artist = new Band(req.body)
   await artist.save()
+  const user = await User.findById(req.body.userAdded)
+  user.addedMaterials.bands += 1
+  await user.save()
   return jsonResponse(res, artist)
 }
 

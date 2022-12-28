@@ -3,7 +3,8 @@ const {jsonResponse} = require('../utils')
 
 const Album = db.albums
 const Band = db.bands
-const ObjectId = db.mongoose.Types.ObjectId
+const User = db.users
+
 
 exports.getAlbum = async (req, res) => {
   const album = await Album.findById(req.query.id)
@@ -16,6 +17,9 @@ exports.addAlbum = async (req, res) => {
   const band = await Band.findById(req.body.band)
   band.albums.push(album._id)
   await band.save()
+  const user = await User.findById(req.body.userAdded)
+  user.addedMaterials.albums += 1
+  await user.save()
   return jsonResponse(res, album)
 }
 

@@ -69,7 +69,6 @@
 //========== IMPORTS ==========
 import { ref } from 'vue'
 import { useUsersStore } from '@/stores/users'
-import router from '@/router'
 //========== STORES ==========
 const usersStore = useUsersStore()
 //========== COMPUTED ==========

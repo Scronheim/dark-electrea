@@ -7,7 +7,7 @@
     <v-card-text class="pt-0">
       <v-expansion-panels>
         <v-expansion-panel v-for="(album, index) in bandsStore.currentBand.albums" :key="index">
-          <v-expansion-panel-title>
+          <v-expansion-panel-title style="min-height: 47px">
             {{ album.title }} ({{ new Date(album.releaseDate).getFullYear() }}) - {{ album.type }}
           </v-expansion-panel-title>
           <v-expansion-panel-text>
