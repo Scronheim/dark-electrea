@@ -6,7 +6,7 @@ const toast = useToast()
 export const useUtilStore = defineStore({
   id: 'utilStore',
   state: () => ({
-    genres: ['Dark Electro', 'EBM', 'Aggrotech', 'Industrial', 'Black Industrial', 'Black Metal', 'Melodic Death'].sort(),
+    genres: ['Dark Electro', 'EBM', 'Aggrotech', 'Industrial', 'Black Industrial', 'Black Metal', 'Raw Black Metal', 'Melodic Death'].sort(),
     countries: [
       { name: 'Afghanistan', code: 'AF' },
       { name: 'Åland Islands', code: 'AX' },

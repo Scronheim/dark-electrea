@@ -12,7 +12,7 @@ export const useBandsStore = defineStore({
   id: 'bandsStore',
   state: () => ({
     filters: {
-      genres: { $in: [] },
+      genre: undefined,
       country: undefined,
       formedIn: undefined,
       label: undefined,
@@ -27,7 +27,7 @@ export const useBandsStore = defineStore({
       status: 'Active',
       genres: [],
       lyricsTheme: '',
-      label: '63a9aa0a8562ab12bcddd78b',
+      label: '661829cc6f596fd601cc7766',
       description: '',
       albums: [],
       lineup: [],
@@ -65,7 +65,7 @@ export const useBandsStore = defineStore({
     // ---------------------------------------POST---------------------------------------
     async searchBandsByFilters() {
       const filters = Object.assign({}, this.filters)
-      if (filters.genres.$in.length === 0) delete filters.genres
+      filters.genre = { $regex: filters.genre || '', $options: 'i' }
       return await axios.post('/api/search/bands', filters)
     },
     async addBand() {

@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "buildAndUpload": "vite build && scp -r ./dist/* root@server:/srv/frontend && rm ./dist -R",
+    "buildAndUpload": "scp -r ./dist/* root@pet-server:/srv/dark-electrea/frontend && rm ./dist -R",
     "preview": "vite preview"
   },
   "dependencies": {

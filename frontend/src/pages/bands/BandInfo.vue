@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-img :src="band.logo" cover height="300"/>
+    <v-img :src="band.logo" cover height="300" />
     <v-card-text>
       <v-tabs slider-color="yellow" v-model="tab">
         <v-tab value="about">About</v-tab>
@@ -14,35 +14,37 @@
         <v-window-item value="about">
           <v-row>
             <v-col>
-              Band: <v-btn color="primary">{{ band.title }}</v-btn><br/>
-              Country: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ band.country }}</v-btn><br/>
-              Location: <v-btn color="primary">{{ band.city }}</v-btn><br/>
-              Status: <v-btn :color="statusColor">{{ band.status }}</v-btn><br/>
-              Formed in: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn }}</v-btn><br/>
+              Band: <v-btn color="primary">{{ band.title }}</v-btn><br />
+              Country: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ band.country }}</v-btn><br />
+              Location: <v-btn color="primary">{{ band.city }}</v-btn><br />
+              Status: <v-btn :color="statusColor">{{ band.status }}</v-btn><br />
+              Formed in: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
+                }}</v-btn><br />
             </v-col>
             <v-col>
-              Genre: <v-btn color="info" v-for="genre in band.genres" :key="genre" @click="goToBandsByFiltersPage('genres', genre)">{{ genre }}</v-btn><br/>
-              Lyrical themes: <v-btn color="primary">{{ band.lyricsTheme }}</v-btn><br/>
-              Current label: <v-btn color="info" @click="goToBandsByFiltersPage('label')">{{ band.label.title }}</v-btn><br/>
+              Genre: <v-btn color="primary">{{ band.genre }}</v-btn><br />
+              Lyrical themes: <v-btn color="primary">{{ band.lyricsTheme }}</v-btn><br />
+              Current label: <v-btn color="primary">{{ band.label.title }}</v-btn><br />
             </v-col>
           </v-row>
         </v-window-item>
         <v-window-item value="albums">
           <v-row>
             <v-col>
-              <GenresAutocomplete :value="filters.genres" @updateValue="updateSelectedGenres"/>
+              <GenresAutocomplete :value="filters.genres" @updateValue="updateSelectedGenres" />
             </v-col>
             <v-col>
-              <AlbumTypeAutocomplete :value="filters.type" @updateValue="updateSelectedAlbumType"/>
+              <AlbumTypeAutocomplete :value="filters.type" @updateValue="updateSelectedAlbumType" />
             </v-col>
             <v-col>
-              <YearsAutocomplete label="Release year" :value="filters.releaseDate" @updateValue="updateSelectedReleaseYear"/>
+              <YearsAutocomplete label="Release year" :value="filters.releaseDate"
+                @updateValue="updateSelectedReleaseYear" />
             </v-col>
             <v-col>
-              <LabelAutocomplete :value="filters.label" @updateValue="updateSelectedLabel"/>
+              <LabelAutocomplete :value="filters.label" @updateValue="updateSelectedLabel" />
             </v-col>
             <v-col cols="1">
-              <FilterRemoveButton @click="clearFilters"/>
+              <FilterRemoveButton @click="clearFilters" />
             </v-col>
           </v-row>
           <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
@@ -50,7 +52,7 @@
               <v-hover v-slot="{ isHovering, props }">
                 <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
                   <v-card-title>{{ album.title }} ({{ new Date(album.releaseDate).getFullYear() }})</v-card-title>
-                  <img style="width: 100%; height: 420px" :src="album.cover"/>
+                  <img style="width: 100%; height: 420px" :src="album.cover" />
                 </v-card>
               </v-hover>
             </v-col>
@@ -68,15 +70,14 @@
         </v-window-item>
         <v-window-item value="photos">
           <v-carousel>
-            <v-carousel-item v-for="photo in band.photos" :key="photo"
-                             :src="photo"
-            />
+            <v-carousel-item v-for="photo in band.photos" :key="photo" :src="photo" />
           </v-carousel>
         </v-window-item>
         <v-window-item value="links">
           <v-row>
             <v-col>
-              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Official site</v-btn>
+              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Official
+                site</v-btn>
               <v-btn v-if="band.socials.bandcamp" :href="band.socials.bandcamp" target="_blank">
                 <v-icon color="yellow">mdi-campfire</v-icon>
                 Bandcamp
@@ -196,6 +197,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

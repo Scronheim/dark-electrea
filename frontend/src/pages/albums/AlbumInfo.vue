@@ -7,15 +7,14 @@
       <v-card-text>
         <v-row>
           <v-col cols="2">
-            <v-img :src="album.cover"/>
+            <v-img :src="album.cover" />
           </v-col>
           <v-col>
             <v-list>
-              <v-list-item>Band: <v-btn color="info" @click="goToBandPage(album.band)">{{ album.band.title }}</v-btn></v-list-item>
+              <v-list-item>Band: <v-btn color="info" @click="goToBandPage(album.band)">{{ album.band.title
+                  }}</v-btn></v-list-item>
               <v-list-item>Album: <v-btn color="primary">{{ album.title }}</v-btn></v-list-item>
-              <v-list-item>
-                Genre: <v-btn color="info" v-for="genre in album.genres" :key="genre" @click="goToAlbumsByFiltersPage('genres', genre)">{{ genre }}</v-btn>
-              </v-list-item>
+
               <v-list-item>Release date: <v-btn color="primary">{{ formattedReleaseDate }}</v-btn></v-list-item>
               <v-list-item>Type: <v-btn color="primary">{{ album.type }}</v-btn></v-list-item>
               <v-list-item>Label:
@@ -32,26 +31,9 @@
           </v-col>
           <v-col>
             <p class="font-weight-bold">Tracklist:</p>
-            <v-table style="overflow-y: scroll; height: 35vh">
-              <thead>
-                <tr>
-                  <th>№</th>
-                  <th>Title</th>
-                  <th>Duration</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(track, index) in album.tracks" :key="track.title">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ track.title }}</td>
-                  <td>{{ track.duration }}</td>
-                </tr>
-                <tr>
-                  <td align="right" colspan="2">Total:</td>
-                  <td>{{ totalAlbumDuration }}</td>
-                </tr>
-              </tbody>
-            </v-table>
+            <p v-for="(track, index) in album.tracks" :key="index">
+              {{ index !== album.tracks.length - 1 ? track : `Total duration ${track}` }}
+            </p>
           </v-col>
           <v-col>
             <p class="font-weight-bold">Lineup:</p>
@@ -64,8 +46,8 @@
         </v-row>
         <v-row>
           <v-col>
-            <DownloadButton v-for="link in album.links.download" target="_blank" :key="link.src" :href="link.src"/>
-            <YaMusicButton v-if="album.links.yaMusic" :href="album.links.yaMusic"/>
+            <DownloadButton v-for="link in album.links.download" target="_blank" :key="link.src" :href="link.src" />
+            <YaMusicButton v-if="album.links.yaMusic" :href="album.links.yaMusic" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -120,6 +102,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

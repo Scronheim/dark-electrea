@@ -146,6 +146,7 @@ const albumFormats = [
   { title: 'CD', value: 'cd' },
   { title: 'Tape', value: 'tape' },
   { title: 'Vinyl', value: 'vinyl' },
+  { title: 'Cassette', value: 'cassette' },
 ]
 const props = defineProps({
   album: {
