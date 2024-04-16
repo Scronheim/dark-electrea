@@ -1,69 +1,31 @@
 <template>
-  <v-autocomplete
-    autofocus
-    autocomplete="off"
-    density="default"
-    variant="solo"
-    v-model="model"
-    v-model:search="search"
-    :items="bandsStore.foundedBands"
-    :loading="isLoading"
-    clearable
-    hide-no-data
-    hide-selected
-    item-title="title"
-    item-value="_id"
-    label="Search"
-    placeholder="type something..."
-    append-inner-icon="mdi-database-search"
-    return-object
-    @update:modelValue="selectBand"
-    @click:clear.prevent="clearFoundedBands"
-  />
+  <v-text-field autofocus autocomplete="off" density="default" variant="solo" v-model="search" :loading="isLoading"
+    clearable label="Поиск группы" return-object @click:clear.prevent="clearFoundedBands" @click:append="searchBand"
+    append-icon="mdi-magnify" @keyup.enter="searchBand" />
 </template>
 
 <script setup>
 //========== IMPORTS ==========
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useBandsStore } from '@/stores/bands'
-import { useUtilStore } from '@/stores/util'
 import router from '@/router'
 //========== STORES ==========
 const bandsStore = useBandsStore()
-const utilStore = useUtilStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
 const isLoading = ref(false)
 const search = ref(null)
-const model = ref('')
 //========== METHODS ==========
 const clearFoundedBands = () => {
   bandsStore.foundedBands = []
 }
-const selectBand = (band) => {
-  bandsStore.currentBand = band
-  router.push(`/bands/${band._id}`)
+const searchBand = async () => {
+  await bandsStore.searchBand(search.value)
+  router.push('/bands')
 }
 //========== ON MOUNTED ==========
 
-//========== WATCH ==========
-watch(search, (value) => {
-  if (!value) return
-  // Items have already been requested
-  if (isLoading.value) return
-
-  isLoading.value = true
-  try {
-    bandsStore.searchBand(value)
-  } catch (e) {
-    utilStore.axiosErrorHandler(e)
-  } finally {
-    isLoading.value = false
-  }
-})
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -3,10 +3,10 @@
     <v-row justify="center" align="center" class="fill-height">
       <v-col align="center">
         <p class="text-h1">
-          <span class="text-grey-darken-1">Dark </span>
-          <span class="text-blue-lighten-1">Electrea</span>
+          <span class="text-grey-darken-1">Metal </span>
+          <span class="text-blue-lighten-1">Archive</span>
         </p>
-        <SearchInput/>
+        <SearchInput />
         <template v-if="usersStore.isLoggedIn">
           <v-btn @click="usersStore.logout">Logout</v-btn>
         </template>
@@ -37,6 +37,4 @@ const usersStore = useUsersStore()
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

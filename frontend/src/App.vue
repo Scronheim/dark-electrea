@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar v-if="route.path !== '/'">
       <v-btn @click="router.push('/')">Dark Electrea</v-btn>
-      <SearchInput/>
+      <SearchInput />
       <template v-if="usersStore.isLoggedIn">
         <v-menu location="bottom">
           <template v-slot:activator="{ props }">
@@ -23,11 +23,11 @@
       </template>
     </v-app-bar>
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
     <v-bottom-navigation v-if="usersStore.isAdmin" color="primary">
       <v-menu location="top">
-        <template #activator="{props}">
+        <template #activator="{ props }">
           <v-btn v-bind="props">
             <v-icon color="success">mdi-plus</v-icon>
             <span>Add</span>
@@ -37,7 +37,7 @@
           <v-list-item title="Add band" link to="/bands/add" prepend-icon="mdi-account-music">
             <v-list-item-media></v-list-item-media>
           </v-list-item>
-          <v-list-item title="Add label" link to="/labels/add" prepend-icon="mdi-currency-usd"/>
+          <v-list-item title="Add label" link to="/labels/add" prepend-icon="mdi-currency-usd" />
         </v-list>
       </v-menu>
       <v-btn v-if="route.name === 'Bands add page'" @click="addBand">
@@ -87,20 +87,20 @@
       <v-card>
         <v-card-title>
           Photos
-          <PlusButton text="Add photo" @click="addPhoto"/>
+          <PlusButton text="Add photo" @click="addPhoto" />
         </v-card-title>
         <v-card-text>
           <v-row v-for="(photo, index) in bandsStore.currentBand.photos" :key="`photo${index}`">
             <v-col>
-              <v-text-field label="Link" v-model="bandsStore.currentBand.photos[index]"/>
+              <v-text-field label="Link" v-model="bandsStore.currentBand.photos[index]" />
             </v-col>
             <v-col cols="1">
-              <DeleteButton text="Delete photo" @click="deletePhoto(index)"/>
+              <DeleteButton text="Delete photo" @click="deletePhoto(index)" />
             </v-col>
           </v-row>
         </v-card-text>
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn color="red" @click="photosDialog = false">Close</v-btn>
           <v-btn color="success" @click="updateBand">Save</v-btn>
         </v-card-actions>
@@ -108,7 +108,7 @@
     </v-dialog>
 
     <v-dialog width="60%" v-model="albumsDialog">
-      <AlbumsList/>
+      <AlbumsList />
     </v-dialog>
 
     <v-dialog width="50%" v-model="lineupDialog">
@@ -123,11 +123,11 @@
     <v-dialog width="80%" v-model="editDialog">
       <v-card :title="`Edit ${bandsStore.currentBand.title}`">
         <v-card-text>
-          <GeneralInfo/>
-          <SocialsForm/>
+          <GeneralInfo />
+          <SocialsForm />
         </v-card-text>
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn color="red" @click="editDialog = false">Close</v-btn>
           <v-btn color="success" @click="updateBand">Save</v-btn>
         </v-card-actions>
@@ -193,12 +193,11 @@ onMounted(() => {
   if (usersStore.token) {
     usersStore.aboutMe()
   }
-  labelsStore.getLabels()
 })
 </script>
 
 <style>
-.v-list-item__prepend > .v-icon {
+.v-list-item__prepend>.v-icon {
   margin-inline-end: 16px;
 }
 </style>

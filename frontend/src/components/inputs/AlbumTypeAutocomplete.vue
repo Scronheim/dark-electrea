@@ -1,9 +1,6 @@
 <template>
-  <v-autocomplete label="Type" clearable
-                  :items="albumStore.types"
-                  :model-value="value"
-                  @update:modelValue="$emit('updateValue', $event)"
-  />
+  <v-autocomplete label="Тип" clearable :items="albumStore.types" :model-value="value"
+    @update:modelValue="$emit('updateValue', $event)" />
 </template>
 
 <script setup>
@@ -23,6 +20,4 @@ defineProps({
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

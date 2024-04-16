@@ -1,9 +1,6 @@
 <template>
-  <v-autocomplete label="Genres" multiple clearable
-                  :items="utilStore.genres"
-                  :model-value="value"
-                  @update:modelValue="$emit('updateValue', $event)"
-  />
+  <v-autocomplete label="Жанры" multiple clearable :items="utilStore.genres" :model-value="value"
+    @update:modelValue="$emit('updateValue', $event)" />
 </template>
 
 <script setup>
@@ -23,6 +20,4 @@ defineProps({
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

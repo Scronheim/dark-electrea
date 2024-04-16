@@ -1,30 +1,30 @@
 <template>
   <v-card>
-    <v-img :src="band.logo" cover height="300" />
+    <v-img :src="band.logoUrl" cover height="300" />
     <v-card-text>
       <v-tabs slider-color="yellow" v-model="tab">
-        <v-tab value="about">About</v-tab>
-        <v-tab value="albums">Albums</v-tab>
-        <v-tab value="lineup">Lineup</v-tab>
-        <v-tab value="description">Description</v-tab>
-        <v-tab value="photos">Photos</v-tab>
-        <v-tab value="links">Links</v-tab>
+        <v-tab value="about">О группе</v-tab>
+        <v-tab value="albums">Альбомы</v-tab>
+        <v-tab value="lineup">Состав</v-tab>
+        <v-tab value="description">Описание</v-tab>
+        <v-tab value="photos">Фото</v-tab>
+        <v-tab value="links">Ссылки</v-tab>
       </v-tabs>
       <v-window v-model="tab">
         <v-window-item value="about">
           <v-row>
             <v-col>
-              Band: <v-btn color="primary">{{ band.title }}</v-btn><br />
-              Country: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ band.country }}</v-btn><br />
-              Location: <v-btn color="primary">{{ band.city }}</v-btn><br />
-              Status: <v-btn :color="statusColor">{{ band.status }}</v-btn><br />
-              Formed in: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
+              Группа: <v-btn color="primary">{{ band.title }}</v-btn><br />
+              Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ band.country }}</v-btn><br />
+              Город: <v-btn color="primary">{{ band.city }}</v-btn><br />
+              Статус: <v-btn :color="statusColor">{{ band.status }}</v-btn><br />
+              Образованы в: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
                 }}</v-btn><br />
             </v-col>
             <v-col>
-              Genre: <v-btn color="primary">{{ band.genre }}</v-btn><br />
-              Lyrical themes: <v-btn color="primary">{{ band.lyricsTheme }}</v-btn><br />
-              Current label: <v-btn color="primary">{{ band.label.title }}</v-btn><br />
+              Жанр: <v-btn color="primary">{{ band.genre }}</v-btn><br />
+              Темы текстов: <v-btn color="primary">{{ band.lyricsTheme }}</v-btn><br />
+              Текщий лейбл: <v-btn color="primary">{{ band.label }}</v-btn><br />
             </v-col>
           </v-row>
         </v-window-item>
@@ -37,7 +37,7 @@
               <AlbumTypeAutocomplete :value="filters.type" @updateValue="updateSelectedAlbumType" />
             </v-col>
             <v-col>
-              <YearsAutocomplete label="Release year" :value="filters.releaseDate"
+              <YearsAutocomplete label="Год выпуска" :value="filters.releaseDate"
                 @updateValue="updateSelectedReleaseYear" />
             </v-col>
             <v-col>
@@ -48,11 +48,16 @@
             </v-col>
           </v-row>
           <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
-            <v-col cols="3" v-for="album in chunk" :key="album.title">
+            <v-col cols="2" v-for="album in chunk" :key="album.title">
               <v-hover v-slot="{ isHovering, props }">
                 <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
-                  <v-card-title>{{ album.title }} ({{ new Date(album.releaseDate).getFullYear() }})</v-card-title>
-                  <img style="width: 100%; height: 420px" :src="album.cover" />
+                  <v-card-title>{{ album.title }}</v-card-title>
+                  <v-card-subtitle>
+                    {{ album.releaseDate }} | {{ album.type }}
+                  </v-card-subtitle>
+                  <v-card-text>
+                    <v-img width="250" :src="album.cover" />
+                  </v-card-text>
                 </v-card>
               </v-hover>
             </v-col>
@@ -135,7 +140,7 @@ const filteredAlbums = computed(() => {
   })
 })
 const chunkedAlbums = computed(() => {
-  return chunk(filteredAlbums.value, 4)
+  return chunk(filteredAlbums.value, 6)
 })
 const statusColor = computed(() => {
   if (band.value.status === 'Active') {

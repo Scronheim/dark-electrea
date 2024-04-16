@@ -1,9 +1,6 @@
 <template>
-  <v-autocomplete :label="label" clearable
-                  :items="years"
-                  :model-value="value"
-                  @update:modelValue="$emit('updateValue', $event)"
-  />
+  <v-autocomplete :label="label" clearable :items="years" :model-value="value"
+    @update:modelValue="$emit('updateValue', $event)" />
 </template>
 
 <script setup>
@@ -20,7 +17,7 @@ const years = computed(() => {
 defineProps({
   label: {
     type: String,
-    default: 'Formed In',
+    default: 'Год образования',
   },
   value: [Number, String]
 })
@@ -30,6 +27,4 @@ defineProps({
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

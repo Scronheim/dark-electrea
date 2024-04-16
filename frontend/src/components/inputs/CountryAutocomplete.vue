@@ -1,10 +1,6 @@
 <template>
-  <v-autocomplete label="Country"
-                  item-title="name" item-value="name"
-                  :items="utilStore.countries"
-                  :model-value="value"
-                  @update:modelValue="$emit('updateValue', $event)"
-  />
+  <v-autocomplete label="Страна" item-title="name" item-value="name" :items="utilStore.countries" :model-value="value"
+    @update:modelValue="$emit('updateValue', $event)" />
 </template>
 
 <script setup>
@@ -24,6 +20,4 @@ defineProps({
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

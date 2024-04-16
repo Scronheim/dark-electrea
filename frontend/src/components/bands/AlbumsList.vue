@@ -2,16 +2,16 @@
   <v-card>
     <v-card-title class="pb-0">
       Albums of {{ bandsStore.currentBand.title }}
-      <PlusButton text="Add album" @click="addNewAlbum"/>
+      <PlusButton text="Добавить альбом" @click="addNewAlbum" />
     </v-card-title>
     <v-card-text class="pt-0">
       <v-expansion-panels>
         <v-expansion-panel v-for="(album, index) in bandsStore.currentBand.albums" :key="index">
           <v-expansion-panel-title style="min-height: 47px">
-            {{ album.title }} ({{ new Date(album.releaseDate).getFullYear() }}) - {{ album.type }}
+            {{ album.title }} ({{ album.releaseDate }}) - {{ album.type }}
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <AlbumForm :is-edit="true" :album="album"/>
+            <AlbumForm :is-edit="true" :album="album" />
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -61,6 +61,4 @@ const addNewAlbum = async () => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

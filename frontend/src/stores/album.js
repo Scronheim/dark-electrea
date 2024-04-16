@@ -19,6 +19,8 @@ export const useAlbumStore = defineStore({
       band: {},
       label: {},
       tracks: [],
+      lineup: [],
+      exLineup: [],
       links: {
         download: []
       },

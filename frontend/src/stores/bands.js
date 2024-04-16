@@ -12,6 +12,7 @@ export const useBandsStore = defineStore({
   id: 'bandsStore',
   state: () => ({
     filters: {
+      title: undefined,
       genre: undefined,
       country: undefined,
       formedIn: undefined,
@@ -55,6 +56,7 @@ export const useBandsStore = defineStore({
     },
     // ---------------------------------------GET---------------------------------------
     async searchBand(bandTitle) {
+      this.filters.title = bandTitle
       const { data } = await axios.get(`/api/search/bands?q=${bandTitle}`)
       this.foundedBands = data.data
     },
@@ -66,7 +68,8 @@ export const useBandsStore = defineStore({
     async searchBandsByFilters() {
       const filters = Object.assign({}, this.filters)
       filters.genre = { $regex: filters.genre || '', $options: 'i' }
-      return await axios.post('/api/search/bands', filters)
+      const { data } = await axios.post('/api/search/bands', filters)
+      this.foundedBands = data.data
     },
     async addBand() {
       const utilStore = useUtilStore()

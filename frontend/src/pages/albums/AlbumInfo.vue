@@ -9,39 +9,32 @@
           <v-col cols="2">
             <v-img :src="album.cover" />
           </v-col>
-          <v-col>
+          <v-col cols="3">
             <v-list>
-              <v-list-item>Band: <v-btn color="info" @click="goToBandPage(album.band)">{{ album.band.title
+              <v-list-item>Группа: <v-btn color="info" @click="goToBandPage(album.band)">{{ album.band.title
                   }}</v-btn></v-list-item>
-              <v-list-item>Album: <v-btn color="primary">{{ album.title }}</v-btn></v-list-item>
+              <v-list-item>Альбом: <v-btn color="primary">{{ album.title }}</v-btn></v-list-item>
 
-              <v-list-item>Release date: <v-btn color="primary">{{ formattedReleaseDate }}</v-btn></v-list-item>
-              <v-list-item>Type: <v-btn color="primary">{{ album.type }}</v-btn></v-list-item>
-              <v-list-item>Label:
-                <v-btn color="info" @click="goToAlbumsByFiltersPage('label')">
-                  {{ album.label.title }}
+              <v-list-item>Дата релиза: <v-btn color="primary">{{ album.releaseDate }}</v-btn></v-list-item>
+              <v-list-item>Тип: <v-btn color="primary">{{ album.type }}</v-btn></v-list-item>
+              <v-list-item>Лейбл:
+                <v-btn color="primary" @click="goToAlbumsByFiltersPage('label')">
+                  {{ album.label }}
                 </v-btn>
                 <template v-if="album.catalogId">
-                  Catalog ID: {{ album.catalogId }}
+                  Каталог ID: {{ album.catalogId }}
                 </template>
-                <template v-if="album.limitations">| Limitations: {{ album.limitations }}</template>
+                <template v-if="album.limitations">| Лимит: {{ album.limitations }}</template>
               </v-list-item>
-              <v-list-item>Format: <v-btn color="primary">{{ album.format }}</v-btn></v-list-item>
+              <v-list-item>Формат: <v-btn color="primary">{{ album.format }}</v-btn></v-list-item>
             </v-list>
           </v-col>
           <v-col>
-            <p class="font-weight-bold">Tracklist:</p>
+            <p class="font-weight-bold">Треклист:</p>
             <p v-for="(track, index) in album.tracks" :key="index">
-              {{ index !== album.tracks.length - 1 ? track : `Total duration ${track}` }}
+              {{ index !== album.tracks.length - 1 ? track : track.includes('.') ? track : `Общая длительность:
+              ${track}` }}
             </p>
-          </v-col>
-          <v-col>
-            <p class="font-weight-bold">Lineup:</p>
-            <v-list>
-              <v-list-item v-for="person in album.lineup" :key="person._id">
-                {{ person.realName }} - {{ person.instruments }}
-              </v-list-item>
-            </v-list>
           </v-col>
         </v-row>
         <v-row>
@@ -61,7 +54,6 @@ import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { add, str } from 'timelite/time'
 import router from '@/router'
 import { useAlbumStore } from '@/stores/album'
 import { useBandsStore } from '@/stores/bands'
@@ -71,17 +63,6 @@ import YaMusicButton from '@/components/buttons/YaMusicButton'
 const albumStore = useAlbumStore()
 const bandsStore = useBandsStore()
 //========== COMPUTED ==========
-const totalAlbumDuration = computed(() => {
-  const allDurations = albumStore.currentAlbum.tracks.map(t => t.duration)
-  return str(add(allDurations))
-  // return albumStore.currentAlbum.tracks.reduce((accumulator, current) => {
-  //   console.log(current.duration, dayjs.duration(current.duration, 'minutes'))
-  //   return accumulator + dayjs.duration(current.duration).asMinutes()
-  // }, 0)
-})
-const formattedReleaseDate = computed(() => {
-  return dayjs(albumStore.currentAlbum.releaseDate).format('DD.MM.YYYY')
-})
 const album = computed(() => {
   return albumStore.currentAlbum
 })

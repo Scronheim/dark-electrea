@@ -4,7 +4,10 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <v-text-field label="Genre" v-model="bandsStore.filters.genre" />
+            <v-text-field label="Название" v-model="bandsStore.filters.title" />
+          </v-col>
+          <v-col>
+            <v-text-field label="Жанр" v-model="bandsStore.filters.genre" />
           </v-col>
           <v-col>
             <CountryAutocomplete :value="bandsStore.filters.country" @updateValue="updateSelectedCountry" />
@@ -27,9 +30,10 @@
         </v-row>
         <v-row v-else v-for="(chunk, index) in chunkedBands" :key="`band${index}`">
           <v-col cols="3" v-for="band in chunk" :key="band.title">
-            <v-card :title="band.title" @click="goToBandPage(band)">
+            <v-card :title="`${band.title} (${band.country})`" @click="goToBandPage(band)">
               <v-card-text>
-                <v-img :src="band.logo" />
+                <v-img height="100" :src="band.logoUrl" />
+                <v-img height="200" :src="band.photoUrl" />
               </v-card-text>
             </v-card>
           </v-col>
@@ -55,22 +59,21 @@ import SearchButton from '@/components/buttons/SearchButton'
 const bandsStore = useBandsStore()
 //========== VARIABLES ==========
 const isLoading = ref(false)
-const bands = ref([])
 //========== COMPUTED ==========
 const chunkedBands = computed(() => {
-  return chunk(bands.value, 4)
+  return chunk(bandsStore.foundedBands, 4)
 })
 //========== METHODS ==========
 const removeFilters = () => {
   bandsStore.filters.label = undefined
   bandsStore.filters.country = undefined
   bandsStore.filters.formedIn = undefined
-  bandsStore.filters.genres.$in = []
+  bandsStore.filters.title = undefined
+  bandsStore.filters.genre = undefined
 }
 const searchBandsByFilters = async () => {
   isLoading.value = true
-  const { data } = await bandsStore.searchBandsByFilters()
-  bands.value = data.data
+  await bandsStore.searchBandsByFilters()
   isLoading.value = false
 }
 
@@ -86,6 +89,12 @@ const updateSelectedCountry = (country) => {
 const goToBandPage = (band) => {
   router.push(`/bands/${band._id}`)
 }
+//========== ON MOUNTED ==========
+onMounted(async () => {
+  if (Object.values(bandsStore.filters).some(v => v !== undefined)) {
+    await bandsStore.searchBandsByFilters()
+  }
+})
 </script>
 
 <style scoped></style>
