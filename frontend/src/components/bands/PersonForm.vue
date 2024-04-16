@@ -1,35 +1,33 @@
 <template>
   <v-row>
     <v-col>
-      <v-text-field label="Real name" v-model="person.realName"/>
+      <v-text-field label="Настоящее имя" v-model="person.realName" />
     </v-col>
     <v-col>
-      <v-text-field label="Stage name" v-model="person.stageName"/>
+      <v-text-field label="Сценическое имя" v-model="person.stageName" />
     </v-col>
     <v-col>
-      <v-select label="Sex" :items="['Man', 'Woman']" v-model="person.sex"/>
+      <v-select label="Пол" :items="['Мужчина', 'Женщина']" v-model="person.sex" />
     </v-col>
     <v-col>
-      <v-text-field label="Birthdate" type="date" v-model="person.birthdate"/>
+      <v-text-field label="Дата рождения" type="date" v-model="person.birthdate" />
     </v-col>
     <v-col>
-      <v-autocomplete label="Country"
-                      :items="utilStore.countries"
-                      v-model="person.country">
+      <v-autocomplete label="Страна" :items="utilStore.countries" v-model="person.country">
       </v-autocomplete>
     </v-col>
   </v-row>
   <v-row>
     <v-col>
-      <v-text-field label="Instruments" v-model="person.instruments"/>
+      <v-text-field label="Инструменты" v-model="person.instruments" />
     </v-col>
     <v-col>
-      <v-text-field label="Link to photo" v-model="person.photo"/>
+      <v-text-field label="Ссылка на фото" v-model="person.photo" />
     </v-col>
   </v-row>
   <v-row>
     <v-col align="center">
-      <slot name="deletePersonButton"/>
+      <slot name="deletePersonButton" />
     </v-col>
   </v-row>
 </template>
@@ -54,6 +52,4 @@ defineProps({
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

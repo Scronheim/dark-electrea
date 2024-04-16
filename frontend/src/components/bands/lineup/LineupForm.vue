@@ -1,12 +1,12 @@
 <template>
-  <PersonSearchInput :lineup="lineup" class="mb-3"/>
+  <PersonSearchInput :lineup="lineup" class="mb-3" />
   <v-expansion-panels>
     <v-expansion-panel v-for="(person, index) in lineup" :key="index">
       <v-expansion-panel-title>{{ person.realName }} - {{ person.instruments }}</v-expansion-panel-title>
       <v-expansion-panel-text>
         <PersonForm :person="person">
           <template #deletePersonButton>
-            <v-btn color="red" block @click="deletePerson(index)">Delete</v-btn>
+            <v-btn color="red" block @click="deletePerson(index)">Удалить</v-btn>
           </template>
         </PersonForm>
       </v-expansion-panel-text>
@@ -40,6 +40,4 @@ const deletePerson = (personIndex) => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

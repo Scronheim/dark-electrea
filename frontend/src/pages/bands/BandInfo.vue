@@ -24,7 +24,7 @@
             <v-col>
               Жанр: <v-btn color="primary">{{ band.genre }}</v-btn><br />
               Темы текстов: <v-btn color="primary">{{ band.lyricsTheme }}</v-btn><br />
-              Текщий лейбл: <v-btn color="primary">{{ band.label }}</v-btn><br />
+              Текущий лейбл: <v-btn color="primary">{{ band.label }}</v-btn><br />
             </v-col>
           </v-row>
         </v-window-item>

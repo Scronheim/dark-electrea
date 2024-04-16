@@ -31,18 +31,19 @@ const bandsStore = useBandsStore()
 
 //========== VARIABLES ==========
 const newAlbum = ref({
-  title: 'new album',
+  title: 'Новый альбом',
   band: bandsStore.currentBand._id,
   cover: '',
   type: 'Full length',
-  genres: [],
+  genre: '',
   tracks: [],
   releaseDate: '',
-  label: '63a9aa0a8562ab12bcddd78b',
+  label: '',
   catalogId: '',
   format: 'CD',
   limitations: null,
   lineup: [],
+  exLineup: [],
   description: '',
   links: {
     youtube: '',

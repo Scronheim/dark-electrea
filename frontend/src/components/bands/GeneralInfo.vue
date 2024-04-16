@@ -1,43 +1,41 @@
 <template>
   <v-row>
     <v-col>
-      <v-text-field label="Title" v-model="bandsStore.currentBand.title"/>
+      <v-text-field label="Название" v-model="bandsStore.currentBand.title" />
     </v-col>
     <v-col>
-      <YearsAutocomplete :value="bandsStore.currentBand.formedIn" @updateValue="updateFormedIn"/>
+      <YearsAutocomplete :value="bandsStore.currentBand.formedIn" @updateValue="updateFormedIn" />
     </v-col>
     <v-col>
-      <v-select label="Status"
-                :items="utilStore.statuses"
-                v-model="bandsStore.currentBand.status"
-      />
+      <v-select label="Статус" :items="utilStore.statuses" v-model="bandsStore.currentBand.status" />
     </v-col>
     <v-col>
-      <CountryAutocomplete :value="bandsStore.currentBand.country" @updateValue="updateCountry"/>
+      <CountryAutocomplete :value="bandsStore.currentBand.country" @updateValue="updateCountry" />
     </v-col>
     <v-col>
-      <v-text-field label="City"
-                    v-model="bandsStore.currentBand.city"
-      />
+      <v-text-field label="Город" v-model="bandsStore.currentBand.city" />
     </v-col>
   </v-row>
   <v-row>
     <v-col>
-      <GenresAutocomplete :value="bandsStore.currentBand.genres" @updateValue="updateGenres"/>
+      <v-text-field :value="bandsStore.currentBand.genre" @updateValue="updateGenres" />
     </v-col>
     <v-col>
-      <v-text-field label="Lyrics theme" v-model="bandsStore.currentBand.lyricsTheme"/>
+      <v-text-field label="Темы текстов" v-model="bandsStore.currentBand.lyricsTheme" />
     </v-col>
     <v-col>
-      <LabelAutocomplete :value="bandsStore.currentBand.label" @updateValue="updateLabel"/>
+      <LabelAutocomplete :value="bandsStore.currentBand.label" @updateValue="updateLabel" />
     </v-col>
     <v-col>
-      <v-text-field label="Link to logo" v-model="bandsStore.currentBand.logo"/>
+      <v-text-field label="Ссылка на лого" v-model="bandsStore.currentBand.logoUrl" />
+    </v-col>
+    <v-col>
+      <v-text-field label="Ссылка на фото" v-model="bandsStore.currentBand.photoUrl" />
     </v-col>
   </v-row>
   <v-row>
     <v-col>
-      <v-textarea label="Description" v-model="bandsStore.currentBand.description"/>
+      <v-textarea label="Описание" v-model="bandsStore.currentBand.description" />
     </v-col>
   </v-row>
 </template>
@@ -49,7 +47,6 @@ import { useUtilStore } from '@/stores/util'
 import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
 import CountryAutocomplete from '@/components/inputs/CountryAutocomplete'
 import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
-import GenresAutocomplete from '@/components/inputs/GenresAutocomplete'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const utilStore = useUtilStore()
@@ -74,6 +71,4 @@ const updateFormedIn = (year) => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

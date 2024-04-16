@@ -4,7 +4,7 @@
       <v-col align="center">
         <p class="text-h1">
           <span class="text-grey-darken-1">Metal </span>
-          <span class="text-blue-lighten-1">Archive</span>
+          <span class="text-blue-lighten-1">Library</span>
         </p>
         <SearchInput />
         <template v-if="usersStore.isLoggedIn">

@@ -1,24 +1,8 @@
 <template>
-  <v-autocomplete
-    autocomplete="off"
-    density="default"
-    variant="solo"
-    v-model="model"
-    v-model:search="search"
-    :items="personStore.foundPersons"
-    :loading="isLoading"
-    clearable
-    hide-no-data
-    hide-selected
-    item-title="realName"
-    item-value="_id"
-    label="Search person"
-    placeholder="type something..."
-    append-inner-icon="mdi-database-search"
-    return-object
-    @update:modelValue="selectPerson"
-    @click:clear.prevent="clearFoundedPersons"
-  />
+  <v-autocomplete autocomplete="off" density="default" variant="solo" v-model="model" v-model:search="search"
+    :items="personStore.foundPersons" :loading="isLoading" clearable hide-no-data hide-selected item-title="realName"
+    item-value="_id" label="Поиск музыкантов" placeholder="type something..." append-inner-icon="mdi-database-search"
+    return-object @update:modelValue="selectPerson" @click:clear.prevent="clearFoundedPersons" />
 </template>
 
 <script setup>
@@ -72,6 +56,4 @@ watch(search, (value) => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

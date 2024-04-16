@@ -30,46 +30,52 @@
         <template #activator="{ props }">
           <v-btn v-bind="props">
             <v-icon color="success">mdi-plus</v-icon>
-            <span>Add</span>
+            <span>Добавить</span>
           </v-btn>
         </template>
         <v-list nav>
-          <v-list-item title="Add band" link to="/bands/add" prepend-icon="mdi-account-music">
+          <v-list-item title="Добавить группу" link to="/bands/add" prepend-icon="mdi-account-music">
             <v-list-item-media></v-list-item-media>
           </v-list-item>
-          <v-list-item title="Add label" link to="/labels/add" prepend-icon="mdi-currency-usd" />
+          <v-list-item title="Добавить лейбл" link to="/labels/add" prepend-icon="mdi-currency-usd" />
         </v-list>
       </v-menu>
       <v-btn v-if="route.name === 'Bands add page'" @click="addBand">
         <v-icon color="success">mdi-content-save</v-icon>
-        <span>Save band</span>
+        <span>Сохранить группу</span>
       </v-btn>
       <v-btn v-if="route.name === 'Label add page'" @click="addLabel">
         <v-icon color="success">mdi-content-save</v-icon>
-        <span>Save label</span>
+        <span>Сохранить лейбл</span>
       </v-btn>
+      <template v-if="route.name === 'Album info page'">
+        <v-btn @click="albumEditDialog = true">
+          <v-icon color="info">mdi-pencil</v-icon>
+          <span>Редактировать</span>
+        </v-btn>
+      </template>
       <template v-if="route.name === 'Band info page'">
         <v-btn @click="editDialog = true">
           <v-icon color="info">mdi-pencil</v-icon>
-          <span>Edit about</span>
+          <span>О группе</span>
         </v-btn>
         <v-btn @click="albumsDialog = true">
           <v-icon color="info">mdi-album</v-icon>
-          <span>Edit albums</span>
+          <span>Альбомы</span>
         </v-btn>
         <v-btn @click="lineupDialog = true">
           <v-icon color="info">mdi-account-group</v-icon>
-          <span>Edit lineup</span>
+          <span>Состав</span>
         </v-btn>
         <v-btn @click="photosDialog = true">
           <v-icon color="info">mdi-image-multiple</v-icon>
-          <span>Edit photos</span>
+          <span>Фото</span>
         </v-btn>
       </template>
       <template v-if="route.name === 'Label info page'">
         <v-btn @click="editLabelDialog = true">
           <v-icon color="info">mdi-pencil</v-icon>
-          <span>Edit label</span>
+          <span>Лейбл</span>
         </v-btn>
       </template>
     </v-bottom-navigation>
@@ -77,8 +83,8 @@
     <v-dialog width="70%" v-model="editLabelDialog">
       <LabelForm>
         <template #actions>
-          <v-btn color="red" @click="editLabelDialog = false">Close</v-btn>
-          <v-btn color="success" @click="updateLabel">Save</v-btn>
+          <v-btn color="red" @click="editLabelDialog = false">Закрыть</v-btn>
+          <v-btn color="success" @click="updateLabel">Сохранить</v-btn>
         </template>
       </LabelForm>
     </v-dialog>
@@ -86,7 +92,7 @@
     <v-dialog width="40%" v-model="photosDialog">
       <v-card>
         <v-card-title>
-          Photos
+          Фото
           <PlusButton text="Add photo" @click="addPhoto" />
         </v-card-title>
         <v-card-text>
@@ -101,8 +107,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="red" @click="photosDialog = false">Close</v-btn>
-          <v-btn color="success" @click="updateBand">Save</v-btn>
+          <v-btn color="red" @click="photosDialog = false">Закрыть</v-btn>
+          <v-btn color="success" @click="updateBand">Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,25 +117,29 @@
       <AlbumsList />
     </v-dialog>
 
+    <v-dialog width="60%" v-model="albumEditDialog">
+      <AlbumForm :album="albumsStore.currentAlbum" />
+    </v-dialog>
+
     <v-dialog width="50%" v-model="lineupDialog">
       <LineupList>
         <template #actions>
-          <v-btn color="red" @click="lineupDialog = false">Close</v-btn>
-          <v-btn color="success" @click="updateBand">Save</v-btn>
+          <v-btn color="red" @click="lineupDialog = false">Закрыть</v-btn>
+          <v-btn color="success" @click="updateBand">Сохранить</v-btn>
         </template>
       </LineupList>
     </v-dialog>
 
     <v-dialog width="80%" v-model="editDialog">
-      <v-card :title="`Edit ${bandsStore.currentBand.title}`">
+      <v-card :title="`Редактировать ${bandsStore.currentBand.title}`">
         <v-card-text>
           <GeneralInfo />
           <SocialsForm />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="red" @click="editDialog = false">Close</v-btn>
-          <v-btn color="success" @click="updateBand">Save</v-btn>
+          <v-btn color="red" @click="editDialog = false">Закрыть</v-btn>
+          <v-btn color="success" @click="updateBand">Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -140,9 +150,12 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
+
 import { useBandsStore } from '@/stores/bands'
+import { useAlbumStore } from '@/stores/album'
 import { useLabelsStore } from '@/stores/labels'
 import { useUsersStore } from '@/stores/users'
+
 import SearchInput from '@/components/SearchInput'
 import GeneralInfo from '@/components/bands/GeneralInfo'
 import SocialsForm from '@/components/bands/SocialsForm'
@@ -151,8 +164,10 @@ import LineupList from '@/components/bands/LineupList'
 import PlusButton from '@/components/buttons/PlusButton'
 import DeleteButton from '@/components/buttons/DeleteButton'
 import LabelForm from '@/components/labels/LabelForm'
+import AlbumForm from './components/albums/AlbumForm'
 //========== STORES ==========
 const bandsStore = useBandsStore()
+const albumsStore = useAlbumStore()
 const labelsStore = useLabelsStore()
 const usersStore = useUsersStore()
 //========== VARIABLES ==========
@@ -160,6 +175,7 @@ const route = useRoute()
 const editLabelDialog = ref(false)
 const photosDialog = ref(false)
 const albumsDialog = ref(false)
+const albumEditDialog = ref(false)
 const lineupDialog = ref(false)
 const editDialog = ref(false)
 //========== METHODS ==========
@@ -180,8 +196,8 @@ const addPhoto = () => {
 const updateLabel = () => {
   labelsStore.updateLabel()
 }
-const updateBand = () => {
-  bandsStore.updateBand()
+const updateBand = async () => {
+  await bandsStore.updateBand()
   editDialog.value = false
   albumsDialog.value = false
 }

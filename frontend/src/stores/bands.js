@@ -26,19 +26,21 @@ export const useBandsStore = defineStore({
       formedIn: null,
       yearsActive: '',
       status: 'Active',
-      genres: [],
+      genre: '',
       lyricsTheme: '',
-      label: '661829cc6f596fd601cc7766',
+      label: '',
       description: '',
       albums: [],
       lineup: [],
+      exLineup: [],
       socials: {
         officialSite: undefined,
         bandcamp: undefined,
         facebook: undefined,
         youtube: undefined,
       },
-      logo: '',
+      logoUrl: '',
+      photoUrl: '',
       photos: [],
       userAdded: '',
     }
@@ -62,7 +64,7 @@ export const useBandsStore = defineStore({
     },
     async getBandInfo(id) {
       const { data } = await axios.get(`/api/bands?id=${id}`)
-      this.currentBand = data.data
+      Object.assign(this.currentBand, data.data)
     },
     // ---------------------------------------POST---------------------------------------
     async searchBandsByFilters() {
@@ -78,7 +80,7 @@ export const useBandsStore = defineStore({
       try {
         const { data } = await axios.post('/api/bands', this.currentBand)
         this.currentBand = data.data
-        toast.success(`Band ${this.currentBand.title} added successfully`)
+        toast.success(`Группа ${this.currentBand.title} добавлена успешно`)
       } catch (e) {
         utilStore.axiosErrorHandler(e)
       }
@@ -86,8 +88,8 @@ export const useBandsStore = defineStore({
     // ---------------------------------------PATCH---------------------------------------
     async updateBand() {
       const { data } = await axios.patch('/api/bands', this.currentBand)
-      toast.success(`Band ${this.currentBand.title} updated successfully`)
-      this.currentBand = data.data
+      toast.success(`Группа ${this.currentBand.title} успешно обновлена`)
+      Object.assign(this.currentBand, data.data)
     }
   }
 })
