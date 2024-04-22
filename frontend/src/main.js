@@ -9,11 +9,8 @@ import App from './App.vue'
 import { createApp, markRaw } from 'vue'
 import router from './router'
 import { createPinia } from 'pinia'
-import axios from 'axios'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
-
-axios.defaults.baseURL = 'http://185.125.202.224:3000'
 
 // Plugins
 import { registerPlugins } from '@/plugins'

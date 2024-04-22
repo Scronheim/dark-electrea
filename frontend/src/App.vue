@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar v-if="route.path !== '/'">
-      <v-btn @click="router.push('/')">Dark Electrea</v-btn>
+      <v-btn @click="router.push('/')">Metal Library</v-btn>
       <SearchInput />
       <template v-if="usersStore.isLoggedIn">
         <v-menu location="bottom">

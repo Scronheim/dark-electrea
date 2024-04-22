@@ -1,6 +1,6 @@
 module.exports = {
-  apps : [{
-    name: "Dark Electrea API",
+  apps: [{
+    name: "Metal Library API",
     script: "/srv/backend/index.js",
     watch: false,
   }]
