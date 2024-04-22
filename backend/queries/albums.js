@@ -1,5 +1,5 @@
 const db = require('../schemas')
-const {jsonResponse} = require('../utils')
+const { jsonResponse } = require('../utils')
 
 const Album = db.albums
 const Band = db.bands
@@ -12,19 +12,24 @@ exports.getAlbum = async (req, res) => {
 }
 
 exports.addAlbum = async (req, res) => {
+  const bandIdFilter = {}
+  if (req.body.band) {
+    bandIdFilter._id = req.body.band
+  } else if (req.body.bandId) {
+    bandIdFilter.id = req.body.bandId
+  }
   const album = new Album(req.body)
-  await album.save()
-  const band = await Band.findById(req.body.band)
+  const band = await Band.findOne(bandIdFilter)
   band.albums.push(album._id)
+  album.band = band._id
   await band.save()
-  const user = await User.findById(req.body.userAdded)
-  user.addedMaterials.albums += 1
-  await user.save()
+  await album.save()
+
   return jsonResponse(res, album)
 }
 
 exports.updateAlbum = async (req, res) => {
-  const album = await Album.findByIdAndUpdate(req.body._id, req.body, {new: true})
+  const album = await Album.findByIdAndUpdate(req.body._id, req.body, { new: true })
   return jsonResponse(res, album)
 }
 

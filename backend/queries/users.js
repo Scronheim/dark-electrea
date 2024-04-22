@@ -2,44 +2,44 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../schemas')
 const config = require('../config')
-const {jsonResponse, mongooseToJson} = require('../utils')
+const { jsonResponse, mongooseToJson } = require('../utils')
 
 const User = db.users
 
 
 exports.login = async (req, res) => {
-  let user = await User.findOne({email: req.body.email})
+  let user = await User.findOne({ email: req.body.email })
   if (user) {
     const passwordIsValid = bcrypt.compareSync(req.body.password, user.password)
-    if (!passwordIsValid) return jsonResponse(res, {auth: false, token: null}, 'Не верный email или пароль', false, 403)
-    const token = jwt.sign({_id: user._id}, config.secret, {
+    if (!passwordIsValid) return jsonResponse(res, { auth: false, token: null }, 'Не верный email или пароль', false, 403)
+    const token = jwt.sign({ _id: user._id }, config.secret, {
       expiresIn: 628000000, // expires in 31 days
     })
     delete user.password
 
-    return jsonResponse(res, {auth: true, token: token, user: user})
+    return jsonResponse(res, { auth: true, token: token, user: user })
   } else {
-    return jsonResponse(res, {auth: false, token: null}, null, false, 403)
+    return jsonResponse(res, { auth: false, token: null }, null, false, 403)
   }
 }
 
 exports.register = async (req, res) => {
-  let user = await User.findOne({email: req.body.email})
+  let user = await User.findOne({ email: req.body.email })
   if (user) {
     return jsonResponse(res, null, 'Email уже занят', false, 403)
   }
   req.body.password = bcrypt.hashSync(req.body.password, 8)
   const newUser = new User(req.body)
   await newUser.save()
-  const token = jwt.sign({_id: newUser._id}, config.secret, {
+  const token = jwt.sign({ _id: newUser._id }, config.secret, {
     expiresIn: 628000000, // expires in 31 days
   })
-  return jsonResponse(res, {auth: true, token: token, user: newUser})
+  return jsonResponse(res, { auth: true, token: token, user: newUser })
 }
 
 exports.changePassword = async (req, res) => {
   const newPassword = bcrypt.hashSync(req.body.password, 8)
-  jsonResponse(res, User.findOneAndUpdate({email: req.body.email}, {password: newPassword}))
+  jsonResponse(res, User.findOneAndUpdate({ email: req.body.email }, { password: newPassword }))
 }
 
 exports.aboutMe = async (req, res) => {

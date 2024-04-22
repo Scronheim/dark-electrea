@@ -8,4 +8,7 @@ module.exports = {
   mongooseToJson: function (object) {
     return JSON.parse(JSON.stringify(object))
   },
+  getRandomNumber: function (min, max) {
+    return Math.floor(Math.random() * (max - min) + min)
+  }
 }

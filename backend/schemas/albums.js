@@ -2,31 +2,27 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const albumsSchema = new mongoose.Schema({
+  id: Number,
   title: String,
   band: {
     type: Schema.Types.ObjectId,
     ref: 'bands',
-    autopopulate: {maxDepth: 1},
+    autopopulate: { maxDepth: 1 },
   },
   cover: String,
   type: String,
-  genres: Array,
+  genre: String,
   tracks: Array,
-  releaseDate: Date,
+  releaseDate: String,
   format: String,
-  label: {
-    type: Schema.Types.ObjectId,
-    ref: 'labels',
-    autopopulate: true,
-    default: '63a9aa0a8562ab12bcddd78b',
-  },
+  label: String,
   catalogId: String,
   limitations: Number,
   lineup: [
     {
       type: Schema.Types.ObjectId,
       ref: 'people',
-      autopopulate: {maxDepth: 1},
+      autopopulate: { maxDepth: 1 },
     }
   ],
   description: String,
@@ -39,11 +35,6 @@ const albumsSchema = new mongoose.Schema({
       spotify: '',
       download: [],
     }
-  },
-  userAdded: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
-    autopopulate: true,
   },
 }, {
   versionKey: false,

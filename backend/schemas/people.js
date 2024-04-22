@@ -3,20 +3,20 @@ const { Schema } = mongoose
 
 const peopleSchema = new mongoose.Schema({
   realName: String,
-  stageName: String,
-  bands: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'bands',
-      autopopulate: {maxDepth: 1},
-    },
-  ],
+  band: {
+    type: Schema.Types.ObjectId,
+    ref: 'bands',
+    autopopulate: { maxDepth: 1 },
+  },
   sex: String,
   birthdate: {
     type: Date,
     default: null,
   },
-  country: String,
+  country: {
+    type: String,
+    default: 'Unknown',
+  },
   instruments: String,
   photo: String,
 }, {

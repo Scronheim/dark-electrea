@@ -2,25 +2,23 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const bandsSchema = new mongoose.Schema({
+  id: Number,
   title: String,
-  formedIn: Number,
-  label: {
-    type: Schema.Types.ObjectId,
-    ref: 'labels',
-    autopopulate: true,
-  },
+  formedIn: String,
+  yearsActive: String,
+  label: String,
   lineup: [
     {
       type: Schema.Types.ObjectId,
       ref: 'people',
-      autopopulate: {maxDepth: 1},
+      autopopulate: { maxDepth: 1 },
     },
   ],
   exLineup: [
     {
       type: Schema.Types.ObjectId,
       ref: 'people',
-      autopopulate: {maxDepth: 1},
+      autopopulate: { maxDepth: 1 },
     }
   ],
   country: String,
@@ -29,26 +27,29 @@ const bandsSchema = new mongoose.Schema({
     type: String,
     default: 'active',
   },
-  genres: Array,
+  genre: String,
   lyricsTheme: String,
   albums: [
     {
       type: Schema.Types.ObjectId,
       ref: 'albums',
-      autopopulate: {maxDepth: 2},
+      autopopulate: { maxDepth: 2 },
     }
   ],
   videos: Array,
-  socials: Object,
-  photos: Array,
-  logo: String,
-  description: '',
-  links: Object,
-  userAdded: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
-    autopopulate: true,
+  socials: {
+    type: Object,
+    default: {
+      bandcamp: '',
+      discogs: '',
+      yaMusic: '',
+      spotify: '',
+    }
   },
+  photos: Array,
+  logoUrl: String,
+  photoUrl: String,
+  description: String,
 }, {
   versionKey: false,
   timestamps: true,
