@@ -67,6 +67,7 @@ export const useUtilStore = defineStore({
       { value: 'Cuba', title: 'Куба' },
       { value: 'Cyprus', title: 'Кипр' },
       { value: 'Czech Republic', title: 'Чешская Республика' },
+      { value: 'Czechia', title: 'Чешская Республика' },
       { value: 'Denmark', title: 'Дания' },
       { value: 'Djibouti', title: 'Джибути' },
       { value: 'Dominica', title: 'Доминика' },
