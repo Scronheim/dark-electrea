@@ -24,12 +24,12 @@
                 <template v-if="album.catalogId">
                   Каталог ID: {{ album.catalogId }}
                 </template>
-                <template v-if="album.limitations">| Лимит: {{ album.limitations }}</template>
               </v-list-item>
+              <v-list-item v-if="album.limitations">Лимит: <v-btn color="primary">{{ album.limitations }} шт.</v-btn></v-list-item>
               <v-list-item>Формат: <v-btn color="primary">{{ album.format }}</v-btn></v-list-item>
             </v-list>
           </v-col>
-          <v-col>
+          <v-col style="overflow-y: auto; height: 500px">
             <p class="font-weight-bold">Треклист:</p>
             <p v-for="(track, index) in album.tracks" :key="index">
               {{ index !== album.tracks.length - 1 ? track : track.includes('.') ? track : `Общая длительность:

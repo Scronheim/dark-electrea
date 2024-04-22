@@ -7,12 +7,33 @@
           <span class="text-blue-lighten-1">Library</span>
         </p>
         <SearchInput />
-        <template v-if="usersStore.isLoggedIn">
-          <v-btn @click="usersStore.logout">Logout</v-btn>
+        <template v-if="!usersStore.isLoggedIn">
+          <v-btn to="/login">Войти</v-btn>
+          <v-btn to="/register">Регистрация</v-btn>
         </template>
         <template v-else>
-          <v-btn to="/login">Login</v-btn>
-          <v-btn to="/register">Register</v-btn>
+          <v-expansion-panels class="mt-3">
+            <v-expansion-panel title="Случайная группа">
+              <v-expansion-panel-text>
+                <v-row>
+                  <v-col>
+                    <CountryAutocomplete :value="bandsStore.randomBandFilters.country" @updateValue="updateCountry"/>
+                  </v-col>
+                  <v-col>
+                    <v-text-field label="Жанр" v-model="bandsStore.randomBandFilters.genre"/>
+                  </v-col>
+                  <v-col>
+                    <StatusSelect :value="bandsStore.randomBandFilters.status" @updateValue="updateStatus"/>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-btn color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </template>
       </v-col>
     </v-row>
@@ -21,16 +42,37 @@
 
 <script setup>
 //========== IMPORTS ==========
+import { ref } from 'vue'
+
 import { useUsersStore } from '@/stores/users'
+import { useBandsStore } from '@/stores/bands'
+
 import SearchInput from '@/components/SearchInput'
+import CountryAutocomplete from '@/components/inputs/CountryAutocomplete.vue'
+import StatusSelect from '@/components/inputs/StatusSelect.vue'
+import router from '@/router'
 //========== STORES ==========
 const usersStore = useUsersStore()
+const bandsStore = useBandsStore()
+//========== VARIABLES ==========
+const randomBandIsLoading = ref(false)
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
 
 //========== METHODS ==========
-
+const getRandomBand = async () => {
+  randomBandIsLoading.value = true
+  await bandsStore.getRandomBand(bandsStore.randomBandFilters.country, bandsStore.randomBandFilters.genre, bandsStore.randomBandFilters.status)
+  randomBandIsLoading.value = false
+  router.push(`/bands/${bandsStore.currentBand._id}`)
+}
+const updateStatus = (eventStatus) => {
+  bandsStore.randomBandFilters.status = eventStatus
+}
+const updateCountry = (eventCountry) => {
+  bandsStore.randomBandFilters.country = eventCountry
+}
 //========== ON MOUNTED ==========
 
 //========== WATCH ==========

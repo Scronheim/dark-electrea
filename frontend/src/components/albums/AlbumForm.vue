@@ -15,10 +15,10 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field label="Формат" v-model="album.format" />
+          <v-select label="Формат" :items="albumFormats" v-model="album.format" />
         </v-col>
         <v-col>
-          <v-text-field :value="album.label" @updateValue="updateLabel" />
+          <v-text-field label="Лейбл" v-model="album.label" />
         </v-col>
         <v-col>
           <v-text-field label="Каталог ID" v-model="album.catalogId" />
@@ -85,8 +85,11 @@
                             <v-text-field autofocus label="Ссылка" v-model="album.links.download[index].src" />
                           </v-col>
                           <v-col cols="3">
-                            <v-text-field label="Битрейт" type="number" suffix="kbps" :min="192" :max="320"
-                              v-model.number="album.links.download[index].bitrate" />
+                            <v-text-field label="Битрейт" type="number" suffix="kbps" :min="192" :max="320" :disabled="album.links.download[index].flac"
+                              v-model.number="album.links.download[index].bitrate"/>
+                          </v-col>
+                          <v-col cols="2">
+                            <v-checkbox-btn v-bind="props" label="FLAC" v-model="album.links.download[index].flac"/>
                           </v-col>
                           <v-col cols="1">
                             <DeleteButton text="Удалить ссылку" @click="deleteDownloadLink(index)" />
@@ -103,10 +106,10 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="red" @click="deleteAlbum">Delete</v-btn>
+      <v-btn color="red" @click="deleteAlbum">Удалить</v-btn>
       <v-spacer />
-      <v-btn v-if="album._id" color="success" @click="updateAlbum">Save</v-btn>
-      <v-btn v-else color="success" @click="addAlbum">Add</v-btn>
+      <v-btn v-if="album._id" color="success" @click="updateAlbum">Сохранить</v-btn>
+      <v-btn v-else color="success" @click="addAlbum">Добавить</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -137,11 +140,10 @@ const linkTypes = [
   { title: 'Bandcamp', value: 'bandcamp' },
 ]
 const albumFormats = [
-  { title: 'Digital', value: 'digital' },
+  { title: 'Цифровой', value: 'digital' },
   { title: 'CD', value: 'cd' },
-  { title: 'Tape', value: 'tape' },
-  { title: 'Vinyl', value: 'vinyl' },
-  { title: 'Cassette', value: 'cassette' },
+  { title: 'Кассета', value: 'tape' },
+  { title: 'Винил', value: 'vinyl' },
 ]
 const props = defineProps({
   album: {
@@ -154,7 +156,7 @@ const props = defineProps({
 })
 //========== METHODS ==========
 const deleteAlbum = () => {
-  if (confirm(`Do you really want to delete ${props.album.title}?`)) {
+  if (confirm(`Вы действительно хотите удалить альбом ${props.album.title}?`)) {
     albumStore.deleteAlbum(props.album)
   }
 }
@@ -168,10 +170,7 @@ const addDownloadLink = () => {
   })
 }
 const addTrack = () => {
-  props.album.tracks.push({
-    title: '',
-    duration: '00:00:01'
-  })
+  props.album.tracks.push('')
 }
 const removeTrack = (trackIndex) => {
   props.album.tracks.splice(trackIndex, 1)
@@ -187,9 +186,6 @@ const updateAlbum = () => {
 }
 const updateGenres = (genres) => {
   props.album.genres = genres
-}
-const updateLabel = (label) => {
-  props.album.label = label
 }
 //========== ON MOUNTED ==========
 

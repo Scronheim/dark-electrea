@@ -13,6 +13,7 @@ export const useUsersStore = defineStore({
     users: [],
     user: {
       _id: '',
+      username: '',
       addedMaterials: {},
     },
     token: localStorage.getItem('token')

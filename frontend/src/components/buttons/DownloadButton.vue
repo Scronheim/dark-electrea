@@ -24,7 +24,7 @@ import { computed } from 'vue'
 
 //========== COMPUTED ==========
 const hrefHostname = computed(() => {
-  return new URL(props.href).hostname
+  return props.href ? new URL(props.href).hostname : ''
 })
 //========== VARIABLES ==========
 const props = defineProps({

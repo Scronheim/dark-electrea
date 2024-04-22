@@ -32,11 +32,11 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://77.73.132.103:3000',
-    //     changeOrigin: true,
-    //   }
-    // }
+    proxy: {
+      '/api': {
+        target: 'https://metal-library.com',
+        changeOrigin: true,
+      }
+    }
   },
 })

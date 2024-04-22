@@ -18,13 +18,13 @@
   </v-row>
   <v-row>
     <v-col>
-      <v-text-field :value="bandsStore.currentBand.genre" @updateValue="updateGenres" />
+      <v-text-field label="Жанр" :value="bandsStore.currentBand.genre" @updateValue="updateGenres" />
     </v-col>
     <v-col>
       <v-text-field label="Темы текстов" v-model="bandsStore.currentBand.lyricsTheme" />
     </v-col>
     <v-col>
-      <LabelAutocomplete :value="bandsStore.currentBand.label" @updateValue="updateLabel" />
+      <v-text-field label="Лейбл" :value="bandsStore.currentBand.label" @updateValue="updateLabel" />
     </v-col>
     <v-col>
       <v-text-field label="Ссылка на лого" v-model="bandsStore.currentBand.logoUrl" />
@@ -46,7 +46,6 @@ import { useBandsStore } from '@/stores/bands'
 import { useUtilStore } from '@/stores/util'
 import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
 import CountryAutocomplete from '@/components/inputs/CountryAutocomplete'
-import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const utilStore = useUtilStore()
@@ -55,8 +54,8 @@ const utilStore = useUtilStore()
 //========== VARIABLES ==========
 
 //========== METHODS ==========
-const updateGenres = (genres) => {
-  bandsStore.currentBand.genres = genres
+const updateGenres = (genre) => {
+  bandsStore.currentBand.genre = genre
 }
 const updateLabel = (label) => {
   bandsStore.currentBand.label = label

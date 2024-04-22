@@ -13,10 +13,10 @@
           </template>
           <v-list nav>
             <v-list-item link to="/profile">
-              <v-list-item-title>Profile</v-list-item-title>
+              <v-list-item-title>Профиль</v-list-item-title>
             </v-list-item>
             <v-list-item link @click="logout">
-              <v-list-item-title>Logout</v-list-item-title>
+              <v-list-item-title>Выход</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -25,7 +25,7 @@
     <v-main>
       <router-view />
     </v-main>
-    <v-bottom-navigation v-if="usersStore.isAdmin" color="primary">
+    <v-bottom-navigation v-if="usersStore.isAdmin && route.path !== '/'" color="primary">
       <v-menu location="top">
         <template #activator="{ props }">
           <v-btn v-bind="props">

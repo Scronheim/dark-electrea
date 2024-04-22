@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark>
-            <v-toolbar-title>Register form</v-toolbar-title>
+            <v-toolbar-title>Форма регистрации</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form ref="form">
@@ -13,7 +13,7 @@
                 :hide-details="false"
                 v-model="user.username"
                 :rules="usernameRules"
-                label="Username"
+                label="Имя пользователя"
                 name="username"
                 prepend-icon="mdi-account"
                 type="text"
@@ -35,7 +35,7 @@
                 v-model="user.password"
                 :rules="passwordRules"
                 id="password"
-                label="Password"
+                label="Пароль"
                 name="password"
                 prepend-icon="mdi-lock"
                 :append-inner-icon="showPasswords ? 'mdi-eye-off': 'mdi-eye'"
@@ -48,7 +48,7 @@
                 v-model="user.password_confirmation"
                 :rules="confirmPasswordRules"
                 id="password_confirmation"
-                label="Confirm password"
+                label="Подтвердите пароль"
                 name="password_confirmation"
                 prepend-icon="mdi-lock"
                 :type="showPasswords? 'text': 'password'"
@@ -57,7 +57,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="register">Register</v-btn>
+            <v-btn color="primary" @click="register">Регистрация</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

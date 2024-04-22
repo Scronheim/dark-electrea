@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark>
-            <v-toolbar-title>Login form</v-toolbar-title>
+            <v-toolbar-title>Форма входа</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form ref="form">
@@ -24,7 +24,7 @@
                 v-model="user.password"
                 :rules="passwordRules"
                 id="password"
-                label="Password"
+                label="Пароль"
                 name="password"
                 prepend-icon="mdi-lock"
                 :append-inner-icon="showPasswords ? 'mdi-eye-off': 'mdi-eye'"
@@ -36,7 +36,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login">Login</v-btn>
+            <v-btn color="primary" @click="login">Войти</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

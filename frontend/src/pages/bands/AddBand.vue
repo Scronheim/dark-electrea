@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card title="General Info">
+    <v-card title="Общая информация">
       <v-card-text>
         <GeneralInfo/>
         <SocialsForm/>

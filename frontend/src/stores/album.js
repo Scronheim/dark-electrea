@@ -50,7 +50,7 @@ export const useAlbumStore = defineStore({
     },
     async addAlbum(album) {
       await axios.post('/api/albums', album)
-      toast.success(`Album ${album.title} added successfully`)
+      toast.success(`Альбом ${album.title} успешно добавлен`)
     },
     // ---------------------------------------PATCH---------------------------------------
     async updateAlbum(album) {
@@ -59,14 +59,14 @@ export const useAlbumStore = defineStore({
       }
       const { data } = await axios.patch('/api/albums', album)
       album = data.data
-      toast.success(`Album ${album.title} updated successfully`)
+      toast.success(`Альбом ${album.title} успешно обновлён`)
     },
     // ---------------------------------------DELETE---------------------------------------
     async deleteAlbum(album) {
       const bandStore = useBandsStore()
       const { data } = await axios.delete('/api/albums', { data: album })
       bandStore.currentBand = data.data
-      toast.success(`Album ${album.title} deleted successfully`)
+      toast.success(`Альбом ${album.title} успешно удалён`)
     }
   }
 })

@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete label="Страна" :items="utilStore.sortedCountries" :model-value="value"
+  <v-select label="Статус" :items="utilStore.statuses" :model-value="value"
     @update:modelValue="$emit('updateValue', $event)" />
 </template>
 

@@ -4,21 +4,21 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <p>User materials</p>
+            <p>Материалы пользователя</p>
             <v-list>
               <v-list-item>
                 <v-list-item-title>
-                  Bands: {{ user.addedMaterials.bands }}
+                  Группы: {{ user.addedMaterials.bands }}
                 </v-list-item-title>
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>
-                  Albums: {{ user.addedMaterials.albums }}
+                  Альбомы: {{ user.addedMaterials.albums }}
                 </v-list-item-title>
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>
-                  Videos: {{ user.addedMaterials.videos }}
+                  Видео: {{ user.addedMaterials.videos }}
                 </v-list-item-title>
               </v-list-item>
             </v-list>

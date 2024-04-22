@@ -4,20 +4,20 @@
     <v-card-text>
       <v-tabs slider-color="yellow" v-model="tab">
         <v-tab value="about">О группе</v-tab>
-        <v-tab value="albums">Альбомы</v-tab>
-        <v-tab value="lineup">Состав</v-tab>
+        <v-tab v-if="band.albums.length" value="albums">Альбомы</v-tab>
+        <v-tab v-if="band.lineup.length" value="lineup">Состав</v-tab>
         <v-tab value="description">Описание</v-tab>
-        <v-tab value="photos">Фото</v-tab>
-        <v-tab value="links">Ссылки</v-tab>
+        <v-tab v-if="band.photos.length" value="photos">Фото</v-tab>
+        <v-tab v-if="someLinkExist" value="links">Ссылки</v-tab>
       </v-tabs>
       <v-window v-model="tab">
         <v-window-item value="about">
           <v-row>
             <v-col>
               Группа: <v-btn color="primary">{{ band.title }}</v-btn><br />
-              Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ band.country }}</v-btn><br />
+              Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ bandCountry }}</v-btn><br />
               Город: <v-btn color="primary">{{ band.city }}</v-btn><br />
-              Статус: <v-btn :color="statusColor">{{ band.status }}</v-btn><br />
+              Статус: <v-btn :color="statusColor">{{ bandStatus }}</v-btn><br />
               Образованы в: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
                 }}</v-btn><br />
             </v-col>
@@ -81,11 +81,18 @@
         <v-window-item value="links">
           <v-row>
             <v-col>
-              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Official
-                site</v-btn>
+              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Офф. сайт</v-btn>
               <v-btn v-if="band.socials.bandcamp" :href="band.socials.bandcamp" target="_blank">
                 <v-icon color="yellow">mdi-campfire</v-icon>
                 Bandcamp
+              </v-btn>
+              <v-btn v-if="band.socials.yaMusic" :href="band.socials.yaMusic" target="_blank">
+                <v-icon color="red">mdi-alpha-y</v-icon>
+                Yandex Music
+              </v-btn>
+              <v-btn v-if="band.socials.yaMusic" :href="band.socials.yaMusic" target="_blank">
+                <v-icon color="success">mdi-spotify</v-icon>
+                Spotify
               </v-btn>
               <v-btn v-if="band.socials.discogs" :href="band.socials.discogs" target="_blank">
                 <v-icon>mdi-album</v-icon>
@@ -113,7 +120,10 @@ import { onMounted, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { chunk } from 'lodash'
 import router from '@/router'
+
 import { useBandsStore } from '@/stores/bands'
+import { useUtilStore } from '@/stores/util'
+
 import GenresAutocomplete from '@/components/inputs/GenresAutocomplete'
 import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
 import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
@@ -121,7 +131,18 @@ import AlbumTypeAutocomplete from '@/components/inputs/AlbumTypeAutocomplete'
 import FilterRemoveButton from '@/components/buttons/FilterRemoveButton'
 //========== STORES ==========
 const bandsStore = useBandsStore()
+const utilStore = useUtilStore()
 //========== COMPUTED ==========
+const someLinkExist = computed(() => {
+  if (band.value.socials) return Object.values(band.value.socials).some(link => link !== '')
+  return false
+})
+const bandCountry = computed(() => {
+  return utilStore.countries.find(country => country.value === band.value.country).title
+})
+const bandStatus = computed(() => {
+  return utilStore.statuses.find(status => status.value === band.value.status).title
+})
 const filteredAlbums = computed(() => {
   return bandsStore.currentBand.albums.filter(a => {
     if (filters.value.genres.length > 0) {

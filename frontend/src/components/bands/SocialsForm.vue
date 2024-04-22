@@ -1,5 +1,5 @@
 <template>
-  <v-card-title>Socials</v-card-title>
+  <v-card-title>Соц. сети</v-card-title>
   <v-row>
     <v-col v-for="type in socialTypes" :key="type.value">
       <v-text-field :label="type.title" v-model="bandsStore.currentBand.socials[type.value]"/>
@@ -16,11 +16,14 @@ const bandsStore = useBandsStore()
 
 //========== VARIABLES ==========
 const socialTypes = [
-  { title: 'Official site', value: 'officialSite' },
+  { title: 'Офф. сайт', value: 'officialSite' },
+  { title: 'Bandcamp', value: 'bandcamp' },
+  { title: 'Yandex Music', value: 'yaMusic' },
+  { title: 'Spotify', value: 'spotify' },
   { title: 'Facebook', value: 'facebook' },
   { title: 'Youtube', value: 'youtube' },
   { title: 'Discogs', value: 'discogs' },
-  { title: 'Bandcamp', value: 'bandcamp' },
+  
 ]
 //========== METHODS ==========
 
