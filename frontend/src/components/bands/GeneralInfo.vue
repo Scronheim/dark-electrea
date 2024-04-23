@@ -18,13 +18,13 @@
   </v-row>
   <v-row>
     <v-col>
-      <v-text-field label="Жанр" :value="bandsStore.currentBand.genre" @updateValue="updateGenres" />
+      <v-text-field label="Жанр" v-model="bandsStore.currentBand.genre"/>
     </v-col>
     <v-col>
       <v-text-field label="Темы текстов" v-model="bandsStore.currentBand.lyricsTheme" />
     </v-col>
     <v-col>
-      <v-text-field label="Лейбл" :value="bandsStore.currentBand.label" @updateValue="updateLabel" />
+      <v-text-field label="Лейбл" v-model="bandsStore.currentBand.label" />
     </v-col>
     <v-col>
       <v-text-field label="Ссылка на лого" v-model="bandsStore.currentBand.logoUrl" />
@@ -54,12 +54,6 @@ const utilStore = useUtilStore()
 //========== VARIABLES ==========
 
 //========== METHODS ==========
-const updateGenres = (genre) => {
-  bandsStore.currentBand.genre = genre
-}
-const updateLabel = (label) => {
-  bandsStore.currentBand.label = label
-}
 const updateCountry = (country) => {
   bandsStore.currentBand.country = country
 }

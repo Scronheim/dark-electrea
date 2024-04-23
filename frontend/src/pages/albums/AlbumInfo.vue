@@ -15,7 +15,7 @@
                   }}</v-btn></v-list-item>
               <v-list-item>Альбом: <v-btn color="primary">{{ album.title }}</v-btn></v-list-item>
 
-              <v-list-item>Дата релиза: <v-btn color="primary">{{ album.releaseDate }}</v-btn></v-list-item>
+              <v-list-item>Дата релиза: <v-btn color="primary">{{ formatAlbumYear(album.releaseDate) }}</v-btn></v-list-item>
               <v-list-item>Тип: <v-btn color="primary">{{ album.type }}</v-btn></v-list-item>
               <v-list-item>Лейбл:
                 <v-btn color="primary" @click="goToAlbumsByFiltersPage('label')">
@@ -25,7 +25,8 @@
                   Каталог ID: {{ album.catalogId }}
                 </template>
               </v-list-item>
-              <v-list-item v-if="album.limitations">Лимит: <v-btn color="primary">{{ album.limitations }} шт.</v-btn></v-list-item>
+              <v-list-item v-if="album.limitations">Лимит: <v-btn color="primary">{{ album.limitations }}
+                  шт.</v-btn></v-list-item>
               <v-list-item>Формат: <v-btn color="primary">{{ album.format }}</v-btn></v-list-item>
             </v-list>
           </v-col>
@@ -53,23 +54,30 @@
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
+  
 import router from '@/router'
 import { useAlbumStore } from '@/stores/album'
 import { useBandsStore } from '@/stores/bands'
+import { useUtilStore } from '@/stores/util'
+
 import DownloadButton from '@/components/buttons/DownloadButton'
 import YaMusicButton from '@/components/buttons/YaMusicButton'
 //========== STORES ==========
 const albumStore = useAlbumStore()
 const bandsStore = useBandsStore()
+const utilStore = useUtilStore()
 //========== COMPUTED ==========
 const album = computed(() => {
   return albumStore.currentAlbum
 })
 //========== VARIABLES ==========
-dayjs.extend(duration)
 const route = useRoute()
 //========== METHODS ==========
+const formatAlbumYear = (releaseDate) => {
+  return utilStore.formattedAlbumYear(releaseDate)
+}
 const goToAlbumsByFiltersPage = (param, genre) => {
   albumStore.goToAlbumsByFiltersPage(param, genre)
 }

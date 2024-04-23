@@ -16,13 +16,13 @@ const bandsStore = useBandsStore()
 
 //========== VARIABLES ==========
 const socialTypes = [
-  { title: 'Офф. сайт', value: 'officialSite' },
   { title: 'Bandcamp', value: 'bandcamp' },
   { title: 'Yandex Music', value: 'yaMusic' },
   { title: 'Spotify', value: 'spotify' },
-  { title: 'Facebook', value: 'facebook' },
+  { title: 'Офф. сайт', value: 'officialSite' },
   { title: 'Youtube', value: 'youtube' },
   { title: 'Discogs', value: 'discogs' },
+  { title: 'Facebook', value: 'facebook' },
   
 ]
 //========== METHODS ==========

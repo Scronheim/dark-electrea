@@ -51,9 +51,9 @@
             <v-col cols="2" v-for="album in chunk" :key="album.title">
               <v-hover v-slot="{ isHovering, props }">
                 <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
-                  <v-card-title>{{ album.title }}</v-card-title>
+                  <v-card-title :title="album.title">{{ album.title }}</v-card-title>
                   <v-card-subtitle>
-                    {{ album.releaseDate }} | {{ album.type }}
+                    {{ formatAlbumYear(album.releaseDate) }} | {{ album.type }}
                   </v-card-subtitle>
                   <v-card-text>
                     <v-img width="250" :src="album.cover" />
@@ -190,6 +190,9 @@ const filters = ref({
 const tab = ref('about')
 const route = useRoute()
 //========== METHODS ==========
+const formatAlbumYear = (releaseDate) => {
+  return utilStore.formattedAlbumYear(releaseDate)
+}
 const clearFilters = () => {
   filters.value = {
     genres: [],
