@@ -1,38 +1,37 @@
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-text>
-        <v-row>
-          <v-col>
-            <GenresAutocomplete :value="albumStore.filters.genres.$in" @updateValue="updateSelectedGenres"/>
-          </v-col>
-          <v-col>
-            <YearsAutocomplete label="Release year" :value="albumStore.filters.releaseDate" @updateValue="updateSelectedYear"/>
-          </v-col>
-          <v-col>
-            <LabelAutocomplete :value="albumStore.filters.label" @updateValue="updateSelectedLabel"/>
-          </v-col>
-          <v-col cols="1">
-            <FilterRemoveButton @click="removeFilters"/>
-          </v-col>
-        </v-row>
-        <v-row v-if="isLoading" justify="center">
-          <v-col align="center">
-            <VueSpinnerOval size="64"/>
-          </v-col>
-        </v-row>
-        <v-row v-else v-for="(chunk, index) in chunkedAlbums" :key="`album${index}`">
-          <v-col cols="3" v-for="album in chunk" :key="album.title">
-            <v-card :title="album.title" @click="goToAlbumPage(album)">
-              <v-card-text>
-                <v-img :src="album.cover"/>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
-  </v-container>
+  <v-card>
+    <v-card-text>
+      <v-row>
+        <v-col>
+          <GenresAutocomplete :value="albumStore.filters.genres.$in" @updateValue="updateSelectedGenres" />
+        </v-col>
+        <v-col>
+          <YearsAutocomplete label="Release year" :value="albumStore.filters.releaseDate"
+            @updateValue="updateSelectedYear" />
+        </v-col>
+        <v-col>
+          <LabelAutocomplete :value="albumStore.filters.label" @updateValue="updateSelectedLabel" />
+        </v-col>
+        <v-col cols="1">
+          <FilterRemoveButton @click="removeFilters" />
+        </v-col>
+      </v-row>
+      <v-row v-if="isLoading" justify="center">
+        <v-col align="center">
+          <VueSpinnerOval size="64" />
+        </v-col>
+      </v-row>
+      <v-row v-else v-for="(chunk, index) in chunkedAlbums" :key="`album${index}`">
+        <v-col cols="3" v-for="album in chunk" :key="album.title">
+          <v-card :title="album.title" @click="goToAlbumPage(album)">
+            <v-card-text>
+              <v-img :src="album.cover" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup>
@@ -90,6 +89,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

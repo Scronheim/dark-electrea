@@ -1,16 +1,10 @@
 <template>
   <v-tooltip location="top" :disabled="disabled">
-    <template #activator="{props}">
-      <v-btn v-bind="props"
-             color="info"
-             :disabled="disabled"
-             :loading="loading"
-             :class="cssClass"
-             :href="href"
-             target="_blank"
-             @click="$emit('click')">
+    <template #activator="{ props }">
+      <v-btn v-bind="props" color="info" :disabled="disabled" :loading="loading" :class="cssClass" :href="link.href"
+        target="_blank" @click="$emit('click')">
         <v-icon>mdi-download</v-icon>
-        {{ hrefHostname }}
+        {{ srcHostname }}
       </v-btn>
     </template>
     <span>Download album</span>
@@ -23,13 +17,20 @@ import { computed } from 'vue'
 //========== STORES ==========
 
 //========== COMPUTED ==========
-const hrefHostname = computed(() => {
-  return props.href ? new URL(props.href).hostname : ''
+const srcHostname = computed(() => {
+  const hostname = props.link.src ? new URL(props.link.src).hostname.replace('www.', '') : ''
+
+  return props.link.flac ? `${hostname} (FLAC)` : `${hostname} (${props.link.bitrate}kbps)`
 })
 //========== VARIABLES ==========
 const props = defineProps({
-  href: {
-    type: String,
+  link: {
+    type: Object,
+    default: function name() {
+      return {
+        href: ''
+      }
+    }
   },
   loading: {
     type: Boolean,
@@ -50,6 +51,4 @@ const props = defineProps({
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

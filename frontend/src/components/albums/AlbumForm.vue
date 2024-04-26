@@ -7,6 +7,9 @@
           <v-text-field label="Название" v-model="album.title" />
         </v-col>
         <v-col>
+          <v-text-field label="Жанр" v-model="album.genre" />
+        </v-col>
+        <v-col>
           <v-select label="Тип" :items="albumStore.types" v-model="album.type" />
         </v-col>
         <v-col>

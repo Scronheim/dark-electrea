@@ -1,12 +1,10 @@
 <template>
-  <v-container fluid>
-    <v-card title="Общая информация">
-      <v-card-text>
-        <GeneralInfo/>
-        <SocialsForm/>
-      </v-card-text>
-    </v-card>
-  </v-container>
+  <v-card title="Общая информация">
+    <v-card-text>
+      <GeneralInfo />
+      <SocialsForm />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup>
@@ -29,6 +27,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

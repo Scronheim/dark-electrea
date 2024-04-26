@@ -23,7 +23,49 @@
       </template>
     </v-app-bar>
     <v-main>
-      <router-view />
+      <template v-if="route.path === '/'">
+        <router-view />
+      </template>
+
+      <v-row v-else class="mt-1 ml-1 mr-1">
+        <v-col cols="2">
+          <LeftMenu />
+        </v-col>
+        <v-col>
+          <router-view />
+        </v-col>
+        <v-col cols="2">
+          <v-list nav rounded>
+            <v-list-item v-if="isAlbumPage" title="Редактировать альбом" @click="albumEditDialog = true">
+              <template #prepend>
+                <v-icon icon="mdi-pencil" color="info" />
+              </template>
+            </v-list-item>
+            <template v-if="isBandPage">
+              <v-list-item title="Редактировать группу" @click="editDialog = true">
+                <template #prepend>
+                  <v-icon icon="mdi-pencil" color="info" />
+                </template>
+              </v-list-item>
+              <v-list-item title="Редактировать альбомы" @click="albumsDialog = true">
+                <template #prepend>
+                  <v-icon icon="mdi-album" color="info" />
+                </template>
+              </v-list-item>
+              <v-list-item title="Редактировать состав" @click="lineupDialog = true">
+                <template #prepend>
+                  <v-icon icon="mdi-account-group" color="info" />
+                </template>
+              </v-list-item>
+              <v-list-item title="Редактировать фото" @click="photosDialog = true">
+                <template #prepend>
+                  <v-icon icon="mdi-image-multiple" color="info" />
+                </template>
+              </v-list-item>
+            </template>
+          </v-list>
+        </v-col>
+      </v-row>
     </v-main>
     <v-bottom-navigation v-if="usersStore.isAdmin && route.path !== '/'" color="primary">
       <v-menu location="top">
@@ -118,7 +160,7 @@
     </v-dialog>
 
     <v-dialog width="60%" v-model="albumEditDialog">
-      <AlbumForm :album="albumsStore.currentAlbum" />
+      <AlbumForm :album="albumsStore.currentAlbum" :is-edit="albumEditDialog" />
     </v-dialog>
 
     <v-dialog width="50%" v-model="lineupDialog">
@@ -156,6 +198,7 @@ import { useAlbumStore } from '@/stores/album'
 import { useLabelsStore } from '@/stores/labels'
 import { useUsersStore } from '@/stores/users'
 
+import LeftMenu from '@/components/LeftMenu'
 import SearchInput from '@/components/SearchInput'
 import GeneralInfo from '@/components/bands/GeneralInfo'
 import SocialsForm from '@/components/bands/SocialsForm'
@@ -165,6 +208,7 @@ import PlusButton from '@/components/buttons/PlusButton'
 import DeleteButton from '@/components/buttons/DeleteButton'
 import LabelForm from '@/components/labels/LabelForm'
 import AlbumForm from './components/albums/AlbumForm'
+import { computed } from 'vue'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const albumsStore = useAlbumStore()
@@ -178,6 +222,13 @@ const albumsDialog = ref(false)
 const albumEditDialog = ref(false)
 const lineupDialog = ref(false)
 const editDialog = ref(false)
+//========== COMPUTED ==========
+const isBandPage = computed(() => {
+  return route.name === 'Band info page'
+})
+const isAlbumPage = computed(() => {
+  return route.name === 'Album info page'
+})
 //========== METHODS ==========
 const addLabel = async () => {
   await labelsStore.addLabel()

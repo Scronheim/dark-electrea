@@ -13,6 +13,9 @@
       <v-window v-model="tab">
         <v-window-item value="about">
           <v-row>
+            <v-col v-if="band.photoUrl" cols="3">
+              <v-img :src="band.photoUrl" />
+            </v-col>
             <v-col>
               Группа: <v-btn color="primary">{{ band.title }}</v-btn><br />
               Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ bandCountry }}</v-btn><br />
@@ -48,7 +51,7 @@
             </v-col>
           </v-row>
           <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
-            <v-col cols="2" v-for="album in chunk" :key="album.title">
+            <v-col cols="3" v-for="album in chunk" :key="album.title">
               <v-hover v-slot="{ isHovering, props }">
                 <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
                   <v-card-title :title="album.title">{{ album.title }}</v-card-title>
@@ -81,7 +84,8 @@
         <v-window-item value="links">
           <v-row>
             <v-col>
-              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Офф. сайт</v-btn>
+              <v-btn v-if="band.socials.officialSite" :href="band.socials.officialSite" target="_blank">Офф.
+                сайт</v-btn>
               <v-btn v-if="band.socials.bandcamp" :href="band.socials.bandcamp" target="_blank">
                 <v-icon color="yellow">mdi-campfire</v-icon>
                 Bandcamp
@@ -161,7 +165,7 @@ const filteredAlbums = computed(() => {
   })
 })
 const chunkedAlbums = computed(() => {
-  return chunk(filteredAlbums.value, 6)
+  return chunk(filteredAlbums.value, 4)
 })
 const statusColor = computed(() => {
   if (band.value.status === 'Active') {
