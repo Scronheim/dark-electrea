@@ -14,20 +14,7 @@
   <v-dialog width="700" v-model="randomBandDialog">
     <v-card title="Фильтры поиска">
       <v-card-text>
-        <v-row>
-          <v-col>
-            <CountryAutocomplete :value="bandsStore.randomBandFilters.country" @updateValue="updateSelectedCountry" />
-          </v-col>
-          <v-col>
-            <v-text-field label="Жанр" v-model="bandsStore.randomBandFilters.genre" />
-          </v-col>
-          <v-col>
-            <YearsAutocomplete :value="bandsStore.randomBandFilters.formedIn" @updateValue="updateFormedIn" />
-          </v-col>
-          <v-col>
-            <v-select label="Статус" :items="utilStore.statuses" v-model="bandsStore.randomBandFilters.status" />
-          </v-col>
-        </v-row>
+        <RandomBandForm />
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -44,15 +31,12 @@ import { ref } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 
 import { useBandsStore } from '@/stores/bands'
-import { useUtilStore } from '@/stores/util'
 
 import router from '@/router'
 
-import CountryAutocomplete from '@/components/inputs/CountryAutocomplete'
-import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
+import RandomBandForm from '@/components/RandomBandForm'
 //========== STORES ==========
 const bandsStore = useBandsStore()
-const utilStore = useUtilStore()
 //========== COMPUTED ==========
 
 //========== VARIABLES ==========
@@ -71,13 +55,6 @@ const searchRandomBand = async () => {
   randomBandDialog.value = false
   randomBandIsLoading.value = false
   router.push(`/bands/${bandsStore.currentBand._id}`)
-}
-
-const updateFormedIn = (formedIn) => {
-  bandsStore.randomBandFilters.formedIn = formedIn
-}
-const updateSelectedCountry = (country) => {
-  bandsStore.randomBandFilters.country = country
 }
 
 onKeyStroke(['r', 'к'], async () => {

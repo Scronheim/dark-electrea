@@ -10,22 +10,8 @@
         <v-expansion-panels class="mt-3">
           <v-expansion-panel title="Случайная группа">
             <v-expansion-panel-text>
-              <v-row>
-                <v-col>
-                  <CountryAutocomplete :value="bandsStore.randomBandFilters.country" @updateValue="updateCountry" />
-                </v-col>
-                <v-col>
-                  <v-text-field label="Жанр" v-model="bandsStore.randomBandFilters.genre" />
-                </v-col>
-                <v-col>
-                  <StatusSelect :value="bandsStore.randomBandFilters.status" @updateValue="updateStatus" />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
-                </v-col>
-              </v-row>
+              <RandomBandForm />
+              <v-btn color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -41,13 +27,11 @@
 <script setup>
 //========== IMPORTS ==========
 import { ref } from 'vue'
-
 import { useUsersStore } from '@/stores/users'
 import { useBandsStore } from '@/stores/bands'
 
+import RandomBandForm from '@/components/RandomBandForm'
 import SearchInput from '@/components/SearchInput'
-import CountryAutocomplete from '@/components/inputs/CountryAutocomplete.vue'
-import StatusSelect from '@/components/inputs/StatusSelect.vue'
 import router from '@/router'
 //========== STORES ==========
 const usersStore = useUsersStore()
@@ -64,12 +48,6 @@ const getRandomBand = async () => {
   await bandsStore.getRandomBand()
   randomBandIsLoading.value = false
   router.push(`/bands/${bandsStore.currentBand._id}`)
-}
-const updateStatus = (eventStatus) => {
-  bandsStore.randomBandFilters.status = eventStatus
-}
-const updateCountry = (eventCountry) => {
-  bandsStore.randomBandFilters.country = eventCountry
 }
 //========== ON MOUNTED ==========
 
