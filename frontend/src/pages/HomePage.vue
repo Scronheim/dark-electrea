@@ -7,33 +7,31 @@
           <span class="text-blue-lighten-1">Library</span>
         </p>
         <SearchInput />
+        <v-expansion-panels class="mt-3">
+          <v-expansion-panel title="Случайная группа">
+            <v-expansion-panel-text>
+              <v-row>
+                <v-col>
+                  <CountryAutocomplete :value="bandsStore.randomBandFilters.country" @updateValue="updateCountry" />
+                </v-col>
+                <v-col>
+                  <v-text-field label="Жанр" v-model="bandsStore.randomBandFilters.genre" />
+                </v-col>
+                <v-col>
+                  <StatusSelect :value="bandsStore.randomBandFilters.status" @updateValue="updateStatus" />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
         <template v-if="!usersStore.isLoggedIn">
           <v-btn to="/login">Войти</v-btn>
           <v-btn to="/register">Регистрация</v-btn>
-        </template>
-        <template v-else>
-          <v-expansion-panels class="mt-3">
-            <v-expansion-panel title="Случайная группа">
-              <v-expansion-panel-text>
-                <v-row>
-                  <v-col>
-                    <CountryAutocomplete :value="bandsStore.randomBandFilters.country" @updateValue="updateCountry"/>
-                  </v-col>
-                  <v-col>
-                    <v-text-field label="Жанр" v-model="bandsStore.randomBandFilters.genre"/>
-                  </v-col>
-                  <v-col>
-                    <StatusSelect :value="bandsStore.randomBandFilters.status" @updateValue="updateStatus"/>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <v-btn color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
         </template>
       </v-col>
     </v-row>
@@ -63,7 +61,7 @@ const randomBandIsLoading = ref(false)
 //========== METHODS ==========
 const getRandomBand = async () => {
   randomBandIsLoading.value = true
-  await bandsStore.getRandomBand(bandsStore.randomBandFilters.country, bandsStore.randomBandFilters.genre, bandsStore.randomBandFilters.status)
+  await bandsStore.getRandomBand()
   randomBandIsLoading.value = false
   router.push(`/bands/${bandsStore.currentBand._id}`)
 }

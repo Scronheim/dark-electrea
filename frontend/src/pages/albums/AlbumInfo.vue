@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      {{ album.title }}
+      {{ album.band.title }} - {{ album.title }}
     </v-card-title>
     <v-card-text>
       <v-row>
@@ -10,8 +10,8 @@
         </v-col>
         <v-col>
           <v-list>
-            <v-list-item>Группа: <v-btn color="info" @click="goToBandPage(album.band)">{{ album.band.title
-                }}</v-btn></v-list-item>
+            <v-list-item>Группа: <v-btn color="info" @click="goToBandPage(album.band)">{{
+              album.band.title }}</v-btn></v-list-item>
             <v-list-item>Альбом: <v-btn color="primary">{{ album.title }}</v-btn></v-list-item>
             <v-list-item v-if="album.genre">Жанр: <v-btn color="primary">{{ album.genre }}</v-btn></v-list-item>
 

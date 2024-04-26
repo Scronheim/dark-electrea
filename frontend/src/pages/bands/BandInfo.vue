@@ -4,9 +4,9 @@
     <v-card-text>
       <v-tabs slider-color="yellow" v-model="tab">
         <v-tab value="about">О группе</v-tab>
-        <v-tab v-if="band.albums.length" value="albums">Альбомы</v-tab>
-        <v-tab v-if="band.lineup.length" value="lineup">Состав</v-tab>
-        <v-tab value="description">Описание</v-tab>
+        <v-tab v-if="band.albums.length" value="albums">Альбомы ({{ band.albums.length }})</v-tab>
+        <v-tab v-if="band.lineup.length" value="lineup">Состав ({{ band.lineup.length }})</v-tab>
+        <v-tab v-if="band.description" value="description">Описание</v-tab>
         <v-tab v-if="band.photos.length" value="photos">Фото</v-tab>
         <v-tab v-if="someLinkExist" value="links">Ссылки</v-tab>
       </v-tabs>
@@ -18,7 +18,12 @@
             </v-col>
             <v-col>
               Группа: <v-btn color="primary">{{ band.title }}</v-btn><br />
-              Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">{{ bandCountry }}</v-btn><br />
+              Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">
+                <template #prepend>
+                  <CountryFlag :country="getCountryCode(band.country)" size="normal" style="margin-bottom: 0px;" />
+                </template>
+                {{ bandCountry }}
+              </v-btn><br />
               Город: <v-btn color="primary">{{ band.city }}</v-btn><br />
               Статус: <v-btn :color="statusColor">{{ bandStatus }}</v-btn><br />
               Образованы в: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
@@ -123,6 +128,7 @@
 import { onMounted, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { chunk } from 'lodash'
+import CountryFlag from 'vue-country-flag-next'
 import router from '@/router'
 
 import { useBandsStore } from '@/stores/bands'
@@ -194,6 +200,9 @@ const filters = ref({
 const tab = ref('about')
 const route = useRoute()
 //========== METHODS ==========
+const getCountryCode = (country) => {
+  return utilStore.countries.find(c => c.value === country).code
+}
 const formatAlbumYear = (releaseDate) => {
   return utilStore.formattedAlbumYear(releaseDate)
 }

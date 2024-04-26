@@ -111,7 +111,7 @@ export const useUtilStore = defineStore({
       { value: 'Hungary', title: 'Венгрия', code: 'hu' },
       { value: 'Iceland', title: 'Исландия', code: 'is' },
       { value: 'India', title: 'Индия', code: 'in' },
-      { value: 'Indonesia', title: 'Нндонезия', code: 'id' },
+      { value: 'Indonesia', title: 'Индонезия', code: 'id' },
       { value: 'Iran, Islamic Republic Of', title: 'Иран', code: 'ir' },
       { value: 'Iraq', title: 'Ирак', code: 'iq' },
       { value: 'Ireland', title: 'Ирландия', code: 'ie' },
@@ -250,13 +250,14 @@ export const useUtilStore = defineStore({
     },
     formattedAlbumYear(releaseDate) {
       let formattedYear = ''
-      const format1 = dayjs(releaseDate, 'MMMM DD[th], YYYY').format('DD.MM.YYYY')
-      const format2 = dayjs(releaseDate, 'MMMM DD[rd], YYYY').format('DD.MM.YYYY')
+      const format1 = dayjs(releaseDate, 'MMMM D[th], YYYY').format('DD.MM.YYYY')
+      const format2 = dayjs(releaseDate, 'MMMM D[rd], YYYY').format('DD.MM.YYYY')
       const format3 = dayjs(releaseDate, 'YYYY-MM-DD').format('DD.MM.YYYY')
 
       if (format1 !== 'Invalid Date') formattedYear = format1
-      if (format2 !== 'Invalid Date') formattedYear = format2
-      if (format3 !== 'Invalid Date') formattedYear = format3
+      else if (format2 !== 'Invalid Date') formattedYear = format2
+      else if (format3 !== 'Invalid Date') formattedYear = format3
+      else formattedYear = releaseDate
 
       return formattedYear
     }

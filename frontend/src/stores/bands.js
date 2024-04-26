@@ -22,6 +22,7 @@ export const useBandsStore = defineStore({
       genre: '',
       country: '',
       status: '',
+      formedIn: '',
     },
     foundedBands: [],
     currentBand: {
@@ -63,8 +64,8 @@ export const useBandsStore = defineStore({
       router.push('/bands')
     },
     // ---------------------------------------GET---------------------------------------
-    async getRandomBand(country, genre, status) {
-      const band = await axios.get(`/api/search/bands/random?country=${country}&genre=${genre}&status=${status}`)
+    async getRandomBand() {
+      const band = await axios.get(`/api/search/bands/random?country=${this.randomBandFilters.country}&genre=${this.randomBandFilters.genre}&status=${this.randomBandFilters.status}&formedIn=${this.randomBandFilters.formedIn}`)
       this.currentBand = band.data.data[0]
     },
     async searchBand(bandTitle) {
