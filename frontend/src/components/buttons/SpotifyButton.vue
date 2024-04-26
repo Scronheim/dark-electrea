@@ -1,13 +1,13 @@
 <template>
   <v-tooltip location="top" :disabled="disabled">
     <template #activator="{ props }">
-      <v-btn v-bind="props" color="red" :disabled="disabled" :loading="loading" :class="cssClass" :href="href"
+      <v-btn v-bind="props" color="success" :disabled="disabled" :loading="loading" :class="cssClass" :href="href"
         target="_blank" @click="$emit('click')">
-        <v-icon size="35">mdi-alpha-y</v-icon>
+        <v-icon size="35">mdi-spotify</v-icon>
         {{ text }}
       </v-btn>
     </template>
-    <span>Слушать на Yandex Музыке</span>
+    <span>Слушать на Spotify</span>
   </v-tooltip>
 </template>
 
@@ -25,7 +25,7 @@ defineProps({
   },
   text: {
     type: String,
-    default: 'Yandex Music'
+    default: 'Spotify'
   },
   loading: {
     type: Boolean,

@@ -22,6 +22,7 @@ export const useAlbumStore = defineStore({
       lineup: [],
       exLineup: [],
       links: {
+        spotify: '',
         download: []
       },
     },

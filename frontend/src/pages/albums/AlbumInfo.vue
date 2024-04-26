@@ -43,6 +43,7 @@
         <v-col>
           <DownloadButton v-for="link in album.links.download" target="_blank" :key="link.src" :link="link" />
           <YaMusicButton v-if="album.links.yaMusic" :href="album.links.yaMusic" />
+          <SpotifyButton v-if="album.links.spotify" :href="album.links.spotify" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -64,6 +65,7 @@ import { useUtilStore } from '@/stores/util'
 
 import DownloadButton from '@/components/buttons/DownloadButton'
 import YaMusicButton from '@/components/buttons/YaMusicButton'
+import SpotifyButton from '@/components/buttons/SpotifyButton'
 //========== STORES ==========
 const albumStore = useAlbumStore()
 const bandsStore = useBandsStore()

@@ -35,35 +35,9 @@
           <router-view />
         </v-col>
         <v-col cols="2">
-          <v-list v-if="usersStore.isAdmin" nav rounded>
-            <v-list-item v-if="isAlbumPage" title="Редактировать альбом" @click="albumEditDialog = true">
-              <template #prepend>
-                <v-icon icon="mdi-pencil" color="info" />
-              </template>
-            </v-list-item>
-            <template v-if="isBandPage">
-              <v-list-item title="Редактировать группу" @click="editDialog = true">
-                <template #prepend>
-                  <v-icon icon="mdi-pencil" color="info" />
-                </template>
-              </v-list-item>
-              <v-list-item title="Редактировать альбомы" @click="albumsDialog = true">
-                <template #prepend>
-                  <v-icon icon="mdi-album" color="info" />
-                </template>
-              </v-list-item>
-              <v-list-item title="Редактировать состав" @click="lineupDialog = true">
-                <template #prepend>
-                  <v-icon icon="mdi-account-group" color="info" />
-                </template>
-              </v-list-item>
-              <v-list-item title="Редактировать фото" @click="photosDialog = true">
-                <template #prepend>
-                  <v-icon icon="mdi-image-multiple" color="info" />
-                </template>
-              </v-list-item>
-            </template>
-          </v-list>
+          <RightMenu @openAlbumEditDialog="albumEditDialog = true" @openEditDialog="editDialog = true"
+            @openAlbumsListDialog="albumsDialog = true" @openLineupDialog="lineupDialog = true"
+            @openPhotosDialog="photosDialog = true" />
         </v-col>
       </v-row>
     </v-main>
@@ -199,6 +173,7 @@ import { useLabelsStore } from '@/stores/labels'
 import { useUsersStore } from '@/stores/users'
 
 import LeftMenu from '@/components/LeftMenu'
+import RightMenu from '@/components/RightMenu'
 import SearchInput from '@/components/SearchInput'
 import GeneralInfo from '@/components/bands/GeneralInfo'
 import SocialsForm from '@/components/bands/SocialsForm'
@@ -208,7 +183,6 @@ import PlusButton from '@/components/buttons/PlusButton'
 import DeleteButton from '@/components/buttons/DeleteButton'
 import LabelForm from '@/components/labels/LabelForm'
 import AlbumForm from './components/albums/AlbumForm'
-import { computed } from 'vue'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const albumsStore = useAlbumStore()
@@ -223,12 +197,7 @@ const albumEditDialog = ref(false)
 const lineupDialog = ref(false)
 const editDialog = ref(false)
 //========== COMPUTED ==========
-const isBandPage = computed(() => {
-  return route.name === 'Band info page'
-})
-const isAlbumPage = computed(() => {
-  return route.name === 'Album info page'
-})
+
 //========== METHODS ==========
 const addLabel = async () => {
   await labelsStore.addLabel()
