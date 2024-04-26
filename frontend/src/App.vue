@@ -34,7 +34,7 @@
         <v-col>
           <router-view />
         </v-col>
-        <v-col cols="2">
+        <v-col v-if="usersStore.isAdmin" cols="2">
           <v-list nav rounded>
             <v-list-item v-if="isAlbumPage" title="Редактировать альбом" @click="albumEditDialog = true">
               <template #prepend>
