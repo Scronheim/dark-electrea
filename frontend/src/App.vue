@@ -53,7 +53,7 @@
           <v-list-item title="Добавить группу" link to="/bands/add" prepend-icon="mdi-account-music">
             <v-list-item-media></v-list-item-media>
           </v-list-item>
-          <v-list-item title="Добавить лейбл" link to="/labels/add" prepend-icon="mdi-currency-usd" />
+          <!-- <v-list-item title="Добавить лейбл" link to="/labels/add" prepend-icon="mdi-currency-usd" /> -->
         </v-list>
       </v-menu>
       <v-btn v-if="route.name === 'Bands add page'" @click="addBand">

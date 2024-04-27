@@ -57,9 +57,9 @@ const searchRandomBand = async () => {
   router.push(`/bands/${bandsStore.currentBand._id}`)
 }
 
-onKeyStroke(['r', 'к'], async () => {
-  await searchRandomBand()
-})
+// onKeyStroke(['r', 'к'], async () => {
+//   await searchRandomBand()
+// })
 onKeyStroke(['R', 'К'], () => {
   randomBandDialog.value = true
 })

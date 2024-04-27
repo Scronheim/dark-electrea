@@ -3,7 +3,6 @@ import axios from 'axios'
 import { useToast } from 'vue-toastification'
 
 import { useUtilStore } from '@/stores/util'
-import { useUsersStore } from '@/stores/users'
 import { useAlbumStore } from '@/stores/album'
 import router from '@/router'
 
@@ -103,8 +102,6 @@ export const useBandsStore = defineStore({
     },
     async addBand() {
       const utilStore = useUtilStore()
-      const usersStore = useUsersStore()
-      this.currentBand.userAdded = usersStore.user._id
       try {
         const { data } = await axios.post('/api/bands', this.currentBand)
         this.currentBand = data.data

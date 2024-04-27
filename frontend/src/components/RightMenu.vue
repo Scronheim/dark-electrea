@@ -28,8 +28,8 @@
       </v-list-item>
     </template>
   </v-list>
-  <iframe v-if="currentAlbum.links.spotify" style="border-radius:12px" :src="spotifyEmbededLink" width="100%"
-    height="460" frameBorder="0" allowfullscreen=""
+  <iframe v-if="route.name === 'Album info page' && currentAlbum.links.spotify" style="border-radius:12px"
+    :src="spotifyEmbededLink" width="100%" height="460" frameBorder="0" allowfullscreen=""
     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 </template>
 
