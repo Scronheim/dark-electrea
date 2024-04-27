@@ -16,7 +16,9 @@ export const useAlbumStore = defineStore({
       label: undefined,
     },
     currentAlbum: {
-      band: {},
+      band: {
+        albums: [],
+      },
       label: {},
       tracks: [],
       lineup: [],

@@ -56,7 +56,7 @@
             </v-col>
           </v-row>
           <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
-            <v-col cols="3" v-for="album in chunk" :key="album.title">
+            <v-col cols="3" v-for="album in chunk" :key="album.title" align="center">
               <v-hover v-slot="{ isHovering, props }">
                 <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
                   <v-card-title :title="album.title">{{ album.title }}</v-card-title>

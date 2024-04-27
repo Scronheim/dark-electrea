@@ -4,6 +4,7 @@ import { useToast } from 'vue-toastification'
 
 import { useUtilStore } from '@/stores/util'
 import { useUsersStore } from '@/stores/users'
+import { useAlbumStore } from '@/stores/album'
 import router from '@/router'
 
 const toast = useToast()
@@ -64,9 +65,24 @@ export const useBandsStore = defineStore({
       router.push('/bands')
     },
     // ---------------------------------------GET---------------------------------------
+    clearCurrentAlbum() {
+      const albumStore = useAlbumStore()
+      albumStore.currentAlbum = {
+        band: {},
+        label: {},
+        tracks: [],
+        lineup: [],
+        exLineup: [],
+        links: {
+          spotify: '',
+          download: []
+        }
+      }
+    },
     async getRandomBand() {
       const band = await axios.get(`/api/search/bands/random?country=${this.randomBandFilters.country}&genre=${this.randomBandFilters.genre}&status=${this.randomBandFilters.status}&formedIn=${this.randomBandFilters.formedIn}`)
       this.currentBand = band.data.data[0]
+      this.clearCurrentAlbum()
     },
     async searchBand(bandTitle) {
       this.filters.title = bandTitle
@@ -75,6 +91,7 @@ export const useBandsStore = defineStore({
     },
     async getBandInfo(id) {
       const { data } = await axios.get(`/api/bands?id=${id}`)
+      this.clearCurrentAlbum()
       Object.assign(this.currentBand, data.data)
     },
     // ---------------------------------------POST---------------------------------------

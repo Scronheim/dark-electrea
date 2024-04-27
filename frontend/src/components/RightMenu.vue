@@ -5,9 +5,6 @@
         <v-icon icon="mdi-pencil" color="info" />
       </template>
     </v-list-item>
-    <iframe v-if="currentAlbum.links.spotify" style="border-radius:12px" :src="spotifyEmbededLink" width="100%"
-      height="460" frameBorder="0" allowfullscreen=""
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     <template v-if="isBandPage">
       <v-list-item title="Редактировать группу" @click="$emit('openEditDialog')">
         <template #prepend>
@@ -31,6 +28,9 @@
       </v-list-item>
     </template>
   </v-list>
+  <iframe v-if="currentAlbum.links.spotify" style="border-radius:12px" :src="spotifyEmbededLink" width="100%"
+    height="460" frameBorder="0" allowfullscreen=""
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 </template>
 
 <script setup>

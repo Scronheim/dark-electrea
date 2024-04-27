@@ -47,6 +47,11 @@
         </v-col>
       </v-row>
     </v-card-text>
+    <v-card-actions>
+      <v-btn :disabled="!prevAlbum" prepend-icon="mdi-arrow-left" @click="goToPrevAlbum">Предыдущий</v-btn>
+      <v-spacer />
+      <v-btn :disabled="!nextAlbum" append-icon="mdi-arrow-right" @click="goToNextAlbum">Следующий</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -54,6 +59,7 @@
 //========== IMPORTS ==========
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { onKeyStroke } from '@vueuse/core'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(customParseFormat)
@@ -71,12 +77,28 @@ const albumStore = useAlbumStore()
 const bandsStore = useBandsStore()
 const utilStore = useUtilStore()
 //========== COMPUTED ==========
+const prevAlbum = computed(() => {
+  const index = albumStore.currentAlbum.band.albums.findIndex(a => a._id === album.value._id)
+  return albumStore.currentAlbum.band.albums[index - 1]
+})
+const nextAlbum = computed(() => {
+  const index = albumStore.currentAlbum.band.albums.findIndex(a => a._id === album.value._id)
+  return albumStore.currentAlbum.band.albums[index + 1]
+})
 const album = computed(() => {
   return albumStore.currentAlbum
 })
 //========== VARIABLES ==========
 const route = useRoute()
 //========== METHODS ==========
+const goToPrevAlbum = async () => {
+  await albumStore.getAlbumById(prevAlbum.value._id)
+  router.push(`/albums/${album.value._id}`)
+}
+const goToNextAlbum = async () => {
+  await albumStore.getAlbumById(nextAlbum.value._id)
+  router.push(`/albums/${album.value._id}`)
+}
 const formatAlbumYear = (releaseDate) => {
   return utilStore.formattedAlbumYear(releaseDate)
 }
@@ -88,6 +110,13 @@ const goToBandPage = (band) => {
   router.push(`/bands/${band._id}`)
 }
 //========== ON MOUNTED ==========
+onKeyStroke(['ArrowRight'], async () => {
+  await goToNextAlbum()
+})
+onKeyStroke(['ArrowLeft'], async () => {
+  await goToPrevAlbum()
+})
+
 onMounted(() => {
   albumStore.getAlbumById(route.params.id)
 })

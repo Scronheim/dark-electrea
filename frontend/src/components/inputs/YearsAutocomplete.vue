@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete :label="label" clearable :items="years" :model-value="value"
+  <v-autocomplete :label="label" :items="years" :model-value="value"
     @update:modelValue="$emit('updateValue', $event)" />
 </template>
 
@@ -11,7 +11,19 @@ import { computed } from 'vue'
 //========== COMPUTED ==========
 const years = computed(() => {
   const now = new Date().getUTCFullYear()
-  return Array(now - (now - 30)).fill('').map((v, idx) => now - idx)
+  const arr = Array(now - (now - 30)).fill('').map((v, idx) => {
+    return {
+      value: now - idx,
+      title: now - idx
+    }
+  })
+
+  arr.push({
+    value: '',
+    title: 'Любой'
+  })
+
+  return arr
 })
 //========== VARIABLES ==========
 defineProps({

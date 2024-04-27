@@ -11,7 +11,7 @@
     <v-list-item title="Альбомы" prepend-icon="mdi-album" to="/albums" />
   </v-list>
 
-  <v-dialog width="700" v-model="randomBandDialog">
+  <v-dialog width="800" v-model="randomBandDialog">
     <v-card title="Фильтры поиска">
       <v-card-text>
         <RandomBandForm />
