@@ -31,6 +31,9 @@
   <iframe v-if="route.name === 'Album info page' && currentAlbum.links.spotify" style="border-radius:12px"
     :src="spotifyEmbededLink" width="100%" height="460" frameBorder="0" allowfullscreen=""
     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  <iframe v-if="route.name === 'Album info page' && currentAlbum.links.yaMusic" frameborder="0"
+    style="border-radius: 12px;width:100%;height:450px;" width="100%" height="450"
+    :src="yandexMusicEmbededLink"></iframe>
 </template>
 
 <script setup>
@@ -49,6 +52,9 @@ defineEmits(['openAlbumEditDialog', 'openEditDialog', 'openAlbumsListDialog', 'o
 //========== COMPUTED ==========
 const currentAlbum = computed(() => {
   return albumStore.currentAlbum
+})
+const yandexMusicEmbededLink = computed(() => {
+  return albumStore.currentAlbum.links.yaMusic.replace('https://music.yandex.ru/', 'https://music.yandex.ru/iframe/')
 })
 const spotifyEmbededLink = computed(() => {
   return albumStore.currentAlbum.links.spotify.replace('open.', 'embed.')

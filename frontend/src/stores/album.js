@@ -25,6 +25,7 @@ export const useAlbumStore = defineStore({
       exLineup: [],
       links: {
         spotify: '',
+        yaMusic: '',
         download: []
       },
     },
