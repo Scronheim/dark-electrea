@@ -1,8 +1,8 @@
 <template>
   <v-tooltip location="top" :disabled="disabled">
     <template #activator="{ props }">
-      <v-btn v-bind="props" color="info" :disabled="disabled" :loading="loading" :class="cssClass" :href="link.href"
-        target="_blank" @click="$emit('click')">
+      <v-btn v-bind="props" color="info" :disabled="disabled" :loading="loading" :class="cssClass" :href="link.src"
+        target="_blank">
         <v-icon>mdi-download</v-icon>
         {{ srcHostname }}
       </v-btn>
