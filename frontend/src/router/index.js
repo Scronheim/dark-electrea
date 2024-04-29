@@ -62,6 +62,11 @@ const routes = [
     name: 'User profile page',
     component: () => import('../pages/ProfilePage'),
   },
+  {
+    path: '/broken_links',
+    name: 'Broken links page',
+    component: () => import('../pages/BrokenLinks'),
+  },
 ]
 
 const router = createRouter({

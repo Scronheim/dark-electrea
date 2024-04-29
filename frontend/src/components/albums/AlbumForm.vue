@@ -77,10 +77,14 @@
                     <v-select label="Ссылки" :items="linkTypes" v-model="selectedLinkType" />
                   </v-col>
                   <v-col>
-                    <template v-if="selectedLinkType !== 'download'">
-                      <v-text-field label="Ссылка" v-model="album.links[selectedLinkType]" />
+                    <template v-if="selectedLinkType === 'spotify'">
+                      <v-text-field label="Ссылка" v-model="album.links[selectedLinkType]">
+                        <template #append>
+                          <v-icon icon="mdi-magnify" @click="searchAlbumOnSpotify" />
+                        </template>
+                      </v-text-field>
                     </template>
-                    <template v-else>
+                    <template v-else-if="selectedLinkType === 'download'">
                       <PlusButton text="Добавить ссылки для скачивания" @click="addDownloadLink" />
                       <template v-for="(link, index) in album.links.download" :key="index">
                         <v-row>
@@ -88,11 +92,12 @@
                             <v-text-field autofocus label="Ссылка" v-model="album.links.download[index].src" />
                           </v-col>
                           <v-col cols="3">
-                            <v-text-field label="Битрейт" type="number" suffix="kbps" :min="192" :max="320" :disabled="album.links.download[index].flac"
-                              v-model.number="album.links.download[index].bitrate"/>
+                            <v-text-field label="Битрейт" type="number" suffix="kbps" :min="192" :max="320"
+                              :disabled="album.links.download[index].flac"
+                              v-model.number="album.links.download[index].bitrate" />
                           </v-col>
                           <v-col cols="2">
-                            <v-checkbox-btn v-bind="props" label="FLAC" v-model="album.links.download[index].flac"/>
+                            <v-checkbox-btn v-bind="props" label="FLAC" v-model="album.links.download[index].flac" />
                           </v-col>
                           <v-col cols="1">
                             <DeleteButton text="Удалить ссылку" @click="deleteDownloadLink(index)" />
@@ -100,6 +105,17 @@
                         </v-row>
                       </template>
                     </template>
+                    <template v-else>
+                      <v-text-field label="Ссылка" v-model="album.links[selectedLinkType]" />
+                    </template>
+                  </v-col>
+                </v-row>
+                <v-row v-if="albumStore.foundedOnSpotify.length">
+                  <v-col v-for="spotifyAlbum in albumStore.foundedOnSpotify" :key="spotifyAlbum.id">
+                    <v-card :title="spotifyAlbum.name" :subtitle="spotifyAlbum.artists[0].name"
+                      @click="setAlbumSpotifyUrl(spotifyAlbum.external_urls.spotify)">
+                      <v-img :src="spotifyAlbum.images[0].url" />
+                    </v-card>
                   </v-col>
                 </v-row>
               </v-expansion-panel-text>
@@ -127,6 +143,7 @@ import { useUsersStore } from '@/stores/users'
 import DeleteButton from '@/components/buttons/DeleteButton.vue'
 import PlusButton from '@/components/buttons/PlusButton.vue'
 import LineupForm from '@/components/bands/lineup/LineupForm'
+import { onMounted } from 'vue'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const albumStore = useAlbumStore()
@@ -158,6 +175,12 @@ const props = defineProps({
   }
 })
 //========== METHODS ==========
+const setAlbumSpotifyUrl = (spotifyLink) => {
+  props.album.links.spotify = spotifyLink
+}
+const searchAlbumOnSpotify = async () => {
+  albumStore.searchAlbumOnSpotify(`${props.album.band.title} - ${props.album.title}`)
+}
 const deleteAlbum = () => {
   if (confirm(`Вы действительно хотите удалить альбом ${props.album.title}?`)) {
     albumStore.deleteAlbum(props.album)
@@ -187,11 +210,10 @@ const addAlbum = async () => {
 const updateAlbum = () => {
   albumStore.updateAlbum(props.album)
 }
-const updateGenres = (genres) => {
-  props.album.genres = genres
-}
 //========== ON MOUNTED ==========
-
+onMounted(() => {
+  albumStore.foundedOnSpotify = []
+})
 // ========== EVENT LISTENERS ==========
 onKeyStroke('Insert', () => {
   addTrack()

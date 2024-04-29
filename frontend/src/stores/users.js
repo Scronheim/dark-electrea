@@ -15,12 +15,18 @@ export const useUsersStore = defineStore({
       _id: '',
       username: '',
       addedMaterials: {},
+      ratings: [],
     },
     token: localStorage.getItem('token')
   }),
   actions: {
+    async updateMe() {
+      const { data } = await axios.patch('/api/me', this.user, { headers: { 'x-access-token': this.token } })
+      this.user = data.data
+    },
     async aboutMe() {
       const { data } = await axios.get('/api/me', { headers: { 'x-access-token': this.token } })
+      axios.defaults.headers.common['x-access-token'] = this.token
       this.user = data.data
     },
     authorizeUser(data) {
