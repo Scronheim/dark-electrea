@@ -2,13 +2,18 @@ const fs = require('fs')
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const jwt = require('jsonwebtoken')
 
 const db = require('./schemas')
+const config = require('./config')
+const { mongooseToJson, jsonResponse } = require('./utils')
 
 db.mongoose.connect('mongodb://localhost:27017/dark-electrea', {
   user: 'scronheim',
   pass: 'it!admin*0',
 })
+
+const User = db.users
 
 const app = express()
 const router = new express.Router()
@@ -23,7 +28,6 @@ fs.readdir('./routes', (err, files) => {
 })
 
 app.use(cors())
-
 
 app.use(router)
 

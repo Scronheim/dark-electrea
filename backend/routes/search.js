@@ -24,4 +24,7 @@ router.route('/api/search/labels')
   // .get(db.searchAlbum)
   .post(db.searchLabelsWithFilters)
 
+router.route('/api/search/albums/spotify')
+  .get(db.searchAlbumOnSpotify)
+
 module.exports = router

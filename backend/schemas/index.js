@@ -11,5 +11,7 @@ db.people = require('./people')
 db.albums = require('./albums')
 db.users = require('./users')
 db.labels = require('./label')
+db.ratings = require('./ratings')
+db.brokenLinks = require('./brokenLinks')
 
 module.exports = db

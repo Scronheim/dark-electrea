@@ -1,13 +1,35 @@
+const jwt = require('jsonwebtoken')
+
 const db = require('../schemas')
 const { jsonResponse } = require('../utils')
+const config = require('../config')
 
 const Album = db.albums
 const Band = db.bands
-const User = db.users
+const Rating = db.ratings
+
+exports.setAlbumRating = async (req, res) => {
+  const token = req.headers['x-access-token']
+  jwt.verify(token, config.secret, async (err, decoded) => {
+    if (err) return ['Ошибка проверки токена']
+    const rating = await Rating.findOneAndUpdate(
+      { album: req.body.albumId, user: decoded._id },
+      { rating: req.body.rating },
+      { upsert: true, new: true }
+    )
+    const album = await Album.findOne({ _id: req.body.albumId })
+    const ratingIndex = album.ratings.findIndex(r => r._id.toString() === rating._id.toString())
+    if (ratingIndex === -1) {
+      album.ratings.push(rating._id)
+      await album.save()
+    }
+    return jsonResponse(res, album)
+  })
+}
 
 
 exports.getAlbum = async (req, res) => {
-  const album = await Album.findById(req.query.id)
+  const album = await Album.findById(req.query._id)
   return jsonResponse(res, album)
 }
 

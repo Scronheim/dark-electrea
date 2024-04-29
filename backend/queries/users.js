@@ -15,7 +15,6 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ _id: user._id }, config.secret, {
       expiresIn: 628000000, // expires in 31 days
     })
-    delete user.password
 
     return jsonResponse(res, { auth: true, token: token, user: user })
   } else {
@@ -49,7 +48,16 @@ exports.aboutMe = async (req, res) => {
     if (err) return ['Ошибка проверки токена']
     let user = await User.findById(decoded._id)
     user = mongooseToJson(user)
-    delete user.password
     jsonResponse(res, user)
+  })
+}
+
+exports.updateMe = async (req, res) => {
+  const token = req.headers['x-access-token']
+  if (!token) return jsonResponse(res, null, 'Не указан токен', false, 403)
+  jwt.verify(token, config.secret, async (err, decoded) => {
+    if (err) return ['Ошибка проверки токена']
+    const user = await User.findByIdAndUpdate(decoded._id, req.body, { new: true })
+    return jsonResponse(res, user)
   })
 }

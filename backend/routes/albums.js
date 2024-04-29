@@ -9,4 +9,7 @@ router.route('/api/albums')
   .patch(db.updateAlbum)
   .delete(db.deleteAlbum)
 
+router.route('/api/albums/rating')
+  .patch(db.setAlbumRating)
+
 module.exports = router

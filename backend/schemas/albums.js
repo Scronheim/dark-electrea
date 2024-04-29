@@ -36,6 +36,13 @@ const albumsSchema = new mongoose.Schema({
       download: [],
     }
   },
+  ratings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'ratings',
+      autopopulate: { maxDepth: 1 },
+    }
+  ]
 }, {
   versionKey: false,
   timestamps: true,

@@ -3,7 +3,10 @@ const { Schema } = mongoose
 
 const usersSchema = new mongoose.Schema({
   username: String,
-  password: String,
+  password: {
+    type: String,
+    select: false,
+  },
   email: String,
   addedMaterials: {
     bands: {
@@ -29,7 +32,7 @@ const usersSchema = new mongoose.Schema({
   },
   theme: {
     type: String,
-    default: 'light',
+    default: 'dark',
   },
 }, {
   versionKey: false,
@@ -37,6 +40,7 @@ const usersSchema = new mongoose.Schema({
 })
 
 usersSchema.plugin(require('./plugins/dateFormat').declareFormat('YYYY-MM-DD'))
+usersSchema.plugin(require('mongoose-autopopulate'))
 const Users = mongoose.model('users', usersSchema, 'users')
 
 module.exports = Users
