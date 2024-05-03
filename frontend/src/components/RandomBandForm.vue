@@ -1,18 +1,14 @@
 <template>
-  <v-row>
-    <v-col>
+  <div class="d-flex flex-column mt-4" style="gap: 12px">
+    <div class="input_wrapper">
       <CountryAutocomplete :value="bandsStore.randomBandFilters.country" @updateValue="updateSelectedCountry" />
-    </v-col>
-    <v-col>
       <v-text-field label="Жанр" v-model="bandsStore.randomBandFilters.genre" />
-    </v-col>
-    <v-col>
-      <YearsAutocomplete :value="bandsStore.randomBandFilters.formedIn" @updateValue="updateFormedIn" />
-    </v-col>
-    <v-col>
-      <v-select label="Статус" :items="utilStore.statuses" v-model="bandsStore.randomBandFilters.status" />
-    </v-col>
-  </v-row>
+    </div>
+    <div class="input_wrapper">
+    <YearsAutocomplete :value="bandsStore.randomBandFilters.formedIn" @updateValue="updateFormedIn" />
+    <v-select label="Статус" :items="utilStore.statuses" v-model="bandsStore.randomBandFilters.status" />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -42,4 +38,16 @@ const updateSelectedCountry = (country) => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.input_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+@media (max-width: 600px) {
+  .input_wrapper {
+    flex-direction: column;
+  }
+}
+</style>
