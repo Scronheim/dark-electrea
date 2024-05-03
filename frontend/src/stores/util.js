@@ -112,6 +112,7 @@ export const useUtilStore = defineStore({
       { value: 'Iceland', title: 'Исландия', code: 'is' },
       { value: 'India', title: 'Индия', code: 'in' },
       { value: 'Indonesia', title: 'Индонезия', code: 'id' },
+      { value: 'International', title: 'Интернациональная', code: '' },
       { value: 'Iran, Islamic Republic Of', title: 'Иран', code: 'ir' },
       { value: 'Iraq', title: 'Ирак', code: 'iq' },
       { value: 'Ireland', title: 'Ирландия', code: 'ie' },

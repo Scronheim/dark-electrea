@@ -144,12 +144,17 @@ import DeleteButton from '@/components/buttons/DeleteButton.vue'
 import PlusButton from '@/components/buttons/PlusButton.vue'
 import LineupForm from '@/components/bands/lineup/LineupForm'
 import { onMounted } from 'vue'
+import { watch } from 'vue'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const albumStore = useAlbumStore()
 const usersStore = useUsersStore()
 //========== COMPUTED ==========
-
+watch(selectedLinkType, () => {
+  if (selectedLinkType.value === 'spotify') {
+    searchAlbumOnSpotify()
+  }
+})
 //========== VARIABLES ==========
 const selectedLinkType = ref('download')
 const linkTypes = [

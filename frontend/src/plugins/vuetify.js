@@ -8,6 +8,8 @@
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
+import colors from 'vuetify/util/colors'
+
 import { createVuetify } from 'vuetify'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
@@ -47,6 +49,15 @@ export default createVuetify({
     },
   },
   theme: {
-    defaultTheme: 'dark'
+    defaultTheme: 'dark',
+    themes: {
+      dark: {
+        dark: true,
+        colors: {
+          buttonText: colors.deepPurple.accent1,
+          buttonLink: colors.blue.darken1
+        }
+      }
+    }
   },
 })

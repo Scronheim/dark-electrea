@@ -57,7 +57,7 @@ export const useBandsStore = defineStore({
       if (param === 'label') {
         this.filters.label = this.currentBand.label._id
       } else if (param === 'genres') {
-        this.filters.genres.$in.push(genre)
+        this.filters.genre = genre
       } else {
         this.filters[param] = this.currentBand[param]
       }

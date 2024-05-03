@@ -17,22 +17,22 @@
               <v-img :src="band.photoUrl" />
             </v-col>
             <v-col>
-              Группа: <v-btn color="primary">{{ band.title }}</v-btn><br />
-              Страна: <v-btn color="info" @click="goToBandsByFiltersPage('country')">
+              Группа: <v-btn color="buttonText">{{ band.title }}</v-btn><br />
+              Страна: <v-btn color="buttonLink" @click="goToBandsByFiltersPage('country')">
                 <template #prepend>
                   <CountryFlag :country="getCountryCode(band.country)" size="normal" style="margin-bottom: 0px;" />
                 </template>
                 {{ bandCountry }}
               </v-btn><br />
-              Город: <v-btn color="primary">{{ band.city }}</v-btn><br />
+              Город: <v-btn color="buttonText">{{ band.city }}</v-btn><br />
               Статус: <v-btn :color="statusColor">{{ bandStatus }}</v-btn><br />
-              Образованы в: <v-btn color="info" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
+              Образованы в: <v-btn color="buttonLink" @click="goToBandsByFiltersPage('formedIn')">{{ band.formedIn
                 }}</v-btn><br />
             </v-col>
             <v-col>
-              Жанр: <v-btn color="primary">{{ band.genre }}</v-btn><br />
-              Темы текстов: <v-btn color="primary">{{ band.lyricsTheme }}</v-btn><br />
-              Текущий лейбл: <v-btn color="primary">{{ band.label }}</v-btn><br />
+              Жанр: <v-btn color="buttonText">{{ band.genre }}</v-btn><br />
+              Темы текстов: <v-btn color="buttonText">{{ band.lyricsTheme }}</v-btn><br />
+              Текущий лейбл: <v-btn color="buttonText">{{ band.label }}</v-btn><br />
             </v-col>
           </v-row>
         </v-window-item>
@@ -148,7 +148,7 @@ const someLinkExist = computed(() => {
   return false
 })
 const bandCountry = computed(() => {
-  return utilStore.countries.find(country => country.value === band.value.country).title
+  return utilStore.countries.find(country => country.value === band.value.country)?.title
 })
 const bandStatus = computed(() => {
   return utilStore.statuses.find(status => status.value === band.value.status).title
@@ -201,7 +201,7 @@ const tab = ref('about')
 const route = useRoute()
 //========== METHODS ==========
 const getCountryCode = (country) => {
-  return utilStore.countries.find(c => c.value === country).code
+  return utilStore.countries.find(c => c.value === country)?.code || ''
 }
 const formatAlbumYear = (releaseDate) => {
   return utilStore.formattedAlbumYear(releaseDate)
