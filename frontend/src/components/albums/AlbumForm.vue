@@ -150,11 +150,7 @@ const bandsStore = useBandsStore()
 const albumStore = useAlbumStore()
 const usersStore = useUsersStore()
 //========== COMPUTED ==========
-watch(selectedLinkType, () => {
-  if (selectedLinkType.value === 'spotify') {
-    searchAlbumOnSpotify()
-  }
-})
+
 //========== VARIABLES ==========
 const selectedLinkType = ref('download')
 const linkTypes = [
@@ -218,6 +214,12 @@ const updateAlbum = () => {
 //========== ON MOUNTED ==========
 onMounted(() => {
   albumStore.foundedOnSpotify = []
+})
+// ========== WATCH ==========
+watch(selectedLinkType, () => {
+  if (selectedLinkType.value === 'spotify') {
+    searchAlbumOnSpotify()
+  }
 })
 // ========== EVENT LISTENERS ==========
 onKeyStroke('Insert', () => {
