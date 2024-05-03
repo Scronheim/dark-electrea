@@ -269,10 +269,12 @@ export const useUtilStore = defineStore({
       const format1 = dayjs(releaseDate, 'MMMM D[th], YYYY').format('DD.MM.YYYY')
       const format2 = dayjs(releaseDate, 'MMMM D[rd], YYYY').format('DD.MM.YYYY')
       const format3 = dayjs(releaseDate, 'YYYY-MM-DD').format('DD.MM.YYYY')
+      const format4 = dayjs(releaseDate, 'MMMM YYYY').format('DD.MM.YYYY')
 
       if (format1 !== 'Invalid Date') formattedYear = format1
       else if (format2 !== 'Invalid Date') formattedYear = format2
       else if (format3 !== 'Invalid Date') formattedYear = format3
+      else if (format4 !== 'Invalid Date') formattedYear = format4
       else formattedYear = releaseDate
 
       return formattedYear
