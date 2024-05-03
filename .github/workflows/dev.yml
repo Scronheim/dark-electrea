@@ -34,4 +34,4 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "./frontend/dist/*"
           target: "/var/www/html/"
-          strip_components: 1
+          strip_components: 2
