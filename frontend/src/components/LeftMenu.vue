@@ -9,6 +9,8 @@
     </v-list-item>
     <v-list-item title="Группы" prepend-icon="mdi-account-group" to="/bands" />
     <v-list-item title="Альбомы" prepend-icon="mdi-album" to="/albums" />
+    <v-divider class="mb-1"/>
+    <v-list-item title="Статистика" prepend-icon="mdi-chart-areaspline" to="/stats" />
   </v-list>
 
   <v-list v-if="usersStore.isAdmin" nav rounded>

@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { useToast } from 'vue-toastification'
 import { sortBy } from 'lodash'
 import dayjs from 'dayjs'
+import axios from 'axios'
+
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 dayjs.extend(customParseFormat)
@@ -239,10 +241,23 @@ export const useUtilStore = defineStore({
       { title: 'Неизвестно', value: 'Unknown' },
       { title: 'Сменили название', value: 'Changed name' }
     ],
+    stats: {
+      bandsCount: 0,
+      albumsCount: 0,
+      peopleCount: 0,
+      activeBandsCount: 0,
+      onHoldBandsCount: 0,
+      splitUpBandsCount: 0,
+      changeNameBandsCount: 0,
+      unknownBandsCount: 0,
+    }
   }),
   actions: {
     // ---------------------------------------GET---------------------------------------
-
+    async getStats() {
+      const { data } = await axios.get('/api/stats')
+      this.stats = data.data
+    },
     // ---------------------------------------POST---------------------------------------
 
     // ---------------------------------------PATCH---------------------------------------
