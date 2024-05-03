@@ -1,7 +1,17 @@
 <template>
-  <v-text-field autofocus autocomplete="off" density="default" variant="solo" v-model="search" :loading="isLoading"
-    clearable label="Поиск группы" return-object @click:clear.prevent="clearFoundedBands" @click:append="searchBand"
-    append-icon="mdi-magnify" @keyup.enter="searchBand" />
+  <v-text-field
+    autofocus
+    autocomplete="off"
+    density="default"
+    variant="solo"
+    v-model="search"
+    :loading="isLoading"
+    clearable
+    label="Поиск группы"
+    return-object @click:clear.prevent="clearFoundedBands"
+    @click:append="searchBand"
+    append-icon="mdi-magnify"
+    @keyup.enter="searchBand"/>
 </template>
 
 <script setup>
@@ -28,4 +38,9 @@ const searchBand = async () => {
 
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+:deep(.v-icon):hover {
+  transition: all .1s linear;
+transform: scale(1.15);
+}
+</style>

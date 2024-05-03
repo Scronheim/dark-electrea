@@ -1,24 +1,29 @@
 <template>
-  <v-container fluid class="fill-height">
+  <v-container fluid class="fill-height d-flex justify-center">
     <v-row justify="center" align="center" class="fill-height">
       <v-col align="center">
-        <p class="text-h1">
+        <div class="text-h1 mb-4">
           <span class="text-grey-darken-1">Metal </span>
           <span class="text-blue-lighten-1">Library</span>
-        </p>
-        <SearchInput />
-        <v-expansion-panels class="mt-3">
-          <v-expansion-panel title="Случайная группа">
-            <v-expansion-panel-text>
-              <RandomBandForm />
-              <v-btn color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
-        <template v-if="!usersStore.isLoggedIn">
-          <v-btn to="/login">Войти</v-btn>
-          <v-btn to="/register">Регистрация</v-btn>
-        </template>
+        </div>
+
+        <div style="max-width: 600px">
+          <SearchInput/>
+
+          <v-expansion-panels class="mt-3">
+            <v-expansion-panel title="Случайная группа">
+              <v-expansion-panel-text>
+                <RandomBandForm/>
+                <v-btn variant="outlined" class="mt-4" color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </div>
+
+        <div v-if="!usersStore.isLoggedIn" class="mt-4">
+          <v-btn to="/login" variant="outlined" class="mr-4">Войти</v-btn>
+          <v-btn to="/register" variant="outlined">Регистрация</v-btn>
+        </div>
       </v-col>
     </v-row>
   </v-container>
