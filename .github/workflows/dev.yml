@@ -33,4 +33,4 @@ jobs:
           port: 22
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "./frontend/dist/*"
-          target: "/srv/dark-electrea/frontend/"
+          target: "/srv/dark-electrea/"
