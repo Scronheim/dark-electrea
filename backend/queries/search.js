@@ -26,7 +26,7 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 exports.searchAlbumOnSpotify = async (req, res) => {
-  const { body } = await spotifyApi.searchAlbums(req.query.q, { limit: 5 })
+  const { body } = await spotifyApi.searchAlbums(req.query.q, { limit: 3 })
   return jsonResponse(res, body.albums.items)
 }
 

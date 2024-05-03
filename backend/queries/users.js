@@ -16,6 +16,8 @@ exports.login = async (req, res) => {
       expiresIn: 628000000, // expires in 31 days
     })
 
+    delete user.password
+
     return jsonResponse(res, { auth: true, token: token, user: user })
   } else {
     return jsonResponse(res, { auth: false, token: null }, null, false, 403)
@@ -33,12 +35,13 @@ exports.register = async (req, res) => {
   const token = jwt.sign({ _id: newUser._id }, config.secret, {
     expiresIn: 628000000, // expires in 31 days
   })
+  delete newUser.password
   return jsonResponse(res, { auth: true, token: token, user: newUser })
 }
 
 exports.changePassword = async (req, res) => {
   const newPassword = bcrypt.hashSync(req.body.password, 8)
-  jsonResponse(res, User.findOneAndUpdate({ email: req.body.email }, { password: newPassword }))
+  return jsonResponse(res, User.findOneAndUpdate({ email: req.body.email }, { password: newPassword }))
 }
 
 exports.aboutMe = async (req, res) => {
@@ -48,6 +51,7 @@ exports.aboutMe = async (req, res) => {
     if (err) return ['Ошибка проверки токена']
     let user = await User.findById(decoded._id)
     user = mongooseToJson(user)
+    delete user.password
     jsonResponse(res, user)
   })
 }
@@ -58,6 +62,7 @@ exports.updateMe = async (req, res) => {
   jwt.verify(token, config.secret, async (err, decoded) => {
     if (err) return ['Ошибка проверки токена']
     const user = await User.findByIdAndUpdate(decoded._id, req.body, { new: true })
+    delete user.password
     return jsonResponse(res, user)
   })
 }
