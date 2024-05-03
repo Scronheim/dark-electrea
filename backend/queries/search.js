@@ -1,6 +1,8 @@
 const utc = require('dayjs/plugin/utc')
 const timezone = require('dayjs/plugin/timezone')
 const dayjs = require('dayjs')
+dayjs.extend(utc)
+dayjs.extend(timezone)
 const SpotifyWebApi = require('spotify-web-api-node')
 
 const db = require('../schemas')
@@ -11,19 +13,16 @@ const Album = db.albums
 const Label = db.labels
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: 'cab2f3559a1f4aefb8c91be17122ff03',
-  clientSecret: '02eba20bbf614af5854c3ad89a3b0c30',
-  redirectUri: 'https://metal-library.com'
-});
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: process.env.REDIRECT_URI
+})
 
 spotifyApi.clientCredentialsGrant().then(
   function (data) {
-    spotifyApi.setAccessToken(data.body['access_token']);
+    spotifyApi.setAccessToken(data.body['access_token'])
   },
-);
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
+)
 
 exports.searchAlbumOnSpotify = async (req, res) => {
   const { body } = await spotifyApi.searchAlbums(req.query.q, { limit: 3 })
@@ -105,3 +104,19 @@ exports.searchLabelsWithFilters = async (req, res) => {
   const labels = await Label.find(req.body)
   return jsonResponse(res, labels)
 }
+
+
+exports.refreshSpotifyToken = () => {
+  spotifyApi.refreshAccessToken().then(
+    function (data) {
+      console.log('The access token has been refreshed!')
+
+      // Save the access token so that it's used in future calls
+      spotifyApi.setAccessToken(data.body['access_token'])
+      console.log('The access token is ' + data.body['access_token'])
+      console.log('The token expires in ' + data.body['expires_in'])
+    },
+    function (err) {
+      console.log('Could not refresh access token', err);
+    });
+};

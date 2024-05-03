@@ -2,18 +2,14 @@ const fs = require('fs')
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken')
+const { refreshSpotifyToken } = require('./queries/search')
 
 const db = require('./schemas')
-const config = require('./config')
-const { mongooseToJson, jsonResponse } = require('./utils')
 
 db.mongoose.connect('mongodb://localhost:27017/dark-electrea', {
-  user: 'scronheim',
-  pass: 'it!admin*0',
+  user: process.env.MONGO_USER,
+  pass: process.env.MONGO_PASSWORD,
 })
-
-const User = db.users
 
 const app = express()
 const router = new express.Router()
@@ -34,5 +30,7 @@ app.use(router)
 const port = process.env.PORT || 3000
 
 app.listen(port, function () {
+  refreshSpotifyToken()
+  setInterval(refreshSpotifyToken, 1000 * 59 * 59)
   console.log('Express server listening on port ' + port)
 })
