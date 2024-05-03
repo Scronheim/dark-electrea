@@ -5,22 +5,6 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install Node.js Dependencies
-        run: cd frontend && npm install
-
-      - name: Build Vue.js
-        run: cd frontend && npm run build
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
