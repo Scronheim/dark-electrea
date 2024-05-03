@@ -34,6 +34,7 @@ jobs:
           node-version: '18'
 
       - name: Install Node.js Dependencies
+        run: cd frontend
         run: npm install
 
       - name: Build Vue.js
