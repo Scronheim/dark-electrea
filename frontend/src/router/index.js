@@ -42,21 +42,21 @@ const routes = [
     name: 'Album info page',
     component: () => import('../pages/albums/AlbumInfo'),
   },
-  {
-    path: '/labels/add',
-    name: 'Label add page',
-    component: () => import('../pages/labels/AddLabel'),
-  },
-  {
-    path: '/labels',
-    name: 'Labels search page',
-    component: () => import('../pages/labels/LabelsByFilters'),
-  },
-  {
-    path: '/labels/:id',
-    name: 'Label info page',
-    component: () => import('../pages/labels/LabelInfo'),
-  },
+  // {
+  //   path: '/labels/add',
+  //   name: 'Label add page',
+  //   component: () => import('../pages/labels/AddLabel'),
+  // },
+  // {
+  //   path: '/labels',
+  //   name: 'Labels search page',
+  //   component: () => import('../pages/labels/LabelsByFilters'),
+  // },
+  // {
+  //   path: '/labels/:id',
+  //   name: 'Label info page',
+  //   component: () => import('../pages/labels/LabelInfo'),
+  // },
   {
     path: '/profile',
     name: 'User profile page',
@@ -71,6 +71,16 @@ const routes = [
     path: '/stats',
     name: 'Stats page',
     component: () => import('../pages/StatsPage'),
+  },
+  {
+    path: '/quizzes',
+    name: 'Quizzes page',
+    component: () => import('../pages/quizzes/QuizMain'),
+  },
+  {
+    path: '/quizzes/:id',
+    name: 'Quiz page',
+    component: () => import('../pages/quizzes/QuizPage'),
   },
 ]
 

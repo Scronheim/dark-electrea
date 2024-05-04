@@ -16,6 +16,7 @@ export const useUsersStore = defineStore({
       username: '',
       addedMaterials: {},
       ratings: [],
+      quizzes: [],
       likedBands: [],
       likedAlbums: [],
     },

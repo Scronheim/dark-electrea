@@ -27,6 +27,13 @@
         </template>
       </v-list-item>
     </template>
+    <template v-if="isQuizPage">
+      <v-list-item :title="quizCorrectAnswers" subtitle="Правильных ответов">
+        <template #prepend>
+          <v-icon icon="mdi-check" color="success" />
+        </template>
+      </v-list-item>
+    </template>
   </v-list>
   <iframe v-if="route.name === 'Album info page' && currentAlbum.links.spotify" style="border-radius:12px"
     :src="spotifyEmbededLink" width="100%" height="460" frameBorder="0" allowfullscreen=""
@@ -65,10 +72,17 @@ const isBandPage = computed(() => {
 const isAlbumPage = computed(() => {
   return route.name === 'Album info page'
 })
+const isQuizPage = computed(() => {
+  return route.name === 'Quiz page'
+})
 //========== VARIABLES ==========
 const route = useRoute()
 //========== METHODS ==========
-
+const quizCorrectAnswers = computed(() => {
+  const userQuiz = usersStore.user.quizzes.find(q => q.quizId === parseInt(route.params.id))
+  console.log(userQuiz)
+  return userQuiz?.correctAnswers || 0
+})
 //========== ON MOUNTED ==========
 
 //========== WATCH ==========

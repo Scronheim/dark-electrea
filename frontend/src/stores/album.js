@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 import router from '@/router'
+
 import { useBandsStore } from '@/stores/bands'
 import { useUsersStore } from '@/stores/users'
 
@@ -20,6 +21,7 @@ export const useAlbumStore = defineStore({
       band: {
         albums: [],
       },
+      genre: '',
       label: {},
       tracks: [],
       lineup: [],
@@ -30,11 +32,30 @@ export const useAlbumStore = defineStore({
         download: []
       },
       ratings: [],
+      cover: '',
     },
     brokenLinks: [],
     foundedOnSpotify: [],
+    albumIsLoading: false,
   }),
   actions: {
+    clearCurrentAlbum() {
+      this.currentAlbum = {
+        band: {
+          albums: [],
+        },
+        label: {},
+        tracks: [],
+        lineup: [],
+        exLineup: [],
+        links: {
+          spotify: '',
+          yaMusic: '',
+          download: []
+        },
+        ratings: [],
+      }
+    },
     async addBrokenLink(link) {
       const userStore = useUsersStore()
       const payload = {
@@ -60,6 +81,12 @@ export const useAlbumStore = defineStore({
       router.push('/albums')
     },
     // ---------------------------------------GET---------------------------------------
+    async getRandomAlbum(withCover = '') {
+      this.albumIsLoading = true
+      const band = await axios.get(`/api/search/albums/random?withCover=${withCover}`)
+      this.albumIsLoading = false
+      this.currentAlbum = band.data.data
+    },
     async searchAlbumOnSpotify(bandAndAlbumName) {
       const { data } = await axios.get(`/api/search/albums/spotify?q=${bandAndAlbumName}`)
       this.foundedOnSpotify = data.data

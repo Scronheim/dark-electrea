@@ -50,7 +50,8 @@ export const useBandsStore = defineStore({
       photoUrl: '',
       photos: [],
       userAdded: '',
-    }
+    },
+    bandIsLoading: false,
   }),
   actions: {
     goToBandsByFiltersPage(param, genre) {
@@ -64,24 +65,13 @@ export const useBandsStore = defineStore({
       router.push('/bands')
     },
     // ---------------------------------------GET---------------------------------------
-    clearCurrentAlbum() {
+    async getRandomBand(withPhoto = '') {
+      this.bandIsLoading = true
       const albumStore = useAlbumStore()
-      albumStore.currentAlbum = {
-        band: {},
-        label: {},
-        tracks: [],
-        lineup: [],
-        exLineup: [],
-        links: {
-          spotify: '',
-          download: []
-        }
-      }
-    },
-    async getRandomBand() {
-      const band = await axios.get(`/api/search/bands/random?country=${this.randomBandFilters.country}&genre=${this.randomBandFilters.genre}&status=${this.randomBandFilters.status}&formedIn=${this.randomBandFilters.formedIn}`)
-      this.currentBand = band.data.data[0]
-      this.clearCurrentAlbum()
+      const band = await axios.get(`/api/search/bands/random?country=${this.randomBandFilters.country}&genre=${this.randomBandFilters.genre}&status=${this.randomBandFilters.status}&formedIn=${this.randomBandFilters.formedIn}&withPhoto=${withPhoto}`)
+      this.bandIsLoading = false
+      this.currentBand = band.data.data
+      albumStore.clearCurrentAlbum()
     },
     async searchBand(bandTitle) {
       this.filters.title = bandTitle
@@ -89,8 +79,9 @@ export const useBandsStore = defineStore({
       this.foundedBands = data.data
     },
     async getBandInfo(id) {
+      const albumStore = useAlbumStore()
       const { data } = await axios.get(`/api/bands?id=${id}`)
-      this.clearCurrentAlbum()
+      albumStore.clearCurrentAlbum()
       Object.assign(this.currentBand, data.data)
     },
     // ---------------------------------------POST---------------------------------------
