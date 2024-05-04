@@ -155,12 +155,12 @@ watch(album, () => {
   fillRating()
 })
 //========== ON MOUNTED ==========
-onKeyStroke(['ArrowRight'], async () => {
-  await goToNextAlbum()
-})
-onKeyStroke(['ArrowLeft'], async () => {
-  await goToPrevAlbum()
-})
+// onKeyStroke(['ArrowRight'], async () => {
+//   await goToNextAlbum()
+// })
+// onKeyStroke(['ArrowLeft'], async () => {
+//   await goToPrevAlbum()
+// })
 
 onMounted(async () => {
   await albumStore.getAlbumById(route.params.id)

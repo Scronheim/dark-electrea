@@ -97,6 +97,7 @@ export const useBandsStore = defineStore({
     async searchBandsByFilters() {
       const filters = Object.assign({}, this.filters)
       filters.genre = { $regex: filters.genre || '', $options: 'i' }
+      filters.title = { $regex: filters.title || '', $options: 'i' }
       const { data } = await axios.post('/api/search/bands', filters)
       this.foundedBands = data.data
     },

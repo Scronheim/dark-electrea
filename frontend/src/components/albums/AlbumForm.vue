@@ -135,7 +135,7 @@
 
 <script setup>
 //========== IMPORTS ==========
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 
 import { useBandsStore } from '@/stores/bands'
@@ -214,12 +214,6 @@ const updateAlbum = () => {
 //========== ON MOUNTED ==========
 onMounted(() => {
   albumStore.foundedOnSpotify = []
-})
-// ========== WATCH ==========
-watch(selectedLinkType, () => {
-  if (selectedLinkType.value === 'spotify') {
-    searchAlbumOnSpotify()
-  }
 })
 // ========== EVENT LISTENERS ==========
 onKeyStroke('Insert', () => {

@@ -68,9 +68,9 @@ const searchRandomBand = async () => {
 // onKeyStroke(['r', 'к'], async () => {
 //   await searchRandomBand()
 // })
-onKeyStroke(['R', 'К'], () => {
-  randomBandDialog.value = true
-})
+// onKeyStroke(['R', 'К'], () => {
+//   randomBandDialog.value = true
+// })
 //========== ON MOUNTED ==========
 
 //========== WATCH ==========
