@@ -15,6 +15,7 @@
           <v-row>
             <v-col v-if="band.photoUrl" cols="3">
               <v-img :src="band.photoUrl" />
+              <LikeButton :is-liked="bandIsLiked" @click="toggleLikeBand" />
             </v-col>
             <v-col>
               Группа: <v-btn color="buttonText">{{ band.title }}</v-btn><br />
@@ -128,21 +129,31 @@
 import { onMounted, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { chunk } from 'lodash'
+import { useToast } from 'vue-toastification'
 import CountryFlag from 'vue-country-flag-next'
 import router from '@/router'
 
 import { useBandsStore } from '@/stores/bands'
+import { useAlbumStore } from '@/stores/album'
 import { useUtilStore } from '@/stores/util'
+import { useUsersStore } from '@/stores/users'
 
 import GenresAutocomplete from '@/components/inputs/GenresAutocomplete'
 import YearsAutocomplete from '@/components/inputs/YearsAutocomplete'
 import LabelAutocomplete from '@/components/inputs/LabelAutocomplete'
 import AlbumTypeAutocomplete from '@/components/inputs/AlbumTypeAutocomplete'
 import FilterRemoveButton from '@/components/buttons/FilterRemoveButton'
+import LikeButton from '@/components/buttons/LikeButton.vue'
 //========== STORES ==========
 const bandsStore = useBandsStore()
+const albumStore = useAlbumStore()
 const utilStore = useUtilStore()
+const usersStore = useUsersStore()
+const toast = useToast()
 //========== COMPUTED ==========
+const bandIsLiked = computed(() => {
+  return usersStore.user.likedBands.findIndex(band => band._id === bandsStore.currentBand._id) > -1
+})
 const someLinkExist = computed(() => {
   if (band.value.socials) return Object.values(band.value.socials).some(link => link !== '')
   return false
@@ -200,6 +211,17 @@ const filters = ref({
 const tab = ref('about')
 const route = useRoute()
 //========== METHODS ==========
+const toggleLikeBand = async () => {
+  if (bandIsLiked.value) {
+    const bandIndex = usersStore.user.likedBands.findIndex(band => band._id === bandsStore.currentBand._id)
+    usersStore.user.likedBands.splice(bandIndex)
+    toast.success('Группа убрана из любимых')
+  } else {
+    usersStore.user.likedBands.push(bandsStore.currentBand._id)
+    toast.success('Группа добавлена в любимые')
+  }
+  await usersStore.updateMe()
+}
 const getCountryCode = (country) => {
   return utilStore.countries.find(c => c.value === country)?.code || ''
 }
@@ -231,6 +253,7 @@ const goToBandsByFiltersPage = (param, genre) => {
   bandsStore.goToBandsByFiltersPage(param, genre)
 }
 const goToAlbumPage = (album) => {
+  albumStore.currentAlbum = album
   router.push(`/albums/${album._id}`)
 }
 //========== ON MOUNTED ==========

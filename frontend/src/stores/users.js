@@ -16,6 +16,8 @@ export const useUsersStore = defineStore({
       username: '',
       addedMaterials: {},
       ratings: [],
+      likedBands: [],
+      likedAlbums: [],
     },
     token: localStorage.getItem('token')
   }),

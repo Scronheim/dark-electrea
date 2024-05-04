@@ -19,6 +19,7 @@
               </span>
             </template>
           </v-rating>
+          <LikeButton :is-liked="albumIsLiked" @click="toggleLikeAlbum" />
         </v-col>
         <v-col>
           <v-list>
@@ -87,6 +88,7 @@ import { useRatingsStore } from '@/stores/ratings'
 import DownloadButton from '@/components/buttons/DownloadButton'
 import YaMusicButton from '@/components/buttons/YaMusicButton'
 import SpotifyButton from '@/components/buttons/SpotifyButton'
+import LikeButton from '@/components/buttons/LikeButton.vue'
 //========== STORES ==========
 const albumStore = useAlbumStore()
 const bandsStore = useBandsStore()
@@ -94,6 +96,12 @@ const utilStore = useUtilStore()
 const usersStore = useUsersStore()
 const ratingsStore = useRatingsStore()
 //========== COMPUTED ==========
+const album = computed(() => {
+  return albumStore.currentAlbum
+})
+const albumIsLiked = computed(() => {
+  return usersStore.user.likedAlbums.findIndex(likedAlbum => likedAlbum._id === album.value._id) > -1
+})
 const averageAlbumRating = computed(() => {
   const sumRating = album.value.ratings.reduce((acc, rating) => {
     return acc + rating.rating
@@ -108,9 +116,6 @@ const nextAlbum = computed(() => {
   const index = album.value.band.albums.findIndex(a => a._id === album.value._id)
   return albumStore.currentAlbum.band.albums[index + 1]
 })
-const album = computed(() => {
-  return albumStore.currentAlbum
-})
 //========== VARIABLES ==========
 const route = useRoute()
 const toast = useToast()
@@ -118,6 +123,17 @@ const rating = ref(0)
 const colors = ['red', 'orange', 'grey', 'cyan', 'green']
 const labels = ['1', '2', '3', '4', '5']
 //========== METHODS ==========
+const toggleLikeAlbum = async () => {
+  if (albumIsLiked.value) {
+    const albumIndex = usersStore.user.likedAlbums.findIndex(likedAlbum => likedAlbum._id === album.value._id)
+    usersStore.user.likedAlbums.splice(albumIndex)
+    toast.success('Альбом убран из любимых')
+  } else {
+    usersStore.user.likedAlbums.push(album.value._id)
+    toast.success('Альбом добавлен в любимые')
+  }
+  await usersStore.updateMe()
+}
 const fillRating = () => {
   const albumRating = albumStore.currentAlbum.ratings.find((rating) => {
     return rating.album === albumStore.currentAlbum._id && rating.user === usersStore.user._id
