@@ -29,15 +29,15 @@
 
       <v-row v-else class="mt-1 ml-1 mr-1">
         <v-col cols="2">
-          <LeftMenu />
+          <LeftMenu v-if="!$vuetify.display.mobile" />
         </v-col>
         <v-col>
           <router-view />
         </v-col>
         <v-col cols="2">
-          <RightMenu @openAlbumEditDialog="albumEditDialog = true" @openEditDialog="editDialog = true"
-            @openAlbumsListDialog="albumsDialog = true" @openLineupDialog="lineupDialog = true"
-            @openPhotosDialog="photosDialog = true" />
+          <RightMenu v-if="!$vuetify.display.mobile" @openAlbumEditDialog="albumEditDialog = true"
+            @openEditDialog="editDialog = true" @openAlbumsListDialog="albumsDialog = true"
+            @openLineupDialog="lineupDialog = true" @openPhotosDialog="photosDialog = true" />
         </v-col>
       </v-row>
     </v-main>

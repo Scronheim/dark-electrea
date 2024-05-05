@@ -25,7 +25,7 @@
         </v-col>
       </v-row>
       <v-row v-else v-for="(chunk, index) in chunkedBands" :key="`band${index}`">
-        <v-col cols="3" v-for="band in chunk" :key="band.title">
+        <v-col v-for="band in chunk" :key="band.title">
           <v-card :title="`${band.title} (${band.country})`" @click="goToBandPage(band)">
             <v-card-text>
               <v-img height="100" :src="band.logoUrl" />

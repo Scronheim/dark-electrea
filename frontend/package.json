@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "buildAndUpload": "vite build && scp -r ./dist/* root@pet-server:/var/www/html && rm ./dist -R",
     "preview": "vite preview"

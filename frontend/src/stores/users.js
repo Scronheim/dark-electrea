@@ -55,7 +55,15 @@ export const useUsersStore = defineStore({
     },
     logout() {
       this.token = ''
-      this.user = {}
+      this.user = {
+        _id: '',
+        username: '',
+        addedMaterials: {},
+        ratings: [],
+        quizzes: [],
+        likedBands: [],
+        likedAlbums: [],
+      }
       localStorage.removeItem('token')
       delete axios.defaults.headers.common['Authorization']
     },

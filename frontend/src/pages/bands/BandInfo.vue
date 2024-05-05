@@ -13,7 +13,7 @@
       <v-window v-model="tab">
         <v-window-item value="about">
           <v-row>
-            <v-col v-if="band.photoUrl" cols="3">
+            <v-col v-if="band.photoUrl">
               <v-img :src="band.photoUrl" />
               <LikeButton :is-liked="bandIsLiked" @click="toggleLikeBand" />
             </v-col>
@@ -49,15 +49,12 @@
               <YearsAutocomplete label="Год выпуска" :value="filters.releaseDate"
                 @updateValue="updateSelectedReleaseYear" />
             </v-col>
-            <v-col>
-              <LabelAutocomplete :value="filters.label" @updateValue="updateSelectedLabel" />
-            </v-col>
             <v-col cols="1">
               <FilterRemoveButton @click="clearFilters" />
             </v-col>
           </v-row>
           <v-row v-for="(chunk, index) in chunkedAlbums" :key="`chunk${index}`">
-            <v-col cols="3" v-for="album in chunk" :key="album.title" align="center">
+            <v-col v-for="album in chunk" :key="album.title" align="center">
               <v-hover v-slot="{ isHovering, props }">
                 <v-card v-bind="props" :elevation="isHovering ? 12 : 0" @click="goToAlbumPage(album)">
                   <v-card-title :title="album.title">{{ album.title }}</v-card-title>
@@ -230,7 +227,7 @@ const formatAlbumYear = (releaseDate) => {
 }
 const clearFilters = () => {
   filters.value = {
-    genres: [],
+    genre: undefined,
     type: undefined,
     releaseDate: undefined,
     label: undefined,
@@ -244,9 +241,6 @@ const updateSelectedAlbumType = (type) => {
 }
 const updateSelectedReleaseYear = (year) => {
   filters.value.releaseDate = year
-}
-const updateSelectedLabel = (label) => {
-  filters.value.label = label
 }
 
 const goToBandsByFiltersPage = (param, genre) => {
