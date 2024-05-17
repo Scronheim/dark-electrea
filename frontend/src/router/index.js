@@ -73,6 +73,11 @@ const routes = [
     component: () => import('../pages/StatsPage'),
   },
   {
+    path: '/spotify_albums',
+    name: 'Spotify Albums page',
+    component: () => import('../pages/SpotifyAlbums'),
+  },
+  {
     path: '/quizzes',
     name: 'Quizzes page',
     component: () => import('../pages/quizzes/QuizMain'),

@@ -10,7 +10,7 @@
     <v-list-item title="Группы" prepend-icon="mdi-account-group" to="/bands" />
     <v-list-item title="Альбомы" prepend-icon="mdi-album" to="/albums" />
     <v-divider class="mb-1" />
-    <v-list-item title="Викторины" prepend-icon="mdi-head-question" to="/quizzes" />
+    <v-list-item title="Альбомы на Spotify" prepend-icon="mdi-music" to="/spotify_albums" />
     <v-divider class="mb-1" />
     <v-list-item title="Статистика" prepend-icon="mdi-chart-areaspline" to="/stats" />
   </v-list>
@@ -22,7 +22,7 @@
   <v-dialog width="800" v-model="randomBandDialog">
     <v-card title="Фильтры поиска">
       <v-card-text>
-        <RandomBandForm />
+        <RandomForm :filter="bandsStore.filters"/>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -43,7 +43,7 @@ import { useUsersStore } from '@/stores/users'
 
 import router from '@/router'
 
-import RandomBandForm from '@/components/RandomBandForm'
+import RandomForm from '@/components/RandomForm'
 //========== STORES ==========
 const bandsStore = useBandsStore()
 const usersStore = useUsersStore()

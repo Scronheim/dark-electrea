@@ -13,7 +13,7 @@
           <v-expansion-panels class="mt-3">
             <v-expansion-panel title="Случайная группа">
               <v-expansion-panel-text>
-                <RandomBandForm/>
+                <RandomForm :filter="bandsStore.filters"/>
                 <v-btn variant="outlined" class="mt-4" color="info" :loading="randomBandIsLoading" @click="getRandomBand">Случайная группа</v-btn>
               </v-expansion-panel-text>
             </v-expansion-panel>
@@ -35,7 +35,7 @@ import { ref } from 'vue'
 import { useUsersStore } from '@/stores/users'
 import { useBandsStore } from '@/stores/bands'
 
-import RandomBandForm from '@/components/RandomBandForm'
+import RandomForm from '@/components/RandomForm'
 import SearchInput from '@/components/SearchInput'
 import router from '@/router'
 //========== STORES ==========

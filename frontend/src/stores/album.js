@@ -13,12 +13,15 @@ export const useAlbumStore = defineStore({
   state: () => ({
     types: ['Full length', 'Single', 'EP', 'Demo', 'Compilation', 'Split'],
     filters: {
-      genres: { $in: [] },
-      releaseDate: undefined,
-      label: undefined,
+      genre: '',
+      releaseDate: '',
+      label: '',
     },
     currentAlbum: {
+      _id: '',
       band: {
+        _id: '',
+        title: '',
         albums: [],
       },
       genre: '',
@@ -37,8 +40,16 @@ export const useAlbumStore = defineStore({
     brokenLinks: [],
     foundedOnSpotify: [],
     albumIsLoading: false,
+    spotifyAlbums: [],
   }),
   actions: {
+    async searchAlbumsWithSpotify() {
+      const payload = {
+        'links.spotify': { $ne: '' }
+      }
+      const { data } = await axios.post('/api/search/albums', payload)
+      this.spotifyAlbums = data.data
+    },
     clearCurrentAlbum() {
       this.currentAlbum = {
         band: {
@@ -81,11 +92,12 @@ export const useAlbumStore = defineStore({
       router.push('/albums')
     },
     // ---------------------------------------GET---------------------------------------
-    async getRandomAlbum(withCover = '') {
+    async getRandomAlbum(withCover = '', withSpotify = '') {
+      const filters = new URLSearchParams(this.filters).toString()
       this.albumIsLoading = true
-      const band = await axios.get(`/api/search/albums/random?withCover=${withCover}`)
+      const album = await axios.get(`/api/search/albums/random?${filters}&withCover=${withCover}&withSpotify=${withSpotify}`)
       this.albumIsLoading = false
-      this.currentAlbum = band.data.data
+      this.currentAlbum = album.data.data
     },
     async searchAlbumOnSpotify(bandAndAlbumName) {
       const { data } = await axios.get(`/api/search/albums/spotify?q=${bandAndAlbumName}`)
@@ -102,7 +114,7 @@ export const useAlbumStore = defineStore({
     // ---------------------------------------POST---------------------------------------
     async searchAlbumsByFilters() {
       const filters = Object.assign({}, this.filters)
-      if (filters.genres.$in.length === 0) delete filters.genres
+      if (filters.genre === '') delete filters.genres
       return await axios.post('/api/search/albums', filters)
     },
     async addAlbum(album) {
