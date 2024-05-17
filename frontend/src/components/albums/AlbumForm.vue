@@ -135,7 +135,7 @@
 
 <script setup>
 //========== IMPORTS ==========
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 
 import { useBandsStore } from '@/stores/bands'
@@ -173,6 +173,12 @@ const props = defineProps({
   isEdit: {
     type: Boolean,
     default: false,
+  }
+})
+//========== WATCH ==========
+watch(selectedLinkType, (linkType) => {
+  if (linkType === 'spotify') {
+    searchAlbumOnSpotify()
   }
 })
 //========== METHODS ==========
