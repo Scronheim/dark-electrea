@@ -22,7 +22,7 @@
   <v-dialog width="800" v-model="randomBandDialog">
     <v-card title="Фильтры поиска">
       <v-card-text>
-        <RandomForm :filter="bandsStore.filters"/>
+        <RandomForm :filter="bandsStore.randomBandFilters" />
       </v-card-text>
       <v-card-actions>
         <v-spacer />

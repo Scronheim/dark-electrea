@@ -12,11 +12,11 @@ export const useBandsStore = defineStore({
   id: 'bandsStore',
   state: () => ({
     filters: {
-      title: '',
-      genre: '',
-      country: '',
-      status: '',
-      formedIn: '',
+      title: undefined,
+      genre: undefined,
+      country: undefined,
+      status: undefined,
+      formedIn: undefined,
     },
     randomBandFilters: {
       genre: '',
@@ -66,7 +66,7 @@ export const useBandsStore = defineStore({
     },
     // ---------------------------------------GET---------------------------------------
     async getRandomBand(withPhoto = '') {
-      const filters = new URLSearchParams(this.filters).toString()
+      const filters = new URLSearchParams(this.randomBandFilters).toString()
       this.bandIsLoading = true
       const albumStore = useAlbumStore()
       const band = await axios.get(`/api/search/bands/random?${filters}&withPhoto=${withPhoto}`)
